@@ -16,9 +16,15 @@ import math
 
 
 INPUT_FILE = '../data/adults_sanitized.csv'
-INPUT_ANON_K7_EQUAL = '../data/adults_anonymized_k7_equal_weights.csv'
+INPUT_ANON_K7_EQUAL = '../data/adults_anonymized_k7.csv'
 INPUT_ANON_K7_RACE = '../data/adults_anonymized_k7_race_important.csv'
 INPUT_ANON_K7_AGE = '../data/adults_anonymized_k7_age_important.csv'
+INPUT_ANON_K13_EQUAL = '../data/adults_anonymized_k13.csv'
+INPUT_ANON_K13_RACE = '../data/adults_anonymized_k13_race_important.csv'
+INPUT_ANON_K13_AGE = '../data/adults_anonymized_k13_age_important.csv'
+INPUT_ANON_K31_EQUAL = '../data/adults_anonymized_k31.csv'
+INPUT_ANON_K31_RACE = '../data/adults_anonymized_k31_race_important.csv'
+INPUT_ANON_K31_AGE = '../data/adults_anonymized_k31_age_important.csv'
 
 # names = [
 #             "Age", "Workclass", "fnlwgt", "Education", "Education-Num", "Martial Status",
@@ -27,7 +33,7 @@ INPUT_ANON_K7_AGE = '../data/adults_anonymized_k7_age_important.csv'
 
 
 original_data = pd.read_csv(
-    INPUT_ANON_K7_AGE,
+    INPUT_ANON_K31_RACE,
     names = [
         "age", "workclass", "native-country", "sex", "race", "marital-status", "income"
     ],
