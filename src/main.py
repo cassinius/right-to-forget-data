@@ -1,3 +1,6 @@
+# import matplotlib
+# matplotlib.use("TkAgg")
+
 import pandas as pd
 import numpy as np
 import statsmodels as sm
@@ -13,6 +16,9 @@ import math
 
 
 INPUT_FILE = '../data/adults_sanitized.csv'
+INPUT_ANON_K7_EQUAL = '../data/adults_anonymized_k7_equal_weights.csv'
+INPUT_ANON_K7_RACE = '../data/adults_anonymized_k7_race_important.csv'
+INPUT_ANON_K7_AGE = '../data/adults_anonymized_k7_age_important.csv'
 
 # names = [
 #             "Age", "Workclass", "fnlwgt", "Education", "Education-Num", "Martial Status",
@@ -21,13 +27,15 @@ INPUT_FILE = '../data/adults_sanitized.csv'
 
 
 original_data = pd.read_csv(
-    INPUT_FILE,
+    INPUT_ANON_K7_AGE,
     names = [
-        "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "income"
+        "age", "workclass", "native-country", "sex", "race", "marital-status", "income"
     ],
-        sep=r'\s*,\s*',
-        engine='python',
-        na_values="?")
+    header=0,
+    # index_col=0,
+    sep=r'\s*,\s*',
+    engine='python',
+    na_values="?")
 print original_data.tail()
 
 
@@ -43,3 +51,4 @@ for i, column in enumerate(original_data.columns):
         original_data[column].hist(axes=ax)
         plt.xticks(rotation="vertical")
 plt.subplots_adjust(hspace=0.7, wspace=0.2)
+plt.show()
