@@ -25,22 +25,26 @@ INPUT_ANON_K13_AGE = '../data/adults_anonymized_k13_age_important.csv'
 INPUT_ANON_K19_EQUAL = '../data/adults_anonymized_k19.csv'
 INPUT_ANON_K19_RACE = '../data/adults_anonymized_k19_race_important.csv'
 INPUT_ANON_K19_AGE = '../data/adults_anonymized_k19_age_important.csv'
+INPUT_ANON_K25_EQUAL = '../data/adults_anonymized_k25.csv'
+INPUT_ANON_K25_RACE = '../data/adults_anonymized_k25_race_important.csv'
+INPUT_ANON_K25_AGE = '../data/adults_anonymized_k25_age_important.csv'
 INPUT_ANON_K31_EQUAL = '../data/adults_anonymized_k31.csv'
 INPUT_ANON_K31_RACE = '../data/adults_anonymized_k31_race_important.csv'
 INPUT_ANON_K31_AGE = '../data/adults_anonymized_k31_age_important.csv'
+INPUT_SELECTED_DELETE_UNITED_STATES = '../data/adults_marital-status_Married-civ-spouse_0.1.csv'
 
 
 original_data = pd.read_csv(
-    INPUT_ANON_K31_AGE,
+    INPUT_SELECTED_DELETE_UNITED_STATES,
     names = [
-        "age", "workclass", "native-country", "sex", "race", "marital-status", "income" # "nodeID",
+        "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "income" # "nodeID",
     ],
     header=0,
-    # index_col=0,
+    index_col=0,
     sep=r'\s*,\s*',
     engine='python',
     na_values="?")
-print original_data.tail()
+# print original_data.tail()
 
 
 fig = plt.figure(figsize=(20,15))
@@ -62,7 +66,7 @@ plt.subplots_adjust(top=0.9, bottom=0, hspace=0.4, wspace=0.2)
 # plt.show()
 
 
-print (original_data["native-country"].value_counts() / original_data.shape[0]).head()
+# print (original_data["native-country"].value_counts() / original_data.shape[0]).head()
 
 
 # Encode the categorical features as numbers
@@ -121,7 +125,11 @@ plt.subplot(2,1,1)
 sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
 plt.ylabel("Real value")
 plt.xlabel("Predicted value")
-print "F1 score: %f" % skl.metrics.f1_score(y_test, y_pred)
+
+# print "Precision: %f" % skl.metrics.precision_score(y_test, y_pred)
+# print "Recall: %f" % skl.metrics.recall_score(y_test, y_pred)
+# print "F1 score: %f" % skl.metrics.f1_score(y_test, y_pred)
+
 coefs = pd.Series(cls.coef_[0], index=X_train.columns)
 coefs.sort()
 plt.subplot(2,1,2)
@@ -160,9 +168,18 @@ plt.subplot(2,1,1)
 sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
 plt.ylabel("Real value")
 plt.xlabel("Predicted value")
+# plt.show()
+
+
+print "Precision: %f" % skl.metrics.precision_score(y_test, y_pred)
+print "Recall: %f" % skl.metrics.recall_score(y_test, y_pred)
 print "F1 score: %f" % skl.metrics.f1_score(y_test, y_pred)
+
+
+
 coefs = pd.Series(cls.coef_[0], index=X_train.columns)
 coefs.sort()
-ax = plt.subplot(2,1,2)
-coefs.plot(kind="bar")
-plt.show()
+ax = plt.subplot(2,1,1)
+coefs.plot(kind="bar", rot=90, figsize=(5, 7))
+
+# plt.show()
