@@ -35,6 +35,7 @@ def runLogisticRegression(input_file):
   # print original_data.tail()
 
 
+  # PLOT THE ORIGINAL VALUE DISTRIBUTION
   fig = plt.figure(figsize=(20,15))
   cols = 3
   rows = math.ceil(float(original_data.shape[1]) / cols)
@@ -48,7 +49,7 @@ def runLogisticRegression(input_file):
       else:
           original_data[column].hist(axes=ax)
 
-      plt.xticks(rotation=55)
+      plt.xticks(rotation=90)
 
   plt.subplots_adjust(top=0.9, bottom=0, hspace=0.4, wspace=0.2)
   # plt.show()
@@ -156,15 +157,15 @@ def runLogisticRegression(input_file):
   sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
   plt.ylabel("Real value")
   plt.xlabel("Predicted value")
-  # plt.show()
+  plt.show()
 
 
   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
   coefs.sort()
   ax = plt.subplot(2,1,1)
-  coefs.plot(kind="bar", rot=90, figsize=(5, 7))
+  coefs.plot(kind="bar", rot=90)
 
-  # plt.show()
+  plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
@@ -180,14 +181,24 @@ def runLogisticRegression(input_file):
 # COMPILING RESULTS
 filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
-with open(OUTPUT_CSV + "results.csv", 'wb') as fout:
-  writer = csv.writer(fout, lineterminator='\n')
-  writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
-  for input_file in filelist:
-    # print input_file
-    scores = runLogisticRegression(INPUT_CSV + input_file)
-    scores.insert(0, input_file)
-    writer.writerow(scores)
-    print scores
+def computeOriginalData():
+  print runLogisticRegression(INPUT_CSV + "0_adults_sanitized.csv")
 
+
+def computeAllResults():
+  with open(OUTPUT_CSV + "results.csv", 'wb') as fout:
+    writer = csv.writer(fout, lineterminator='\n')
+    writer.writerow(["dataset", "precision", "recall", "F1 score"])
+
+    for input_file in filelist:
+      # print input_file
+      scores = runLogisticRegression(INPUT_CSV + input_file)
+      scores.insert(0, input_file)
+      writer.writerow(scores)
+      print scores
+
+
+if __name__ == "__main__":
+  computeOriginalData()
+  # computeAllResults()
