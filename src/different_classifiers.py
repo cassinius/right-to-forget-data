@@ -26,7 +26,7 @@ def runSVMClassifier(input_file):
   original_data = pd.read_csv(
       input_file,
       names = [
-          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "income"
+          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "income"
       ],
       header=0,
       index_col=0,
@@ -75,18 +75,19 @@ def runSVMClassifier(input_file):
 
 
 def computeOriginalData():
-  print runSVMClassifier(INPUT_CSV + "0_adults_sanitized.csv")
-  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k07_age.csv")
-  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k13_age.csv")
-  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k19_age.csv")
-  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k25_age.csv")
-  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k31_age.csv")
+  print runSVMClassifier(INPUT_CSV + "0_adults_sanitized_new.csv")
 
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.1.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.2.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.3.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.4.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.5.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_relationship_Own-child_0.2.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_relationship_Own-child_0.4.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_relationship_Own-child_0.6.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_relationship_Own-child_0.8.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_relationship_Own-child_1.csv")
+
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.1.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.2.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.3.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.4.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.5.csv")
 
   # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.1.csv")
   # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.2.csv")

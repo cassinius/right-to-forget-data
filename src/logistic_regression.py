@@ -26,7 +26,7 @@ def runLogisticRegression(input_file):
   original_data = pd.read_csv(
       input_file,
       names = [
-          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "income"
+          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "income"
       ],
       header=0,
       index_col=0,
@@ -164,11 +164,11 @@ def runLogisticRegression(input_file):
   # plt.show()
 
 
-  # coefs = pd.Series(cls.coef_[0], index=X_train.columns)
-  # coefs.sort_values(inplace=True)
-  # ax = plt.subplot(2,1,2)
-  # coefs.plot(kind="bar", rot=90)
-  # plt.show()
+  coefs = pd.Series(cls.coef_[0], index=X_train.columns)
+  coefs.sort_values(inplace=True)
+  ax = plt.subplot(2,1,2)
+  coefs.plot(kind="bar", rot=90)
+  plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
@@ -186,7 +186,7 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
-  print runLogisticRegression(INPUT_CSV + "0_adults_sanitized.csv")
+  print runLogisticRegression(INPUT_CSV + "0_adults_sanitized_new.csv")
 
 
 def computeAllResults():
