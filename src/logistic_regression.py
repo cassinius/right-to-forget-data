@@ -105,14 +105,10 @@ def runLogisticRegression(input_file):
 
 
   # LOGISTIC REGRESSION
-  # cls = linear_model.LogisticRegression()
-  # cls.fit(X_train, y_train)
-  # y_pred = cls.predict(X_test)
-
-  # SVM CLASSIFIER
-  cls = svm.SVC(kernel="linear", gamma=0.001, C=100.)
+  cls = linear_model.LogisticRegression()
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
+
 
   cm = metrics.confusion_matrix(y_test, y_pred)
   plt.figure(figsize=(12,12))
@@ -154,14 +150,10 @@ def runLogisticRegression(input_file):
 
 
   # Re-run logistic regression again
-  # cls = linear_model.LogisticRegression()
-  # cls.fit(X_train, y_train)
-  # y_pred = cls.predict(X_test)
-
-  # SVM CLASSIFIER
-  cls = svm.SVC(kernel="linear", gamma=0.001, C=100.)
+  cls = linear_model.LogisticRegression()
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
+
 
   cm = metrics.confusion_matrix(y_test, y_pred)
   plt.figure(figsize=(20,20))

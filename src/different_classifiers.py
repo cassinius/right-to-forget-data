@@ -7,6 +7,7 @@ import numpy as np
 import statsmodels as sm
 import sklearn as skl
 from sklearn import svm
+from sklearn import ensemble
 import sklearn.preprocessing as preprocessing
 import sklearn.cross_validation as cross_validation
 import sklearn.metrics as metrics
@@ -48,13 +49,20 @@ def runSVMClassifier(input_file):
   X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
   X_test = scaler.transform(X_test)
 
+  # print X_train
+  # print y_train
 
   # SVM CLASSIFIER
-  # cls = svm.SVC(kernel="rbf", gamma=0.001, C=100.)
-  cls = svm.LinearSVC()
+  # cls = svm.LinearSVC()
+  # cls = svm.SVC(kernel="rbf", gamma=0.01, C=3, verbose=2)
+  # cls.fit(X_train, y_train)
+  # y_pred = cls.predict(X_test)
+
+  # Gradient Boosting / Random forest classifier
+  cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
+  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=0)
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
-
 
   precision = skl.metrics.precision_score(y_test, y_pred)
   recall = skl.metrics.recall_score(y_test, y_pred)
@@ -68,6 +76,23 @@ def runSVMClassifier(input_file):
 
 def computeOriginalData():
   print runSVMClassifier(INPUT_CSV + "0_adults_sanitized.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k07_age.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k13_age.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k19_age.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k25_age.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_anonymized_k31_age.csv")
+
+  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.1.csv")
+  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.2.csv")
+  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.3.csv")
+  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.4.csv")
+  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.5.csv")
+
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.1.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.2.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.3.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.4.csv")
+  # print runSVMClassifier(INPUT_CSV + "adults_marital-status_Never-married_0.5.csv")
 
 
 def computeAllResults():
