@@ -1,10 +1,11 @@
-# import matplotlib
-# matplotlib.use("TkAgg")
+import matplotlib
+matplotlib.use("TkAgg")
 
 import pandas as pd
 import numpy as np
 import statsmodels as sm
 import sklearn as skl
+from sklearn import svm
 import sklearn.preprocessing as preprocessing
 import sklearn.linear_model as linear_model
 import sklearn.cross_validation as cross_validation
@@ -96,7 +97,7 @@ def runLogisticRegression(input_file):
   # plt.show()
 
 
-  # TRAIN A LOGISTIC REGRESSION MODEL
+  # DIVIDE THE DATASET INTO TRAIN AND TEST SETS
   X_train, X_test, y_train, y_test = cross_validation.train_test_split(encoded_data[encoded_data.columns - ["income"]], encoded_data["income"], train_size=0.80)
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train.astype("float64")), columns=X_train.columns)
@@ -104,10 +105,15 @@ def runLogisticRegression(input_file):
 
 
   # LOGISTIC REGRESSION
-  cls = linear_model.LogisticRegression()
+  # cls = linear_model.LogisticRegression()
+  # cls.fit(X_train, y_train)
+  # y_pred = cls.predict(X_test)
 
+  # SVM CLASSIFIER
+  cls = svm.SVC(kernel="linear", gamma=0.001, C=100.)
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
+
   cm = metrics.confusion_matrix(y_test, y_pred)
   plt.figure(figsize=(12,12))
   plt.subplot(2,1,1)
@@ -120,7 +126,7 @@ def runLogisticRegression(input_file):
   # print "F1 score: %f" % skl.metrics.f1_score(y_test, y_pred)
 
   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
-  coefs.sort()
+  coefs.sort_values(inplace=True)
   plt.subplot(2,1,2)
   coefs.plot(kind="bar")
   # plt.show()
@@ -147,25 +153,30 @@ def runLogisticRegression(input_file):
   X_test = scaler.transform(X_test)
 
 
-  # Plot logistic regression again
-  cls = linear_model.LogisticRegression()
+  # Re-run logistic regression again
+  # cls = linear_model.LogisticRegression()
+  # cls.fit(X_train, y_train)
+  # y_pred = cls.predict(X_test)
+
+  # SVM CLASSIFIER
+  cls = svm.SVC(kernel="linear", gamma=0.001, C=100.)
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
+
   cm = metrics.confusion_matrix(y_test, y_pred)
   plt.figure(figsize=(20,20))
   plt.subplot(2,1,1)
   sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
   plt.ylabel("Real value")
   plt.xlabel("Predicted value")
-  plt.show()
+  # plt.show()
 
 
-  coefs = pd.Series(cls.coef_[0], index=X_train.columns)
-  coefs.sort()
-  ax = plt.subplot(2,1,1)
-  coefs.plot(kind="bar", rot=90)
-
-  plt.show()
+  # coefs = pd.Series(cls.coef_[0], index=X_train.columns)
+  # coefs.sort_values(inplace=True)
+  # ax = plt.subplot(2,1,2)
+  # coefs.plot(kind="bar", rot=90)
+  # plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
