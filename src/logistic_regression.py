@@ -26,7 +26,7 @@ def runLogisticRegression(input_file):
   original_data = pd.read_csv(
       input_file,
       names = [
-          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "income"
+          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
       ],
       header=0,
       index_col=0,
@@ -168,7 +168,7 @@ def runLogisticRegression(input_file):
   coefs.sort_values(inplace=True)
   ax = plt.subplot(2,1,2)
   coefs.plot(kind="bar", rot=90)
-  plt.show()
+  # plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
