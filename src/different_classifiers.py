@@ -76,7 +76,7 @@ def runSVMClassifier(input_file):
 
 
 def computeOriginalData():
-  print runSVMClassifier(INPUT_CSV + "input_for_python.csv")
+  print runSVMClassifier(INPUT_CSV + "_input_for_python.csv")
 
 
 def computeAllResults():

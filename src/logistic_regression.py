@@ -1,5 +1,5 @@
-import matplotlib
-matplotlib.use("TkAgg")
+# import matplotlib
+# matplotlib.use("TkAgg")
 
 import pandas as pd
 import numpy as np
@@ -39,11 +39,9 @@ def runLogisticRegression(input_file):
 
   # PLOT THE ORIGINAL VALUE DISTRIBUTION
   fig = plt.figure(figsize=(20,15))
-  cols = 3
+  cols = 4
   rows = math.ceil(float(original_data.shape[1]) / cols)
-  for i, column in enumerate(original_data.columns):
-      if i == len(original_data.columns) - 1:
-          break
+  for i, column in enumerate(original_data.columns.difference(['income', 'fnlwgt'])):
       ax = fig.add_subplot(rows, cols, i + 1)
       ax.set_title(column)
       if original_data.dtypes[column] == np.object:
@@ -53,7 +51,7 @@ def runLogisticRegression(input_file):
 
       plt.xticks(rotation=90)
 
-  plt.subplots_adjust(top=0.9, bottom=0, hspace=0.4, wspace=0.2)
+  plt.subplots_adjust(top=0.95, bottom=-0.2, hspace=0.4, wspace=0.2)
   # plt.show()
 
 
@@ -85,16 +83,14 @@ def runLogisticRegression(input_file):
   # ENCODE FEATURES AS NUMBERS
   encoded_data, encoders = number_encode_features(original_data)
   fig = plt.figure(figsize=(20,15))
-  cols = 3
+  cols = 4
   rows = math.ceil(float(encoded_data.shape[1]) / cols)
-  for i, column in enumerate(encoded_data.columns):
-      if i == len(encoded_data.columns) - 1:
-          break
+  for i, column in enumerate(original_data.columns.difference(['income', 'fnlwgt'])):
       ax = fig.add_subplot(rows, cols, i + 1)
       ax.set_title(column)
       encoded_data[column].hist(axes=ax)
-      plt.xticks(rotation="vertical")
-  plt.subplots_adjust(hspace=0.2, wspace=0.2)
+      plt.xticks(rotation=90)
+  plt.subplots_adjust(top=0.95, bottom=-0.25, hspace=0.2, wspace=0.3)
   # plt.show()
 
 
@@ -162,14 +158,14 @@ def runLogisticRegression(input_file):
   sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
   plt.ylabel("Real value")
   plt.xlabel("Predicted value")
-  # plt.show()
+  plt.show()
 
 
   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
   coefs.sort_values(inplace=True)
-  ax = plt.subplot(2,1,2)
+  ax = plt.subplot(2,1,1)
   coefs.plot(kind="bar", rot=90)
-  # plt.show()
+  plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
@@ -187,7 +183,8 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
-  print runLogisticRegression(INPUT_CSV + "input_for_python.csv")
+  print runLogisticRegression(INPUT_CSV + "_input_for_python.csv")
+  # print runLogisticRegression(INPUT_CSV + "adults_anonymized_k15_equal.csv")
 
 
 def computeAllResults():
@@ -204,5 +201,5 @@ def computeAllResults():
 
 
 if __name__ == "__main__":
-  # computeOriginalData()
-  computeAllResults()
+  computeOriginalData()
+  # computeAllResults()
