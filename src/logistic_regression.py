@@ -26,10 +26,11 @@ def runLogisticRegression(input_file):
   original_data = pd.read_csv(
       input_file,
       names = [
-          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
+          "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
+          "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
       ],
       header=0,
-      index_col=0,
+      # index_col=0,
       sep=r'\s*,\s*',
       engine='python',
       na_values="?")
@@ -186,7 +187,7 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
-  print runLogisticRegression(INPUT_CSV + "0_adults_sanitized_new.csv")
+  print runLogisticRegression(INPUT_CSV + "input_for_python.csv")
 
 
 def computeAllResults():
@@ -203,5 +204,5 @@ def computeAllResults():
 
 
 if __name__ == "__main__":
-  computeOriginalData()
-  # computeAllResults()
+  # computeOriginalData()
+  computeAllResults()

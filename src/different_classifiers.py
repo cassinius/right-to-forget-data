@@ -25,11 +25,12 @@ def runSVMClassifier(input_file):
 
   original_data = pd.read_csv(
       input_file,
-      names = [
-          "nodeID", "age", "workclass", "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
+      names=[
+        "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
+        "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
       ],
       header=0,
-      index_col=0,
+      # index_col=0,
       sep=r'\s*,\s*',
       engine='python',
       na_values="?")
@@ -45,7 +46,7 @@ def runSVMClassifier(input_file):
 
   # Split training and test sets
   X_train, X_test, y_train, y_test = cross_validation.train_test_split(binary_data[binary_data.columns.difference(["income"])],
-                                                                       binary_data["income"], train_size=0.95)
+                                                                       binary_data["income"], train_size=0.80)
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
   X_test = scaler.transform(X_test)
@@ -60,7 +61,7 @@ def runSVMClassifier(input_file):
 
   # Gradient Boosting / Random forest classifier
   cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
-  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=0)
+  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=3)
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
 
@@ -75,13 +76,8 @@ def runSVMClassifier(input_file):
 
 
 def computeOriginalData():
-  print runSVMClassifier(INPUT_CSV + "0_adults_sanitized_new.csv")
+  print runSVMClassifier(INPUT_CSV + "input_for_python.csv")
 
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.2.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.4.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.6.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_0.8.csv")
-  print runSVMClassifier(INPUT_CSV + "adults_marital-status_Married-civ-spouse_1.csv")
 
 def computeAllResults():
   filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
@@ -97,5 +93,5 @@ def computeAllResults():
 
 
 if __name__ == "__main__":
-  computeOriginalData()
-  # computeAllResults()
+  # computeOriginalData()
+  computeAllResults()
