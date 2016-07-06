@@ -183,7 +183,7 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
-  print runLogisticRegression(INPUT_CSV + "_input_for_python.csv")
+  print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
   # print runLogisticRegression(INPUT_CSV + "adults_anonymized_k15_equal.csv")
 
 

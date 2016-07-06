@@ -76,7 +76,7 @@ def runSVMClassifier(input_file):
 
 
 def computeOriginalData():
-  print runSVMClassifier(INPUT_CSV + "_input_for_python.csv")
+  print runSVMClassifier(INPUT_CSV + "adults_original_dataset.csv")
 
 
 def computeAllResults():
@@ -85,20 +85,32 @@ def computeAllResults():
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
-    results = {}
+    final_results = {}
+    intermediary_results = {}
     for input_file in filelist:
-      results[input_file] = {}
-      results[input_file]["precision"] = []
-      results[input_file]["recall"] = []
-      results[input_file]["f1"] = []
-      for i in range(0,2):
+      intermediary_results[input_file] = {}
+      intermediary_results[input_file]["precision"] = []
+      intermediary_results[input_file]["recall"] = []
+      intermediary_results[input_file]["f1"] = []
+      for i in range(0,10):
         scores = runSVMClassifier(INPUT_CSV + input_file)
-        results[input_file]["precision"].append(scores[0])
-        results[input_file]["recall"].append(scores[1])
-        results[input_file]["f1"].append(scores[2])
-    print results
+        intermediary_results[input_file]["precision"].append(scores[0])
+        intermediary_results[input_file]["recall"].append(scores[1])
+        intermediary_results[input_file]["f1"].append(scores[2])
+        # writer.writerow( [input_file, i, intermediary_results[input_file]["precision"], intermediary_results[input_file]["recall"],
+        #                   intermediary_results[input_file]["f1"]] )
+        print [i, input_file, intermediary_results[input_file] ]
 
-    
+    for input_file in filelist:
+      final_results[input_file] = {}
+      final_results[input_file]["precision"] = np.mean(intermediary_results[input_file]["precision"])
+      final_results[input_file]["recall"] = np.mean(intermediary_results[input_file]["recall"])
+      final_results[input_file]["f1"] = np.mean(intermediary_results[input_file]["f1"])
+      writer.writerow( [input_file, final_results[input_file]["precision"], final_results[input_file]["recall"],
+                        final_results[input_file]["f1"]] )
+
+    print final_results
+
 
     # for input_file in filelist:
     #   scores = runSVMClassifier(INPUT_CSV + input_file)
