@@ -85,11 +85,26 @@ def computeAllResults():
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
+    results = {}
     for input_file in filelist:
-      scores = runSVMClassifier(INPUT_CSV + input_file)
-      scores.insert(0, input_file)
-      writer.writerow(scores)
-      print scores
+      results[input_file] = {}
+      results[input_file]["precision"] = []
+      results[input_file]["recall"] = []
+      results[input_file]["f1"] = []
+      for i in range(0,2):
+        scores = runSVMClassifier(INPUT_CSV + input_file)
+        results[input_file]["precision"].append(scores[0])
+        results[input_file]["recall"].append(scores[1])
+        results[input_file]["f1"].append(scores[2])
+    print results
+
+    
+
+    # for input_file in filelist:
+    #   scores = runSVMClassifier(INPUT_CSV + input_file)
+    #   scores.insert(0, input_file)
+    #   writer.writerow(scores)
+    #   print scores
 
 
 if __name__ == "__main__":
