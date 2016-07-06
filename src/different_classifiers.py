@@ -15,6 +15,7 @@ import sklearn.tree as tree
 import seaborn as sns
 import math
 import os, csv, glob
+import sklearn.linear_model as linear_model
 
 
 INPUT_CSV = '../data/'
@@ -52,16 +53,22 @@ def runSVMClassifier(input_file):
   X_test = scaler.transform(X_test)
 
 
+  # LOGISTIC REGRESSION
+  # cls = linear_model.LogisticRegression()
 
-  # SVM CLASSIFIER
+  # LINEAR SVC
   # cls = svm.LinearSVC()
-  # cls = svm.SVC(kernel="rbf", gamma=0.01, C=3, verbose=2)
-  # cls.fit(X_train, y_train)
-  # y_pred = cls.predict(X_test)
 
-  # Gradient Boosting / Random forest classifier
+  # SVC
+  # cls = svm.SVC(kernel="rbf", gamma=0.01, C=3, verbose=2)
+
+  # GRADIENT BOOSTING
   cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
+
+  # RANDOM FOREST
   # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=3)
+
+  # Run the actual training and prediction phases
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
 
