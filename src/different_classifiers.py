@@ -57,7 +57,7 @@ def runSVMClassifier(input_file):
 
 
   # LOGISTIC REGRESSION
-  # cls = linear_model.LogisticRegression()
+  cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
   # cls = svm.LinearSVC()
@@ -68,17 +68,17 @@ def runSVMClassifier(input_file):
 
 
   # ENSEMBLE SVM
-  n_estimators = 10
-  cls = OneVsRestClassifier(
-    BaggingClassifier(SVC(kernel='linear', probability=True, class_weight='balanced'), max_samples=1.0 / n_estimators,
-                      n_estimators=n_estimators))
+  # n_estimators = 10
+  # cls = OneVsRestClassifier(
+  #   BaggingClassifier(SVC(kernel='linear', probability=True, class_weight='balanced'), max_samples=1.0 / n_estimators,
+  #                     n_estimators=n_estimators))
 
 
   # GRADIENT BOOSTING
   # cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
 
   # RANDOM FOREST
-  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=3)
+  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=0)
 
   # Run the actual training and prediction phases
   cls.fit(X_train, y_train)
@@ -100,7 +100,7 @@ def computeOriginalData():
 
 def computeAllResults():
   filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
-  with open(OUTPUT_CSV + "results_onevsrest_bagging", 'wb') as fout:
+  with open(OUTPUT_CSV + "results_logistic_regression.csv", 'wb') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
@@ -111,7 +111,7 @@ def computeAllResults():
       intermediary_results[input_file]["precision"] = []
       intermediary_results[input_file]["recall"] = []
       intermediary_results[input_file]["f1"] = []
-      for i in range(0,1):
+      for i in range(0,10):
         scores = runSVMClassifier(INPUT_CSV + input_file)
         intermediary_results[input_file]["precision"].append(scores[0])
         intermediary_results[input_file]["recall"].append(scores[1])
