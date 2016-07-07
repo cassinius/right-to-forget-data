@@ -57,10 +57,10 @@ def runSVMClassifier(input_file):
 
 
   # LOGISTIC REGRESSION
-  cls = linear_model.LogisticRegression()
+  # cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
-  # cls = svm.LinearSVC()
+  cls = svm.LinearSVC()
 
   # SVC
   # Too bad results
@@ -100,7 +100,7 @@ def computeOriginalData():
 
 def computeAllResults():
   filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
-  with open(OUTPUT_CSV + "results_logistic_regression.csv", 'wb') as fout:
+  with open(OUTPUT_CSV + "results_svm_linear.csv", 'wb') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
