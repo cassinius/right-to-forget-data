@@ -16,6 +16,9 @@ import seaborn as sns
 import math
 import os, csv, glob
 import sklearn.linear_model as linear_model
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
+from sklearn.svm import SVC
 
 
 INPUT_CSV = '../data/'
@@ -57,16 +60,25 @@ def runSVMClassifier(input_file):
   # cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
-  # cls = svm.LinearSVC()
+  cls = svm.LinearSVC()
 
   # SVC
-  # cls = svm.SVC(kernel="rbf", gamma=0.01, C=3, verbose=2)
+  # Too bad results
+  # cls = svm.SVC(kernel="rbf", verbose=2)
+
+
+  # ENSEMBLE SVM
+  # n_estimators = 10
+  # cls = OneVsRestClassifier(
+  #   BaggingClassifier(SVC(kernel='linear', probability=True, class_weight='balanced'), max_samples=1.0 / n_estimators,
+  #                     n_estimators=n_estimators))
+
 
   # GRADIENT BOOSTING
-  cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
+  # cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
 
   # RANDOM FOREST
-  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=3)
+  # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=0)
 
   # Run the actual training and prediction phases
   cls.fit(X_train, y_train)
@@ -88,7 +100,7 @@ def computeOriginalData():
 
 def computeAllResults():
   filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
-  with open(OUTPUT_CSV + "results.csv", 'wb') as fout:
+  with open(OUTPUT_CSV + "results_svm_linear.csv", 'wb') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
