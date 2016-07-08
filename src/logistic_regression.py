@@ -165,7 +165,7 @@ def runLogisticRegression(input_file):
   coefs.sort_values(inplace=True)
   ax = plt.subplot(2,1,1)
   coefs.plot(kind="bar", rot=90)
-  plt.show()
+  # plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
@@ -183,7 +183,7 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
-  print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
+  print runLogisticRegression(INPUT_CSV + "adults_anonymized_k19_emph_age.csv")
   # print runLogisticRegression(INPUT_CSV + "adults_anonymized_k15_equal.csv")
 
 
