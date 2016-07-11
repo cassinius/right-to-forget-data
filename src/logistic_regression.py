@@ -12,6 +12,7 @@ import sklearn.cross_validation as cross_validation
 import sklearn.metrics as metrics
 import sklearn.tree as tree
 import seaborn as sns
+import matplotlib
 import matplotlib.pyplot as plt
 import math
 import os, csv, glob
@@ -38,21 +39,24 @@ def runLogisticRegression(input_file):
 
 
   # PLOT THE ORIGINAL VALUE DISTRIBUTION
-  fig = plt.figure(figsize=(20,15))
-  cols = 4
-  rows = math.ceil(float(original_data.shape[1]) / cols)
-  for i, column in enumerate(original_data.columns.difference(['income', 'fnlwgt'])):
+  fig = plt.figure(figsize=(20,30))
+  matplotlib.rcParams.update({'font.size': 32})
+  rows = 2
+  cols = 3
+  for i, column in enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
       ax = fig.add_subplot(rows, cols, i + 1)
-      ax.set_title(column)
+      ax.set_title(column, fontweight="bold", size=20)
+
       if original_data.dtypes[column] == np.object:
           original_data[column].value_counts().plot(kind="bar", axes=ax)
       else:
           original_data[column].hist(axes=ax)
 
-      plt.xticks(rotation=90)
+      plt.xticks(rotation=45, ha="right", fontsize=14)
 
-  plt.subplots_adjust(top=0.95, bottom=-0.2, hspace=0.4, wspace=0.2)
-  # plt.show()
+  plt.subplots_adjust(top=.95, bottom=.15, hspace=0.55, wspace=0.2)
+  plt.show()
+
 
 
   # print (original_data["native-country"].value_counts() / original_data.shape[0]).head()
@@ -83,14 +87,15 @@ def runLogisticRegression(input_file):
   # ENCODE FEATURES AS NUMBERS
   encoded_data, encoders = number_encode_features(original_data)
   fig = plt.figure(figsize=(20,15))
-  cols = 4
-  rows = math.ceil(float(encoded_data.shape[1]) / cols)
-  for i, column in enumerate(original_data.columns.difference(['income', 'fnlwgt'])):
+  rows = 3
+  cols = 3
+  # rows = math.ceil(float(encoded_data.shape[1]) / cols)
+  for i, column in enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
       ax = fig.add_subplot(rows, cols, i + 1)
       ax.set_title(column)
       encoded_data[column].hist(axes=ax)
       plt.xticks(rotation=90)
-  plt.subplots_adjust(top=0.95, bottom=-0.25, hspace=0.2, wspace=0.3)
+  # plt.subplots_adjust(top=0.95, bottom=-0.25, hspace=0.2, wspace=0.5)
   # plt.show()
 
 
@@ -158,7 +163,7 @@ def runLogisticRegression(input_file):
   sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
   plt.ylabel("Real value")
   plt.xlabel("Predicted value")
-  plt.show()
+  # plt.show()
 
 
   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
@@ -183,8 +188,8 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 
 def computeOriginalData():
+  # print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
   print runLogisticRegression(INPUT_CSV + "adults_anonymized_k19_emph_age.csv")
-  # print runLogisticRegression(INPUT_CSV + "adults_anonymized_k15_equal.csv")
 
 
 def computeAllResults():
