@@ -21,29 +21,31 @@ import os, csv, glob
 INPUT_CSV = '../data/'
 OUTPUT_CSV = '../output/'
 
+input_cols = [
+                "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
+                "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
+             ]
 
 def runLogisticRegression(input_file):
 
   original_data = pd.read_csv(
       input_file,
-      names = [
-          "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
-          "native-country", "sex", "race", "marital-status", "relationship", "occupation", "income"
-      ],
+      names = input_cols,
       header=0,
       # index_col=0,
       sep=r'\s*,\s*',
       engine='python',
       na_values="?")
-  # print original_data.tail()
 
+
+  # print original_data.tail()
 
   # PLOT THE ORIGINAL VALUE DISTRIBUTION
   fig = plt.figure(figsize=(20,30))
   matplotlib.rcParams.update({'font.size': 32})
-  rows = 2
-  cols = 3
-  for i, column in enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
+  rows = 4
+  cols = 4
+  for i, column in enumerate(input_cols): # enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
       ax = fig.add_subplot(rows, cols, i + 1)
       ax.set_title(column, fontweight="bold", size=20)
 
@@ -81,22 +83,22 @@ def runLogisticRegression(input_file):
   plt.xticks(rotation=90)
   plt.yticks(rotation=0)
   sns.heatmap(encoded_data.corr(), square=True)
-  # plt.show()
+  plt.show()
 
 
   # ENCODE FEATURES AS NUMBERS
   encoded_data, encoders = number_encode_features(original_data)
   fig = plt.figure(figsize=(20,15))
-  rows = 3
-  cols = 3
+  rows = 4
+  cols = 4
   # rows = math.ceil(float(encoded_data.shape[1]) / cols)
-  for i, column in enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
+  for i, column in enumerate(input_cols): # enumerate(["capital-gain", "education-num", "marital-status", "relationship", "occupation", "hours-per-week"]):
       ax = fig.add_subplot(rows, cols, i + 1)
       ax.set_title(column)
       encoded_data[column].hist(axes=ax)
       plt.xticks(rotation=90)
   # plt.subplots_adjust(top=0.95, bottom=-0.25, hspace=0.2, wspace=0.5)
-  # plt.show()
+  plt.show()
 
 
   # DIVIDE THE DATASET INTO TRAIN AND TEST SETS
@@ -127,7 +129,7 @@ def runLogisticRegression(input_file):
   coefs.sort_values(inplace=True)
   plt.subplot(2,1,2)
   coefs.plot(kind="bar")
-  # plt.show()
+  plt.show()
 
 
   # Binary features
@@ -141,7 +143,7 @@ def runLogisticRegression(input_file):
 
   plt.xticks(rotation=90)
   plt.yticks(rotation=0)
-  # plt.show()
+  plt.show()
 
 
   # Use binary for Logistic regression
@@ -163,14 +165,14 @@ def runLogisticRegression(input_file):
   sns.heatmap(cm, annot=True, fmt="d", xticklabels=encoders["income"].classes_, yticklabels=encoders["income"].classes_)
   plt.ylabel("Real value")
   plt.xlabel("Predicted value")
-  # plt.show()
+  plt.show()
 
 
   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
   coefs.sort_values(inplace=True)
   ax = plt.subplot(2,1,1)
   coefs.plot(kind="bar", rot=90)
-  # plt.show()
+  plt.show()
 
 
   precision = skl.metrics.precision_score(y_test, y_pred)
