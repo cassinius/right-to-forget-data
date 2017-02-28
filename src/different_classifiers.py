@@ -12,7 +12,6 @@ import sklearn.preprocessing as preprocessing
 import sklearn.cross_validation as cross_validation
 import sklearn.metrics as metrics
 import sklearn.tree as tree
-import seaborn as sns
 import math
 import os, csv, glob
 import sklearn.linear_model as linear_model
@@ -25,7 +24,7 @@ INPUT_CSV = '../data/'
 OUTPUT_CSV = '../output/'
 
 
-def runSVMClassifier(input_file):
+def runClassifier(input_file):
 
   original_data = pd.read_csv(
       input_file,
@@ -57,10 +56,10 @@ def runSVMClassifier(input_file):
 
 
   # LOGISTIC REGRESSION
-  # cls = linear_model.LogisticRegression()
+  cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
-  cls = svm.LinearSVC()
+  # cls = svm.LinearSVC()
 
   # SVC
   # Too bad results
@@ -95,7 +94,7 @@ def runSVMClassifier(input_file):
 
 
 def computeOriginalData():
-  print runSVMClassifier(INPUT_CSV + "adults_original_dataset.csv")
+  print runClassifier(INPUT_CSV + "adults_original_dataset.csv")
 
 
 def computeAllResults():
@@ -112,7 +111,7 @@ def computeAllResults():
       intermediary_results[input_file]["recall"] = []
       intermediary_results[input_file]["f1"] = []
       for i in range(0,10):
-        scores = runSVMClassifier(INPUT_CSV + input_file)
+        scores = runClassifier(INPUT_CSV + input_file)
         intermediary_results[input_file]["precision"].append(scores[0])
         intermediary_results[input_file]["recall"].append(scores[1])
         intermediary_results[input_file]["f1"].append(scores[2])
