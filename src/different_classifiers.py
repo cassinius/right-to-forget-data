@@ -20,7 +20,7 @@ from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 from sklearn.svm import SVC
 
 
-INPUT_CSV = '../data/'
+INPUT_CSV_INCOME = '../data/adults_target_income/'
 OUTPUT_CSV = '../output/'
 
 
@@ -41,6 +41,8 @@ def runClassifier(input_file):
 
   # Binary features
   binary_data = pd.get_dummies(original_data)
+
+
   # Let's fix the Target as it will be converted to dummy vars too
   binary_data["income"] = binary_data["income_>50K"]
   del binary_data["income_<=50K"]
@@ -56,10 +58,10 @@ def runClassifier(input_file):
 
 
   # LOGISTIC REGRESSION
-  cls = linear_model.LogisticRegression()
+  # cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
-  # cls = svm.LinearSVC()
+  cls = svm.LinearSVC()
 
   # SVC
   # Too bad results
@@ -94,11 +96,11 @@ def runClassifier(input_file):
 
 
 def computeOriginalData():
-  print runClassifier(INPUT_CSV + "adults_original_dataset.csv")
+  print runClassifier( INPUT_CSV_INCOME + 'adults_original_dataset.csv' )
 
 
 def computeAllResults():
-  filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
+  filelist = [f for f in sorted(os.listdir(INPUT_CSV_INCOME)) if f.endswith(".csv")]
   with open(OUTPUT_CSV + "results_svm_linear.csv", 'wb') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
@@ -111,7 +113,7 @@ def computeAllResults():
       intermediary_results[input_file]["recall"] = []
       intermediary_results[input_file]["f1"] = []
       for i in range(0,10):
-        scores = runClassifier(INPUT_CSV + input_file)
+        scores = runClassifier(INPUT_CSV_INCOME + input_file)
         intermediary_results[input_file]["precision"].append(scores[0])
         intermediary_results[input_file]["recall"].append(scores[1])
         intermediary_results[input_file]["f1"].append(scores[2])

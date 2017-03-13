@@ -76,7 +76,7 @@ def plotAnonymizationResults(results):
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  plt.axis([0, 5, 0.42, 0.67])
+  plt.axis([0, 5, 0.50, 0.72])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
@@ -137,7 +137,7 @@ def plotPerturbationResultsTop3(results):
 
 
 def plotPerturbationResultsBottom3(results):
-  capital_gain = [
+  marital_status = [
     results["adults_original_dataset.csv"]["f1"],
     results["adults_marital-status_Never-married_0.2.csv"]["f1"],
     results["adults_marital-status_Never-married_0.4.csv"]["f1"],
@@ -145,7 +145,7 @@ def plotPerturbationResultsBottom3(results):
     results["adults_marital-status_Never-married_0.8.csv"]["f1"],
     results["adults_marital-status_Never-married_1.csv"]["f1"]
   ]
-  education_num = [
+  occupation = [
     results["adults_original_dataset.csv"]["f1"],
     results["adults_occupation_Other-service_0.2.csv"]["f1"],
     results["adults_occupation_Other-service_0.4.csv"]["f1"],
@@ -153,7 +153,7 @@ def plotPerturbationResultsBottom3(results):
     results["adults_occupation_Other-service_0.8.csv"]["f1"],
     results["adults_occupation_Other-service_1.csv"]["f1"]
   ]
-  marital_status = [
+  relationship = [
     results["adults_original_dataset.csv"]["f1"],
     results["adults_relationship_Own-child_0.2.csv"]["f1"],
     results["adults_relationship_Own-child_0.4.csv"]["f1"],
@@ -162,9 +162,9 @@ def plotPerturbationResultsBottom3(results):
     results["adults_relationship_Own-child_1.csv"]["f1"]
   ]
 
-  print capital_gain
-  print education_num
   print marital_status
+  print occupation
+  print relationship
 
   x = [0, 1, 2, 3, 4, 5]
   labels = ["0", "20%", "40%", "60%", "80%", "100%"]
@@ -175,9 +175,9 @@ def plotPerturbationResultsBottom3(results):
 
   plt.title("F1 score dependent on perturbation, gradient boost")
 
-  capital_line, = plt.plot(capital_gain, marker='o', linestyle='-', color='r', label="Never married")
-  edunum_line, = plt.plot(education_num, marker='^', linestyle='-', color='b', label="Other service job")
-  marital_line, = plt.plot(marital_status, marker='D', linestyle='-', color='g', label="Own child")
+  capital_line, = plt.plot(marital_status, marker='o', linestyle='-', color='r', label="Never married")
+  edunum_line, = plt.plot(occupation, marker='^', linestyle='-', color='b', label="Other service job")
+  marital_line, = plt.plot(relationship, marker='D', linestyle='-', color='g', label="Own child")
   plt.legend(handles=[capital_line, edunum_line, marital_line], loc=2)
 
   plt.axis([0, 5, 0.70, 0.72])
@@ -189,8 +189,8 @@ def plotPerturbationResultsBottom3(results):
 
 
 if __name__ == "__main__":
-    results = readResultsIntoHash(gradient_boost_file)
-    # plotAnonymizationResults(results)
+    results = readResultsIntoHash(svm_linear_file)
+    plotAnonymizationResults(results)
     # plotPerturbationResultsTop3(results)
-    plotPerturbationResultsBottom3(results)
+    # plotPerturbationResultsBottom3(results)
 
