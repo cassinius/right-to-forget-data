@@ -76,7 +76,7 @@ def plotAnonymizationResults(results):
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  plt.axis([0, 5, 0.50, 0.72])
+  plt.axis([0, 5, 0.40, 0.68])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
