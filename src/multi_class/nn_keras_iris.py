@@ -12,6 +12,7 @@ from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
 from sklearn import datasets
+import sklearn.cross_validation as cross_validation
 
 
 # fix random seed for reproducibility
@@ -35,10 +36,14 @@ Y = iris.target
 # print Y
 
 
+# Train / Test split
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, Y, train_size=0.80)
+
+
 # encode class values as integers
 encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
+encoder.fit(y_train)
+encoded_Y = encoder.transform(y_train)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y = np_utils.to_categorical(encoded_Y)
 
@@ -71,11 +76,11 @@ kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
 
 # Fitting without Keras
 model = Sequential()
-model.add(Dense(4, input_dim=4, kernel_initializer='normal', activation='relu'))
+model.add(Dense(12, input_dim=4, kernel_initializer='normal', activation='relu'))
 model.add(Dense(3, kernel_initializer='normal', activation='sigmoid'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=["accuracy", metrics.MSE])
-model.fit(X, dummy_y, epochs=100, batch_size=10, verbose=0)
-scores = model.evaluate(X, dummy_y)
+model.fit(X_train, dummy_y, epochs=100, batch_size=5, verbose=0)
+scores = model.evaluate(X_train, dummy_y)
 # print scores
 # print model.metrics_names
 # print model.metrics
@@ -83,13 +88,13 @@ scores = model.evaluate(X, dummy_y)
 
 
 # Predicting
-predictions = model.predict_classes(X)
+predictions = model.predict_classes(X_test)
 # print predictions
 
-precision = skmetrics.precision_score(predictions, Y, average="macro")
-recall = skmetrics.recall_score(predictions, Y, average="macro")
+precision = skmetrics.precision_score(predictions, y_test, average="macro")
+recall = skmetrics.recall_score(predictions, y_test, average="macro")
 f1 = (2.0 * precision * recall) / (precision + recall)
 
 print "\n================================"
 print "Precision / Recall / F1 Score: "
-print( "%.6f%% %.6f%% %.6f%%" % (precision , recall, f1) )
+print( "%.6f %.6f %.6f" % (precision , recall, f1) )
