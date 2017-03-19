@@ -74,7 +74,7 @@ model = Sequential()
 model.add(Dense(4, input_dim=4, kernel_initializer='normal', activation='relu'))
 model.add(Dense(3, kernel_initializer='normal', activation='sigmoid'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=["accuracy", metrics.MSE])
-model.fit(X, dummy_y, epochs=100, batch_size=5, verbose=0)
+model.fit(X, dummy_y, epochs=100, batch_size=10, verbose=0)
 scores = model.evaluate(X, dummy_y)
 # print scores
 # print model.metrics_names
@@ -84,13 +84,12 @@ scores = model.evaluate(X, dummy_y)
 
 # Predicting
 predictions = model.predict_classes(X)
-print predictions
+# print predictions
 
 precision = skmetrics.precision_score(predictions, Y, average="macro")
 recall = skmetrics.recall_score(predictions, Y, average="macro")
-f1 = skmetrics.f1_score(predictions, Y, average="macro")
-# f1 = (2.0 * precision * recall) / (precision + recall)
+f1 = (2.0 * precision * recall) / (precision + recall)
 
+print "\n================================"
 print "Precision / Recall / F1 Score: "
-
-print( "%.2f%% %.2f%% %.2f%%", precision , recall, f1 )
+print( "%.6f%% %.6f%% %.6f%%" % (precision , recall, f1) )
