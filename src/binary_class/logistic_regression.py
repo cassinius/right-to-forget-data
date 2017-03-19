@@ -18,8 +18,8 @@ import math
 import os, csv, glob
 
 
-INPUT_CSV = '../data/'
-OUTPUT_CSV = '../output/'
+INPUT_CSV = '../../data/adults_target_income/'
+OUTPUT_CSV = '../../output/adults_target_income/'
 
 input_cols = [
                 "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
@@ -102,7 +102,10 @@ def runLogisticRegression(input_file):
 
 
   # DIVIDE THE DATASET INTO TRAIN AND TEST SETS
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(encoded_data[encoded_data.columns - ["income"]], encoded_data["income"], train_size=0.80)
+  X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+      encoded_data[encoded_data.columns.difference(["income"])],
+      encoded_data["income"], train_size=0.80)
+
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train.astype("float64")), columns=X_train.columns)
   X_test = scaler.transform(X_test.astype("float64"))
@@ -147,7 +150,10 @@ def runLogisticRegression(input_file):
 
 
   # Use binary for Logistic regression
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(binary_data[binary_data.columns - ["income"]], binary_data["income"], train_size=0.80)
+  X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+      binary_data[binary_data.columns.difference(["income"])],
+      binary_data["income"], train_size=0.80)
+
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
   X_test = scaler.transform(X_test)

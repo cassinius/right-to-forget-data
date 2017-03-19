@@ -20,8 +20,8 @@ from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 from sklearn.svm import SVC
 
 
-INPUT_CSV_INCOME = '../data/adults_target_income/'
-OUTPUT_CSV = '../output/'
+INPUT_CSV_INCOME = '../../data/adults_target_income/'
+OUTPUT_CSV = '../../output/adults_target_income/'
 
 
 def runClassifier(input_file):
