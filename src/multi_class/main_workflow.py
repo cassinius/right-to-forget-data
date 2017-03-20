@@ -109,7 +109,7 @@ def main_workflow():
 
         with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'wb') as fout:
             writer = csv.writer(fout, lineterminator='\n')
-            writer.writerow(["dataset", "precision", "recall", "F1 score"])
+            writer.writerow(["dataset", "precision", "recall", "f1"])
 
             for input_file in filelist:
 
@@ -125,7 +125,7 @@ def main_workflow():
                 # Split into predictors and target
                 X = np.array( encoded_data[encoded_data.columns.difference([config['TARGET_COL']])] )
                 y = np.array( encoded_data[config['TARGET_COL']] )
-                kf = KFold(n_splits=CROSS_VALIDATION_K)
+                kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
 
                 precisions = []
                 recalls = []

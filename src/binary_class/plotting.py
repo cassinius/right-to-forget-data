@@ -4,12 +4,19 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
+# Old adult income files
+# gradient_boost_file = '../output/results_gradient_boosting.csv'
+# logistic_regression_file = '../output/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../output/results_onevsrest_bagging.csv'
+# random_forest_file = '../output/results_random_forest.csv'
+# svm_linear_file = '../output/results_svm_linear.csv'
 
-gradient_boost_file = '../output/results_gradient_boosting.csv'
-logistic_regression_file = '../output/results_logistic_regression.csv'
-onevsrest_bagging_file = '../output/results_onevsrest_bagging.csv'
-random_forest_file = '../output/results_random_forest.csv'
-svm_linear_file = '../output/results_svm_linear.csv'
+# Adults education-num files
+gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
+logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
+onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
+random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
+linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
 
 
 def readResultsIntoHash(file_name):
@@ -76,7 +83,7 @@ def plotAnonymizationResults(results):
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  plt.axis([0, 5, 0.40, 0.68])
+  plt.axis([0, 5, 0.40, 1])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
@@ -189,7 +196,7 @@ def plotPerturbationResultsBottom3(results):
 
 
 if __name__ == "__main__":
-    results = readResultsIntoHash(svm_linear_file)
+    results = readResultsIntoHash(linear_svc_file)
     plotAnonymizationResults(results)
     # plotPerturbationResultsTop3(results)
     # plotPerturbationResultsBottom3(results)
