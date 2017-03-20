@@ -73,7 +73,6 @@ kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
 # print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 
 
-
 # Fitting without Keras
 model = Sequential()
 model.add(Dense(12, input_dim=4, kernel_initializer='normal', activation='relu'))
@@ -89,7 +88,7 @@ scores = model.evaluate(X_train, dummy_y)
 
 # Predicting
 predictions = model.predict_classes(X_test)
-# print predictions
+print predictions
 
 precision = skmetrics.precision_score(predictions, y_test, average="macro")
 recall = skmetrics.recall_score(predictions, y_test, average="macro")
