@@ -36,20 +36,57 @@ import linear_svc
 import gradient_boosting
 import random_forest
 import nn_keras
+import input_preproc
 
 
 CONFIG_EDUCATION = {
     'TARGET': "../../data/adults_target_education_num/",
-    'OUTPUT': "../../output/adults_target_education_num/"
+    'OUTPUT': "../../output/adults_target_education_num/",
+    'INPUT_COLS': [
+        "age",
+        "fnlwgt",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week",
+        "workclass",
+        "native-country",
+        "sex",
+        "race",
+        "marital-status",
+        "relationship",
+        "occupation",
+        "income",
+        "education-num"
+     ],
+    'TARGET_COL': "education-num"
 }
+
 
 CONFIG_MARITAL = {
     'TARGET': "../../data/adults_target_marital_status/",
-    'OUTPUT': "../../output/adults_target_marital_status/"
+    'OUTPUT': "../../output/adults_target_marital_status/",
+    'INPUT_COLS': [
+        "age",
+        "fnlwgt",
+        "education-num",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week",
+        "workclass",
+        "native-country",
+        "sex",
+        "race",
+        "relationship",
+        "occupation",
+        "income",
+        "marital-status"
+     ],
+    'TARGET_COL': "marital-status"
 }
 
+
 ALGORITHMS = [
-    'linear_svc',
+    # 'linear_svc',
     'nn_keras',
     # 'logistic_regression',
     # 'gradient_boosting',
@@ -68,7 +105,7 @@ def main_workflow():
 
     for algo_str in ALGORITHMS:
 
-        i = importlib.import_module(algo_str)
+        algorithm = importlib.import_module(algo_str)
 
         with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'wb') as fout:
             writer = csv.writer(fout, lineterminator='\n')
@@ -76,9 +113,16 @@ def main_workflow():
 
             for input_file in filelist:
 
-                print "Running algorithm: " + algo_str + "on: " + input_file
+                X_train, X_test, y_train, y_test = input_preproc.readFromDataset(
+                    config['TARGET'] + input_file,
+                    config['INPUT_COLS'],
+                    config['TARGET_COL']
+                );
+                # print y_test
 
-                precision, recall, f1_score = 0., 0., 0.
+                print "Running algorithm: " + algo_str + " on: " + input_file
+
+                precision, recall, f1_score = algorithm.runClassifier(X_train.values, X_test.values, y_train, y_test)
 
                 print "\n================================"
                 print "Precision / Recall / F1 Score: "
