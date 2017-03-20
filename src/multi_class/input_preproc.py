@@ -38,6 +38,48 @@ def readFromDataset(input_file, input_cols, target_col):
     # ENCODE FEATURES AS NUMBERS
     encoded_data, encoders = number_encode_features(original_data)
 
-    return cross_validation.train_test_split(
-        encoded_data[encoded_data.columns.difference([target_col])],
-        encoded_data[target_col], train_size=0.80)
+    if target_col == "education-num":
+        for i, row in encoded_data.iterrows():
+            if row["education-num"] < 3:
+                encoded_data.loc[i, "education-num"] = 0
+            elif row["education-num"] < 10:
+                encoded_data.loc[i, "education-num"] = 1
+            elif row["education-num"] < 14:
+                encoded_data.loc[i, "education-num"] = 2
+            else:
+                encoded_data.loc[i, "education-num"] = 3
+
+    return encoded_data
+
+
+if __name__ == "__main__":
+    data = readFromDataset('../../data/adults_target_education_num/adults_anonymized_k3_equal.csv',
+                           [
+                               "age",
+                               "fnlwgt",
+                               "capital-gain",
+                               "capital-loss",
+                               "hours-per-week",
+                               "workclass",
+                               "native-country",
+                               "sex",
+                               "race",
+                               "marital-status",
+                               "relationship",
+                               "occupation",
+                               "income",
+                               "education-num"
+                           ],
+                           "education-num"
+    )
+
+    for i, row in data.iterrows():
+        if row["education-num"] < 3:
+            data.loc[i, "education-num"] = 0
+        elif row["education-num"] < 10:
+            data.loc[i, "education-num"] = 1
+        elif row["education-num"] < 14:
+            data.loc[i, "education-num"] = 2
+        else:
+            data.loc[i, "education-num"] = 3
+    print data["education-num"]

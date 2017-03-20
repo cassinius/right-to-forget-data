@@ -30,14 +30,14 @@ What is happening where?
 
 
 import os, csv, glob
+import numpy as np
 import importlib
-import logistic_regression
-import linear_svc
-import gradient_boosting
-import random_forest
-import nn_keras
 import input_preproc
+import sklearn.cross_validation as cross_validation
+from sklearn.model_selection import KFold
 
+
+CROSS_VALIDATION_K = 10
 
 CONFIG_EDUCATION = {
     'TARGET': "../../data/adults_target_education_num/",
@@ -86,8 +86,8 @@ CONFIG_MARITAL = {
 
 
 ALGORITHMS = [
-    # 'linear_svc',
-    'nn_keras',
+    'linear_svc',
+    # 'nn_keras',
     # 'logistic_regression',
     # 'gradient_boosting',
     # 'random_forest'
@@ -113,23 +113,42 @@ def main_workflow():
 
             for input_file in filelist:
 
-                X_train, X_test, y_train, y_test = input_preproc.readFromDataset(
+                encoded_data = input_preproc.readFromDataset(
                     config['TARGET'] + input_file,
                     config['INPUT_COLS'],
                     config['TARGET_COL']
-                );
+                )
                 # print y_test
 
                 print "Running algorithm: " + algo_str + " on: " + input_file
 
-                precision, recall, f1_score = algorithm.runClassifier(X_train.values, X_test.values, y_train, y_test)
+                # Split into predictors and target
+                X = np.array( encoded_data[encoded_data.columns.difference([config['TARGET_COL']])] )
+                y = np.array( encoded_data[config['TARGET_COL']] )
+                kf = KFold(n_splits=CROSS_VALIDATION_K)
 
+                precisions = []
+                recalls = []
+                f1s = []
+
+                for train_index, test_index in kf.split(X):
+                    # print "train_index: " + str(train_index)
+                    # print "test_index: " + str(test_index)
+                    X_train, y_train = X[train_index], y[train_index]
+                    X_test, y_test = X[test_index], y[test_index]
+
+                    precision, recall, f1_score = algorithm.runClassifier(X_train, X_test, y_train, y_test)
+                    precisions.append(precision)
+                    recalls.append(recall)
+                    f1s.append(f1_score)
+
+                final_precision, final_recall, final_f1 = sum(precisions)/len(precisions), sum(recalls)/len(recalls), sum(f1s)/len(f1s)
                 print "\n================================"
                 print "Precision / Recall / F1 Score: "
-                print("%.6f %.6f %.6f" % (precision, recall, f1_score))
+                print("%.6f %.6f %.6f" % (final_precision, final_recall, final_f1))
                 print "================================\n"
 
-                writer.writerow([input_file, precision, recall, f1_score])
+                writer.writerow([input_file, final_precision, final_recall, final_f1])
 
 
 
