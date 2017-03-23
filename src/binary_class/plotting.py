@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
-# Old adult income files
+# Adults income files
 # gradient_boost_file = '../output/results_gradient_boosting.csv'
 # logistic_regression_file = '../output/results_logistic_regression.csv'
 # onevsrest_bagging_file = '../output/results_onevsrest_bagging.csv'
@@ -28,6 +28,7 @@ linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.c
 # linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
 
 
+
 def readResultsIntoHash(file_name):
   results_file = open(file_name, 'r')
   results_csv = csv.reader(results_file, delimiter=',')
@@ -49,7 +50,7 @@ def readResultsIntoHash(file_name):
 
 
 def plotAnonymizationResults(results):
-  k_factors = ['03', '07', '11', '15', '19'] #, '23', '27', '100']
+  k_factors = ['03', '07', '11', '15', '19', '23', '27', '100']
   equal_line_f1 = [results["adults_original_dataset.csv"]["f1"], ]
   age_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
   race_line_f1 = [results["adults_original_dataset.csv"]["f1"]]

@@ -1,4 +1,3 @@
-from sklearn.multiclass import OneVsRestClassifier
 from sklearn import ensemble
 import input_preproc
 import calculate_metrics
