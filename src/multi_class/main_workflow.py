@@ -89,8 +89,8 @@ ALGORITHMS = [
     # 'linear_svc',
     # 'nn_keras',
     # 'logistic_regression',
-    # 'gradient_boosting',
-    'random_forest'
+    'gradient_boosting',
+    # 'random_forest'
 ]
 
 config = CONFIG_EDUCATION

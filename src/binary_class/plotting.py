@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
-
 # Old adult income files
 # gradient_boost_file = '../output/results_gradient_boosting.csv'
 # logistic_regression_file = '../output/results_logistic_regression.csv'
@@ -14,91 +13,83 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 # Adults education-num files
-gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
-logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
-onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
-random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
-linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
+# gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
+# logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
+# random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
+# linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
 
 
 # Adults marital-status files
-# gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
-# logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
-# random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
-# linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
+gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
+logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
+onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
+random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
+linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
 
 
 def readResultsIntoHash(file_name):
-    results_file = open(file_name, 'r')
-    results_csv = csv.reader(results_file, delimiter=',')
+  results_file = open(file_name, 'r')
+  results_csv = csv.reader(results_file, delimiter=',')
 
-    # ignore the headers
-    next(results_csv, None)
+  # ignore the headers
+  next(results_csv, None)
 
-    # create the dict we need
-    results = {}
+  # create the dict we need
+  results = {}
 
-    for line in results_csv:
-        results[line[0]] = {}
-        results[line[0]]['precision'] = line[1]
-        results[line[0]]['recall'] = line[2]
-        results[line[0]]['f1'] = line[3]
+  for line in results_csv:
+    results[line[0]] = {}
+    results[line[0]]['precision'] = line[1]
+    results[line[0]]['recall'] = line[2]
+    results[line[0]]['f1'] = line[3]
 
-    results_file.close()
-    return results
+  results_file.close()
+  return results
 
 
 def plotAnonymizationResults(results):
-  equal_line_f1 = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_anonymized_k03_equal.csv"]["f1"],
-    results["adults_anonymized_k07_equal.csv"]["f1"],
-    results["adults_anonymized_k11_equal.csv"]["f1"],
-    results["adults_anonymized_k15_equal.csv"]["f1"],
-    results["adults_anonymized_k19_equal.csv"]["f1"],
-  ]
-  age_line_f1 = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_anonymized_k03_emph_age.csv"]["f1"],
-    results["adults_anonymized_k07_emph_age.csv"]["f1"],
-    results["adults_anonymized_k11_emph_age.csv"]["f1"],
-    results["adults_anonymized_k15_emph_age.csv"]["f1"],
-    results["adults_anonymized_k19_emph_age.csv"]["f1"],
-  ]
-  race_line_f1 = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_anonymized_k03_emph_race.csv"]["f1"],
-    results["adults_anonymized_k07_emph_race.csv"]["f1"],
-    results["adults_anonymized_k11_emph_race.csv"]["f1"],
-    results["adults_anonymized_k15_emph_race.csv"]["f1"],
-    results["adults_anonymized_k19_emph_race.csv"]["f1"],
-  ]
+  k_factors = ['03', '07', '11', '15', '19'] #, '23', '27', '100']
+  equal_line_f1 = [results["adults_original_dataset.csv"]["f1"], ]
+  age_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
+  race_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
+  for k in k_factors:
+    equal_line_f1.append(results["adults_anonymized_k" + k + "_equal.csv"]["f1"])
+    age_line_f1.append(results["adults_anonymized_k" + k + "_emph_age.csv"]["f1"])
+    race_line_f1.append(results["adults_anonymized_k" + k + "_emph_race.csv"]["f1"])
 
-  print equal_line_f1
-  print age_line_f1
-  print race_line_f1
+  print "Equal: " + str(equal_line_f1)
+  print "Emph age: " + str(age_line_f1)
+  print "Emph race: " + str(race_line_f1)
 
-  x = [0, 1, 2, 3, 4, 5]
-  labels = ["none", "3", "7", "11", "15", "19"]
+  min_score = min(min(equal_line_f1), min(age_line_f1), min(race_line_f1))
+  max_score = max(max(equal_line_f1), max(age_line_f1), max(race_line_f1))
+
+  print "Min score: " + min_score
+  print "Max score: " + max_score
+
+  x = range(0, len(k_factors) + 1)
+  labels = ['none'] + k_factors
+
+  print "Labels: " + str( labels )
 
   fig = plt.figure()
   rect = fig.patch
   rect.set_facecolor('white')
 
-  plt.title("F1 score dependent on anonymization, random Forest")
+  title_algo = "Random Forest"
+  plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
   age_line, = plt.plot(age_line_f1, marker='^', linestyle='-', color='b', label="age preferred")
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  plt.axis([0, 5, 0.20, 0.87])
+  plt.axis([0, 5, float(min_score), float(max_score)])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
   plt.show()
-
 
 
 def plotPerturbationResultsTop3(results):
@@ -152,7 +143,6 @@ def plotPerturbationResultsTop3(results):
   plt.show()
 
 
-
 def plotPerturbationResultsBottom3(results):
   marital_status = [
     results["adults_original_dataset.csv"]["f1"],
@@ -204,10 +194,11 @@ def plotPerturbationResultsBottom3(results):
   plt.show()
 
 
-
 if __name__ == "__main__":
-    results = readResultsIntoHash(random_forest_file)
-    plotAnonymizationResults(results)
-    # plotPerturbationResultsTop3(results)
-    # plotPerturbationResultsBottom3(results)
+  algorithm = "random_forest"
+  target = "education_num"
 
+  results = readResultsIntoHash(random_forest_file)
+  plotAnonymizationResults(results)
+  # plotPerturbationResultsTop3(results)
+  # plotPerturbationResultsBottom3(results)
