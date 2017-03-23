@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
+
 # Old adult income files
 # gradient_boost_file = '../output/results_gradient_boosting.csv'
 # logistic_regression_file = '../output/results_logistic_regression.csv'
@@ -11,12 +12,21 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 # random_forest_file = '../output/results_random_forest.csv'
 # svm_linear_file = '../output/results_svm_linear.csv'
 
+
 # Adults education-num files
 gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
 logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
 onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
 random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
 linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
+
+
+# Adults marital-status files
+# gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
+# logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
+# random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
+# linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
 
 
 def readResultsIntoHash(file_name):
@@ -76,14 +86,14 @@ def plotAnonymizationResults(results):
   rect = fig.patch
   rect.set_facecolor('white')
 
-  plt.title("F1 score dependent on anonymization, linear SVC")
+  plt.title("F1 score dependent on anonymization, random Forest")
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
   age_line, = plt.plot(age_line_f1, marker='^', linestyle='-', color='b', label="age preferred")
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  plt.axis([0, 5, 0.40, 1])
+  plt.axis([0, 5, 0.20, 0.87])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
@@ -196,7 +206,7 @@ def plotPerturbationResultsBottom3(results):
 
 
 if __name__ == "__main__":
-    results = readResultsIntoHash(linear_svc_file)
+    results = readResultsIntoHash(random_forest_file)
     plotAnonymizationResults(results)
     # plotPerturbationResultsTop3(results)
     # plotPerturbationResultsBottom3(results)
