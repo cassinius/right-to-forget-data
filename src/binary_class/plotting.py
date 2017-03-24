@@ -50,7 +50,7 @@ def readResultsIntoHash(file_name):
 
 
 def plotAnonymizationResults(results):
-  k_factors = ['03', '07', '11', '15', '19', '23', '27', '100']
+  k_factors = ['03', '07', '11', '15', '19', '23', '27', '31', '35', '100']
   equal_line_f1 = [results["adults_original_dataset.csv"]["f1"], ]
   age_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
   race_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
@@ -78,7 +78,7 @@ def plotAnonymizationResults(results):
   rect = fig.patch
   rect.set_facecolor('white')
 
-  title_algo = "Linear SVC"
+  title_algo = "Random Forest"
   plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
@@ -199,7 +199,7 @@ if __name__ == "__main__":
   algorithm = "random_forest"
   target = "education_num"
 
-  results = readResultsIntoHash(linear_svc_file)
+  results = readResultsIntoHash(random_forest_file)
   plotAnonymizationResults(results)
   # plotPerturbationResultsTop3(results)
   # plotPerturbationResultsBottom3(results)

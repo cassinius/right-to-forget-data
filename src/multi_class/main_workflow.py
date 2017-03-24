@@ -86,11 +86,11 @@ CONFIG_MARITAL = {
 
 
 ALGORITHMS = [
-    'linear_svc',
+    # 'linear_svc',
     # 'nn_keras',
     # 'logistic_regression',
     # 'gradient_boosting',
-    # 'random_forest'
+    'random_forest'
 ]
 
 config = CONFIG_EDUCATION
