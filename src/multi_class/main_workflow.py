@@ -87,10 +87,11 @@ CONFIG_MARITAL = {
 
 ALGORITHMS = [
     # 'linear_svc',
-    # 'nn_keras',
-    # 'logistic_regression',
+    'logistic_regression',
     # 'gradient_boosting',
-    'random_forest'
+    # 'random_forest',
+    # 'nn_keras', ## TOO SLOW...
+    # 'bagging_svc' ## WAY TOO SLOW...
 ]
 
 config = CONFIG_EDUCATION

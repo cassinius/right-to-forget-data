@@ -61,7 +61,7 @@ def runClassifier(input_file):
   # cls = linear_model.LogisticRegression()
 
   # LINEAR SVC
-  cls = svm.LinearSVC()
+  # cls = svm.LinearSVC()
 
   # SVC
   # Too bad results
@@ -76,7 +76,7 @@ def runClassifier(input_file):
 
 
   # GRADIENT BOOSTING
-  # cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
+  cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
 
   # RANDOM FOREST
   # cls = ensemble.RandomForestClassifier(n_estimators=100, criterion="gini", max_features=None, verbose=0)

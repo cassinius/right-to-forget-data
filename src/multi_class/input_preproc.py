@@ -22,6 +22,9 @@ def readFromDataset(input_file, input_cols, target_col):
         engine='python',
         na_values="?")
 
+    binary_data = pd.get_dummies(original_data)
+
+    print binary_data
 
     # Encode the categorical features as numbers
     def number_encode_features(df):
@@ -35,7 +38,7 @@ def readFromDataset(input_file, input_cols, target_col):
 
 
     # ENCODE FEATURES AS NUMBERS
-    encoded_data, encoders = number_encode_features(original_data)
+    encoded_data, encoders = number_encode_features(binary_data)
 
 
     if target_col == "education-num":
