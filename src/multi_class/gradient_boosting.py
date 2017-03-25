@@ -5,7 +5,11 @@ import calculate_metrics
 
 def runClassifier(X_train, X_test, y_train, y_test):
   # GRADIENT BOOSTING
-  cls = ensemble.GradientBoostingClassifier(learning_rate=0.1, max_depth=5, verbose=0)
+  cls = ensemble.GradientBoostingClassifier(
+    learning_rate=0.1,
+    max_depth=5,
+    verbose=0
+  )
 
   predictions = cls.fit(X_train, y_train).predict(X_test)
   precision, recall, f1 = calculate_metrics.calculateMetrics(predictions, y_test)

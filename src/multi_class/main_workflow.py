@@ -87,14 +87,14 @@ CONFIG_MARITAL = {
 
 ALGORITHMS = [
     # 'linear_svc',
-    'logistic_regression',
-    # 'gradient_boosting',
+    # 'logistic_regression',
+    'gradient_boosting',
     # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
 
-config = CONFIG_EDUCATION
+config = CONFIG_MARITAL
 
 
 def main_workflow():

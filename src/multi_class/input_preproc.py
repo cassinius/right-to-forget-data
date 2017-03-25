@@ -24,7 +24,11 @@ def readFromDataset(input_file, input_cols, target_col):
 
     binary_data = pd.get_dummies(original_data)
 
-    print binary_data
+    if target_col == "marital-status":
+      restoreMaritalStatus(original_data, binary_data)
+
+
+    # print binary_data
 
     # Encode the categorical features as numbers
     def number_encode_features(df):
@@ -66,6 +70,17 @@ def groupEducationLevels(encoded_data):
       encoded_data.loc[i, "education-num"] = 3
 
 
+def restoreMaritalStatus(original_data, binary_data):
+  del binary_data["marital-status_Divorced"]
+  del binary_data["marital-status_Married-AF-spouse"]
+  del binary_data["marital-status_Married-civ-spouse"]
+  del binary_data["marital-status_Married-spouse-absent"]
+  del binary_data["marital-status_Never-married"]
+  del binary_data["marital-status_Separated"]
+  del binary_data["marital-status_Widowed"]
+  binary_data["marital-status"] = original_data["marital-status"]
+
+
 if __name__ == "__main__":
     data = readFromDataset('../../data/adults_target_education_num/adults_anonymized_k03_equal.csv',
              [
@@ -87,4 +102,4 @@ if __name__ == "__main__":
              "education-num"
     )
 
-    print data["education-num"]
+    # print data["education-num"]

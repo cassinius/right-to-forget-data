@@ -35,4 +35,3 @@ if __name__ == "__main__":
     print "\n================================"
     print "Precision / Recall / F1 Score: "
     print("%.6f %.6f %.6f" % (precision, recall, f1))
-
