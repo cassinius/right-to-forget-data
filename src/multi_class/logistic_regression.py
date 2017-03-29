@@ -1,11 +1,11 @@
-from sklearn import ensemble
 import input_preproc
 import calculate_metrics
 import sklearn.linear_model as linear_model
 
 
 def runClassifier(X_train, X_test, y_train, y_test):
-  # LOGISTIC REGRESSION
+
+  # LOGISTIC REGRESSION Model
   cls = linear_model.LogisticRegression(
     class_weight="balanced", # default = None
     max_iter=1000, # default = 100
@@ -21,6 +21,14 @@ def runClassifier(X_train, X_test, y_train, y_test):
   print("%.6f %.6f %.6f" % (precision, recall, f1))
 
   return precision, recall, f1
+
+
+# def showMostCriticalColumns():
+#   coefs = pd.Series(cls.coef_[0], index=X_train.columns)
+#   coefs.sort_values(inplace=True)
+#   ax = plt.subplot(2, 1, 1)
+#   coefs.plot(kind="bar", rot=90)
+#   plt.show()
 
 
 if __name__ == "__main__":

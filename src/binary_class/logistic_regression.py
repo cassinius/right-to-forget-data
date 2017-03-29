@@ -154,6 +154,8 @@ def runLogisticRegression(input_file):
       binary_data[binary_data.columns.difference(["income"])],
       binary_data["income"], train_size=0.80)
 
+
+  # Scale attribute ranges
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
   X_test = scaler.transform(X_test)

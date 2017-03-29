@@ -30,11 +30,13 @@ What is happening where?
 
 
 import os, csv, glob
+import pandas as pd
 import numpy as np
 import importlib
 import input_preproc
 import sklearn.cross_validation as cross_validation
 from sklearn.model_selection import KFold
+import sklearn.preprocessing as preprocessing
 
 
 CROSS_VALIDATION_K = 10
@@ -137,6 +139,10 @@ def main_workflow():
                     # print "test_index: " + str(test_index)
                     X_train, y_train = X[train_index], y[train_index]
                     X_test, y_test = X[test_index], y[test_index]
+
+                    scaler = preprocessing.StandardScaler()
+                    X_train = pd.DataFrame(scaler.fit_transform(X_train))  # , columns=X_train.columns)
+                    X_test = scaler.transform(X_test)
 
                     precision, recall, f1_score = algorithm.runClassifier(X_train, X_test, y_train, y_test)
                     precisions.append(precision)

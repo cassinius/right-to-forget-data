@@ -78,7 +78,7 @@ def plotAnonymizationResults(results):
   rect = fig.patch
   rect.set_facecolor('white')
 
-  title_algo = "Gradient Boosting"
+  title_algo = "Random Forest"
   plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
@@ -199,7 +199,7 @@ if __name__ == "__main__":
   algorithm = "random_forest"
   target = "education_num"
 
-  results = readResultsIntoHash(gradient_boost_file)
+  results = readResultsIntoHash(random_forest_file)
   plotAnonymizationResults(results)
   # plotPerturbationResultsTop3(results)
   # plotPerturbationResultsBottom3(results)
