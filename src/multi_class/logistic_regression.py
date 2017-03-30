@@ -9,7 +9,7 @@ def runClassifier(X_train, X_test, y_train, y_test):
   cls = linear_model.LogisticRegression(
     class_weight="balanced", # default = None
     max_iter=1000, # default = 100
-    solver="liblinear", # default = liblinear (can only handle on-vs-rest)
+    solver="lbfgs", # default = liblinear (can only handle on-vs-rest)
     multi_class="ovr",
     n_jobs=-1
   )
