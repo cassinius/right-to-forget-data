@@ -79,6 +79,7 @@ def plotAnonymizationResults(results):
   rect.set_facecolor('white')
 
   title_algo = "Gradient Boosting"
+  
   plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
