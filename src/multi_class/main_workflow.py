@@ -96,7 +96,7 @@ ALGORITHMS = [
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
 
-config = CONFIG_MARITAL
+config = CONFIG_EDUCATION
 
 
 def main_workflow():
@@ -161,3 +161,4 @@ def main_workflow():
 
 if __name__ == "__main__":
   main_workflow()
+

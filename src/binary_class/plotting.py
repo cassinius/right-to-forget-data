@@ -13,19 +13,19 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 # Adults education-num files
-# gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
-# logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
-# random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
-# linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
+gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
+logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
+onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
+random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
+linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
 
 
 # Adults marital-status files
-gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
-logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
-onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
-random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
-linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
+# gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
+# logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
+# random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
+# linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
 
 
 
@@ -79,6 +79,7 @@ def plotAnonymizationResults(results):
   rect.set_facecolor('white')
 
   title_algo = "Random Forest"
+
   plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
