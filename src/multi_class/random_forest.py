@@ -6,7 +6,7 @@ import calculate_metrics
 
 def runClassifier(X_train, X_test, y_train, y_test):
     # print y_train
-    cls = ensemble.RandomForestClassifier(n_estimators=10,
+    cls = ensemble.RandomForestClassifier(n_estimators=500,
                                           criterion="gini",
                                           max_features=None,
                                           verbose=0)
