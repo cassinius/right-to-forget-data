@@ -17,11 +17,19 @@
 
 **most negative indicators:**
 
+1. Numerical 
 -) age
 -) hours-per-week
 -) education-num
 
+2. Categorical
+-) relationship_Husband
+-) sex_Male
+
 **most positive indicators:**
 
--) native-country_Mexico
--) age
+1. Categorical
+
+-) sex_Female
+-) relationship_Unmarried
+-) relationship_Not-in-family
