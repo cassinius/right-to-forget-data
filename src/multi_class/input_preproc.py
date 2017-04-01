@@ -27,7 +27,6 @@ def readFromDataset(input_file, input_cols, target_col):
     if target_col == "marital-status":
       restoreMaritalStatus(original_data, binary_data)
 
-
     # print binary_data
 
     # Encode the categorical features as numbers
@@ -44,11 +43,19 @@ def readFromDataset(input_file, input_cols, target_col):
     # ENCODE FEATURES AS NUMBERS
     encoded_data, encoders = number_encode_features(binary_data)
 
+    # print encoded_data
+    # print encoders
+
 
     if target_col == "education-num":
-      groupEducationLevels(encoded_data)
+      groupEducationLevels(binary_data)
+      # groupEducationLevels(encoded_data)
 
-    return encoded_data
+
+    # print binary_data
+    # print encoded_data
+
+    return binary_data
 
 
 '''
@@ -82,7 +89,7 @@ def restoreMaritalStatus(original_data, binary_data):
 
 
 if __name__ == "__main__":
-    data = readFromDataset('../../data/adults_target_education_num/adults_anonymized_k03_equal.csv',
+    data = readFromDataset('../../data/adults_target_education_num/adults_original_dataset.csv',
              [
                  "age",
                  "fnlwgt",
@@ -101,5 +108,7 @@ if __name__ == "__main__":
              ],
              "education-num"
     )
+
+    # print data
 
     # print data["education-num"]

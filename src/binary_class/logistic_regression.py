@@ -18,7 +18,7 @@ import math
 import os, csv, glob
 
 
-INPUT_CSV = '../../data/adults_target_income/'
+INPUT_CSV = '../../data/adults_target_education_num/'
 OUTPUT_CSV = '../../output/adults_target_income/'
 
 input_cols = [
@@ -199,7 +199,7 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 def computeOriginalData():
   # print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
-  print runLogisticRegression(INPUT_CSV + "adults_anonymized_k19_emph_age.csv")
+  print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
 
 
 def computeAllResults():

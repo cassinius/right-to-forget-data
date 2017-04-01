@@ -4,28 +4,29 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
+
 # Adults income files
-# gradient_boost_file = '../output/results_gradient_boosting.csv'
-# logistic_regression_file = '../output/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../output/results_onevsrest_bagging.csv'
-# random_forest_file = '../output/results_random_forest.csv'
-# svm_linear_file = '../output/results_svm_linear.csv'
+# gradient_boost_file = '../../output/anonymization/results_gradient_boosting.csv'
+# logistic_regression_file = '../../output/anonymization/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../../output/anonymization/results_onevsrest_bagging.csv'
+# random_forest_file = '../../output/anonymization/results_random_forest.csv'
+# svm_linear_file = '../../output/anonymization/results_svm_linear.csv'
 
 
 # Adults education-num files
-gradient_boost_file = '../../output/adults_target_education_num/results_gradient_boosting.csv'
-logistic_regression_file = '../../output/adults_target_education_num/results_logistic_regression.csv'
-onevsrest_bagging_file = '../../output/adults_target_education_num/results_onevsrest_bagging.csv'
-random_forest_file = '../../output/adults_target_education_num/results_random_forest.csv'
-linear_svc_file = '../../output/adults_target_education_num/results_linear_svc.csv'
+gradient_boost_file = '../../output/anonymization/adults_target_education_num/results_gradient_boosting.csv'
+logistic_regression_file = '../../output/anonymization/adults_target_education_num/results_logistic_regression.csv'
+onevsrest_bagging_file = '../../output/anonymization/adults_target_education_num/results_onevsrest_bagging.csv'
+random_forest_file = '../../output/anonymization/adults_target_education_num/results_random_forest.csv'
+linear_svc_file = '../../output/anonymization/adults_target_education_num/results_linear_svc.csv'
 
 
 # Adults marital-status files
-# gradient_boost_file = '../../output/adults_target_marital_status/results_gradient_boosting.csv'
-# logistic_regression_file = '../../output/adults_target_marital_status/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../../output/adults_target_marital_status/results_onevsrest_bagging.csv'
-# random_forest_file = '../../output/adults_target_marital_status/results_random_forest.csv'
-# linear_svc_file = '../../output/adults_target_marital_status/results_linear_svc.csv'
+# gradient_boost_file = '../../output/anonymization/adults_target_marital_status/results_gradient_boosting.csv'
+# logistic_regression_file = '../../output/anonymization/adults_target_marital_status/results_logistic_regression.csv'
+# onevsrest_bagging_file = '../../output/anonymization/adults_target_marital_status/results_onevsrest_bagging.csv'
+# random_forest_file = '../../output/anonymization/adults_target_marital_status/results_random_forest.csv'
+# linear_svc_file = '../../output/anonymization/adults_target_marital_status/results_linear_svc.csv'
 
 
 

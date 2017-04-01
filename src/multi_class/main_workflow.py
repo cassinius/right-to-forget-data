@@ -42,8 +42,8 @@ import sklearn.preprocessing as preprocessing
 CROSS_VALIDATION_K = 10
 
 CONFIG_EDUCATION = {
-    'TARGET': "../../data/adults_target_education_num/",
-    'OUTPUT': "../../output/adults_target_education_num/",
+    'TARGET': "../../data/anonymization/adults_target_education_num/",
+    'OUTPUT': "../../output/anonymization/adults_target_education_num/",
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -65,8 +65,8 @@ CONFIG_EDUCATION = {
 
 
 CONFIG_MARITAL = {
-    'TARGET': "../../data/adults_target_marital_status/",
-    'OUTPUT': "../../output/adults_target_marital_status/",
+    'TARGET': "../../data/anonymization/adults_target_marital_status/",
+    'OUTPUT': "../../output/anonymization/adults_target_marital_status/",
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -89,14 +89,14 @@ CONFIG_MARITAL = {
 
 ALGORITHMS = [
     # 'linear_svc',
-    # 'logistic_regression',
+    'logistic_regression',
     # 'gradient_boosting',
-    'random_forest',
+    # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
 
-config = CONFIG_EDUCATION
+config = CONFIG_MARITAL
 
 
 def main_workflow():
