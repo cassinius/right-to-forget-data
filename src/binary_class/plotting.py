@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 MODE = 'perturbation'
 
 
-# TARGET = 'education_num'
-TARGET = 'marital_status'
+TARGET = 'education_num'
+# TARGET = 'marital_status'
 
 
 # Input files
@@ -18,7 +18,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['random_forest']
+ALGO = ALGORITHMS['linear_svc']
 
 
 # Perturbation Dataset names
@@ -28,6 +28,16 @@ marital_status_perturbation_files = [
   'relationship_Unmarried',
   'sex_Female',
   'sex_Male'
+]
+
+education_status_perturbation_files = [
+  'income_>50K',
+  'marital-status_Divorced',
+  'native-country_Mexico',
+  'native-country_United-States',
+  'occupation_Adm-clerical',
+  'occupation_Farming-fishing',
+  'occupation_Priv-house-serv'
 ]
 
 
@@ -112,9 +122,9 @@ def plotPerturbationResults(results, perturbation_files):
 
   lines = {}
 
-  markers = ['o', '^', 'D', 'x', 'v', 'p' ]
+  markers = ['o', '^', 'D', 'x', 'v', 'p', 'H' ]
   linestyles = ['-', '--', '-.', '-.-', '.-.', ':']
-  colors = ['r', 'g', 'b', 'c', 'm', 'k']
+  colors = ['r', 'g', 'b', 'c', 'm', 'k', 'y']
 
   min_score = float('inf')
   max_score = float('-inf')
@@ -122,7 +132,7 @@ def plotPerturbationResults(results, perturbation_files):
 
   for file in perturbation_files:
     line = [
-      results["original_dataset.csv"]["f1"]
+      results["adults_original_dataset.csv"]["f1"]
     ]
     for fraction in ['0.2', '0.4', '0.6', '0.8', '1']:
       entry = "adults_" + file + "_" + fraction + ".csv"
@@ -179,6 +189,7 @@ if __name__ == "__main__":
   if MODE == 'anonymization':
     plotAnonymizationResults(results)
   elif MODE == 'perturbation':
-    plotPerturbationResults(results, marital_status_perturbation_files)
+    # plotPerturbationResults(results, marital_status_perturbation_files)
+    plotPerturbationResults(results, education_status_perturbation_files)
   else:
     print "This mode is not supported."
