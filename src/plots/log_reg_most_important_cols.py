@@ -4,9 +4,9 @@
 import pandas as pd
 import sklearn.linear_model as linear_model
 import sklearn.cross_validation as cross_validation
-import input_preproc
+import src.multi_class.input_preproc
 import matplotlib.pyplot as plt
-import calculate_metrics
+import src.multi_class.calculate_metrics
 from sklearn import ensemble
 
 
@@ -64,7 +64,7 @@ INPUT_CSV = config['TARGET'] + INPUT_FILE
 
 def runLogisticRegression(input_file):
 
-  encoded_data = input_preproc.readFromDataset(
+  encoded_data = src.multi_class.input_preproc.readFromDataset(
     input_file,
     config['INPUT_COLS'],
     config['TARGET_COL']
@@ -104,7 +104,7 @@ def runLogisticRegression(input_file):
   print "Most significant coefficients"
   print coefs_to_display
 
-  precision, recall, f1 = calculate_metrics.calculateMetrics(predictions, y_test)
+  precision, recall, f1 = src.multi_class.calculate_metrics.calculateMetrics(predictions, y_test)
   print "intermediary results (precision / recall / F1 Score):"
   print("%.6f %.6f %.6f" % (precision, recall, f1))
 
