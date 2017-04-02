@@ -1,33 +1,34 @@
 import csv
 import matplotlib.pyplot as plt
 
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
+# MODE = 'anonymization'
+MODE = 'perturbation'
 
 
-# Adults income files
-# gradient_boost_file = '../../output/anonymization/results_gradient_boosting.csv'
-# logistic_regression_file = '../../output/anonymization/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../../output/anonymization/results_onevsrest_bagging.csv'
-# random_forest_file = '../../output/anonymization/results_random_forest.csv'
-# svm_linear_file = '../../output/anonymization/results_svm_linear.csv'
+# TARGET = 'education_num'
+TARGET = 'marital_status'
 
 
-# Adults education-num files
-gradient_boost_file = '../../output/anonymization/adults_target_education_num/results_gradient_boosting.csv'
-logistic_regression_file = '../../output/anonymization/adults_target_education_num/results_logistic_regression.csv'
-onevsrest_bagging_file = '../../output/anonymization/adults_target_education_num/results_onevsrest_bagging.csv'
-random_forest_file = '../../output/anonymization/adults_target_education_num/results_random_forest.csv'
-linear_svc_file = '../../output/anonymization/adults_target_education_num/results_linear_svc.csv'
+# Input files
+ALGORITHMS = {
+  'gradient_boost': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_gradient_boosting.csv',
+  'logistic_regression': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_logistic_regression.csv',
+  'onevsrest_bagging': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_onevsrest_bagging.csv',
+  'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
+  'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
+}
+ALGO = ALGORITHMS['gradient_boost']
 
 
-# Adults marital-status files
-# gradient_boost_file = '../../output/anonymization/adults_target_marital_status/results_gradient_boosting.csv'
-# logistic_regression_file = '../../output/anonymization/adults_target_marital_status/results_logistic_regression.csv'
-# onevsrest_bagging_file = '../../output/anonymization/adults_target_marital_status/results_onevsrest_bagging.csv'
-# random_forest_file = '../../output/anonymization/adults_target_marital_status/results_random_forest.csv'
-# linear_svc_file = '../../output/anonymization/adults_target_marital_status/results_linear_svc.csv'
-
+# Perturbation Dataset names
+marital_status_perturbation_files = [
+  'relationship_Husband',
+  'relationship_Not-in-family',
+  'relationship_Unmarried',
+  'sex_Female',
+  'sex_Male'
+]
 
 
 def readResultsIntoHash(file_name):
@@ -48,6 +49,7 @@ def readResultsIntoHash(file_name):
 
   results_file.close()
   return results
+
 
 
 def plotAnonymizationResults(results):
@@ -79,14 +81,16 @@ def plotAnonymizationResults(results):
   rect = fig.patch
   rect.set_facecolor('white')
 
-  title_algo = "Random Forest"
-
-  plt.title("F1 score dependent on k-factor, %s" % (title_algo) )
+  plt.title("F1 score dependent on k-factor, %s" % (getAlgorithmName()) )
 
   equal_line, = plt.plot(equal_line_f1, marker='o', linestyle='-', color='r', label="equal weights")
   age_line, = plt.plot(age_line_f1, marker='^', linestyle='-', color='b', label="age preferred")
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
+
+  print equal_line
+  print age_line
+  print race_line
 
   plt.axis([0, 5, float(min_score), float(max_score)])
   plt.xticks(x, labels)
@@ -95,113 +99,86 @@ def plotAnonymizationResults(results):
   plt.show()
 
 
-def plotPerturbationResultsTop3(results):
-  capital_gain = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_capital-gain_2000_0.2.csv"]["f1"],
-    results["adults_capital-gain_2000_0.4.csv"]["f1"],
-    results["adults_capital-gain_2000_0.6.csv"]["f1"],
-    results["adults_capital-gain_2000_0.8.csv"]["f1"],
-    results["adults_capital-gain_2000_1.csv"]["f1"],
-  ]
-  education_num = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_education-num_10_0.2.csv"]["f1"],
-    results["adults_education-num_10_0.4.csv"]["f1"],
-    results["adults_education-num_10_0.6.csv"]["f1"],
-    results["adults_education-num_10_0.8.csv"]["f1"],
-    results["adults_education-num_10_1.csv"]["f1"]
-  ]
-  marital_status = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_marital-status_Married-civ-spouse_0.2.csv"]["f1"],
-    results["adults_marital-status_Married-civ-spouse_0.4.csv"]["f1"],
-    results["adults_marital-status_Married-civ-spouse_0.6.csv"]["f1"],
-    results["adults_marital-status_Married-civ-spouse_0.8.csv"]["f1"],
-    results["adults_marital-status_Married-civ-spouse_1.csv"]["f1"]
-  ]
+'''
+  We are always assuming:
+  1. an original dataset result
+  2. selectively deleted data ranging in amount from
+     20 - 100% of the data => so 6 data points per line
+'''
+def plotPerturbationResults(results, perturbation_files):
 
-  print capital_gain
-  print education_num
-  print marital_status
+  # print len(results)
+  # print perturbation_files
+
+  lines = {}
+
+  markers = ['o', '^', 'D', 'x', 'v', 'p' ]
+  linestyles = ['-', '--', '-.', '-.-', '.-.', ':']
+  colors = ['r', 'g', 'b', 'c', 'm', 'k']
+
+  min_score = float('inf')
+  max_score = float('-inf')
+
+
+  for file in perturbation_files:
+    line = [
+      results["original_dataset.csv"]["f1"]
+    ]
+    for fraction in ['0.2', '0.4', '0.6', '0.8', '1']:
+      entry = "adults_" + file + "_" + fraction + ".csv"
+      # print entry
+
+      f1 = float( results[entry]["f1"] )
+      min_score = f1 if f1 < min_score else min_score
+      max_score = f1 if f1 > max_score else max_score
+
+      line.append(f1)
+    # print line
+    lines[file] = line
+
+  # print lines
+  print "Max F1 Score: " + str(max_score)
+  print "Min F1 Score: " + str(min_score)
 
   x = [0, 1, 2, 3, 4, 5]
-  labels = ["0", "20%", "40%", "60%", "80%", "100%"]
+  x_labels = ["0", "20%", "40%", "60%", "80%", "100%"]
 
-  fig = plt.figure()
+  fig, ax = plt.subplots()
   rect = fig.patch
   rect.set_facecolor('white')
 
-  plt.title("F1 score dependent on perturbation, linear SVC")
+  plt.title("F1 score dependent on perturbation, " + getAlgorithmName())
 
-  capital_line, = plt.plot(capital_gain, marker='o', linestyle='-', color='r', label="Capital gain > 2k")
-  edunum_line, = plt.plot(education_num, marker='^', linestyle='-', color='b', label="Education num > 10")
-  marital_line, = plt.plot(marital_status, marker='D', linestyle='-', color='g', label="Marital status, civ spouse")
-  plt.legend(handles=[capital_line, edunum_line, marital_line], loc=3)
+  for idx, key in enumerate(lines):
+    line = lines[key]
+    plt.plot(line, marker=markers[idx], color=colors[idx], label=key)
 
-  plt.axis([0, 5, 0.39, 0.67])
-  plt.xticks(x, labels)
+  # Create a legend (Matplotlib madness...!!!)
+  handles, labels = ax.get_legend_handles_labels()
+  ax.legend(handles, labels)
+
+  plt.axis([0, 5, min_score, max_score])
+  plt.xticks(x, x_labels)
   plt.xlabel('degree of perturbation')
   plt.ylabel('F1 score')
   plt.show()
 
 
-def plotPerturbationResultsBottom3(results):
-  marital_status = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_marital-status_Never-married_0.2.csv"]["f1"],
-    results["adults_marital-status_Never-married_0.4.csv"]["f1"],
-    results["adults_marital-status_Never-married_0.6.csv"]["f1"],
-    results["adults_marital-status_Never-married_0.8.csv"]["f1"],
-    results["adults_marital-status_Never-married_1.csv"]["f1"]
-  ]
-  occupation = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_occupation_Other-service_0.2.csv"]["f1"],
-    results["adults_occupation_Other-service_0.4.csv"]["f1"],
-    results["adults_occupation_Other-service_0.6.csv"]["f1"],
-    results["adults_occupation_Other-service_0.8.csv"]["f1"],
-    results["adults_occupation_Other-service_1.csv"]["f1"]
-  ]
-  relationship = [
-    results["adults_original_dataset.csv"]["f1"],
-    results["adults_relationship_Own-child_0.2.csv"]["f1"],
-    results["adults_relationship_Own-child_0.4.csv"]["f1"],
-    results["adults_relationship_Own-child_0.6.csv"]["f1"],
-    results["adults_relationship_Own-child_0.8.csv"]["f1"],
-    results["adults_relationship_Own-child_1.csv"]["f1"]
-  ]
-
-  print marital_status
-  print occupation
-  print relationship
-
-  x = [0, 1, 2, 3, 4, 5]
-  labels = ["0", "20%", "40%", "60%", "80%", "100%"]
-
-  fig = plt.figure()
-  rect = fig.patch
-  rect.set_facecolor('white')
-
-  plt.title("F1 score dependent on perturbation, gradient boost")
-
-  capital_line, = plt.plot(marital_status, marker='o', linestyle='-', color='r', label="Never married")
-  edunum_line, = plt.plot(occupation, marker='^', linestyle='-', color='b', label="Other service job")
-  marital_line, = plt.plot(relationship, marker='D', linestyle='-', color='g', label="Own child")
-  plt.legend(handles=[capital_line, edunum_line, marital_line], loc=2)
-
-  plt.axis([0, 5, 0.70, 0.72])
-  plt.xticks(x, labels)
-  plt.xlabel('degree of perturbation')
-  plt.ylabel('F1 score')
-  plt.show()
+def getAlgorithmName():
+  title_algo = ALGO.split('/')
+  title_algo = title_algo[len(title_algo)-1]
+  title_algo = title_algo.split('.')[0]
+  title_algo = title_algo.split('_')[1:]
+  title_algo = ' '.join(title_algo).title()
+  # title_algo[1] = "SVC" if title_algo[1] == "Svc" else title_algo[1]
+  return title_algo
 
 
 if __name__ == "__main__":
-  algorithm = "random_forest"
-  target = "education_num"
-
-  results = readResultsIntoHash(random_forest_file)
-  plotAnonymizationResults(results)
-  # plotPerturbationResultsTop3(results)
-  # plotPerturbationResultsBottom3(results)
+  results = readResultsIntoHash(ALGO)
+  if MODE == 'anonymization':
+    plotAnonymizationResults(results)
+  elif MODE == 'perturbation':
+    plotPerturbationResults(results, marital_status_perturbation_files)
+  else:
+    print "This mode is not supported."

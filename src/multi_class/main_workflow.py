@@ -91,7 +91,7 @@ CONFIG_MARITAL = {
 
 
 ALGORITHMS = [
-    # 'linear_svc',
+    'linear_svc',
     'logistic_regression',
     'gradient_boosting',
     'random_forest',

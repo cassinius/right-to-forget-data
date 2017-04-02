@@ -4,31 +4,26 @@
 
 **most negative indicators:**
 
--) hours-per-week
 -) native-country_United-States
+-) occupation_Adm-clerical
+-) marital-status_Divorced
+-) income_>50K
 
 **most positive indicators:**
 
 -) native-country_Mexico
--) age
+-) occupation_Priv-house-serv
+-) occupation_Farming-fishing
 
 
 ### Anonymization - multi-class-classification - Marital Status
 
 **most negative indicators:**
 
-1. Numerical 
--) age
--) hours-per-week
--) education-num
-
-2. Categorical
 -) relationship_Husband
 -) sex_Male
 
 **most positive indicators:**
-
-1. Categorical
 
 -) sex_Female
 -) relationship_Unmarried
