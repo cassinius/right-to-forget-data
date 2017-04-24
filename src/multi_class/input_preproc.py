@@ -22,26 +22,28 @@ def readFromDataset(input_file, input_cols, target_col):
         engine='python',
         na_values="?")
 
+
     binary_data = pd.get_dummies(original_data)
+
+    # Useful for random forest anonymization?
+    # binary_data.drop_duplicates(inplace=True)
 
     if target_col == "marital-status":
       restoreMaritalStatus(original_data, binary_data)
 
-    # print binary_data
-
     # Encode the categorical features as numbers
-    def number_encode_features(df):
-        result = df.copy()
-        encoders = {}
-        for column in result.columns:
-            if result.dtypes[column] == np.object:
-                encoders[column] = preprocessing.LabelEncoder()
-                result[column] = encoders[column].fit_transform(result[column])
-        return result, encoders
+    # def number_encode_features(df):
+    #     result = df.copy()
+    #     encoders = {}
+    #     for column in result.columns:
+    #         if result.dtypes[column] == np.object:
+    #             encoders[column] = preprocessing.LabelEncoder()
+    #             result[column] = encoders[column].fit_transform(result[column])
+    #     return result, encoders
 
 
     # ENCODE FEATURES AS NUMBERS
-    encoded_data, encoders = number_encode_features(binary_data)
+    # encoded_data, encoders = number_encode_features(binary_data)
 
     # print encoded_data
     # print encoders
@@ -51,8 +53,7 @@ def readFromDataset(input_file, input_cols, target_col):
       groupEducationLevels(binary_data)
       # groupEducationLevels(encoded_data)
 
-
-    # print binary_data
+    print binary_data
     # print encoded_data
 
     return binary_data
@@ -65,16 +66,16 @@ def readFromDataset(input_file, input_cols, target_col):
     2 = Some college up to bachelors
     3 = Advanced studies
 '''
-def groupEducationLevels(encoded_data):
-  for i, row in encoded_data.iterrows():
+def groupEducationLevels(data):
+  for i, row in data.iterrows():
     if row["education-num"] < 3:
-      encoded_data.loc[i, "education-num"] = 0
+      data.loc[i, "education-num"] = 0
     elif row["education-num"] < 10:
-      encoded_data.loc[i, "education-num"] = 1
+      data.loc[i, "education-num"] = 1
     elif row["education-num"] < 14:
-      encoded_data.loc[i, "education-num"] = 2
+      data.loc[i, "education-num"] = 2
     else:
-      encoded_data.loc[i, "education-num"] = 3
+      data.loc[i, "education-num"] = 3
 
 
 def restoreMaritalStatus(original_data, binary_data):
