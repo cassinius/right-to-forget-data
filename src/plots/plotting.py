@@ -2,12 +2,12 @@ import csv
 import matplotlib.pyplot as plt
 
 
-# MODE = 'anonymization'
-MODE = 'perturbation'
+MODE = 'anonymization'
+# MODE = 'perturbation'
 
 
-TARGET = 'education_num'
-# TARGET = 'marital_status'
+# TARGET = 'education_num'
+TARGET = 'marital_status'
 
 
 # Input files
@@ -18,7 +18,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['linear_svc']
+ALGO = ALGORITHMS['random_forest']
 
 
 # Perturbation Dataset names
@@ -189,7 +189,7 @@ if __name__ == "__main__":
   if MODE == 'anonymization':
     plotAnonymizationResults(results)
   elif MODE == 'perturbation':
-    # plotPerturbationResults(results, marital_status_perturbation_files)
-    plotPerturbationResults(results, education_status_perturbation_files)
+    plotPerturbationResults(results, marital_status_perturbation_files)
+    # plotPerturbationResults(results, education_status_perturbation_files)
   else:
     print "This mode is not supported."

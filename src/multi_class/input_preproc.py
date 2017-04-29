@@ -25,8 +25,12 @@ def readFromDataset(input_file, input_cols, target_col):
 
     binary_data = pd.get_dummies(original_data)
 
+
     # Useful for random forest anonymization?
     # binary_data.drop_duplicates(inplace=True)
+
+    # Shuffle data randomly
+    # binary_data = binary_data.sample(frac=1).reset_index(drop=True)
 
     if target_col == "marital-status":
       restoreMaritalStatus(original_data, binary_data)
