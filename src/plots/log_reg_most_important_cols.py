@@ -58,7 +58,7 @@ CONFIG_MARITAL = {
     'TARGET_COL': "marital-status"
 }
 
-config = CONFIG_MARITAL
+config = CONFIG_EDUCATION
 
 INPUT_FILE = "adults_original_dataset.csv"
 

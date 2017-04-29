@@ -1,0 +1,49 @@
+# The most important columns for multi-classification
+# EDUCATION NUM (grouped)
+
+workclass_Federal-gov               -0.858594
+relationship_Husband                -0.849525
+occupation_Tech-support             -0.797547
+marital-status_Divorced             -0.719755
+capital-gain                        -0.403822
+relationship_Not-in-family           0.516304
+relationship_Own-child               0.545740
+native-country_Mexico                0.558986
+marital-status_Married-civ-spouse    0.794741
+age                                  1.135053
+
+
+workclass_Federal-gov               -0.858051
+relationship_Husband                -0.849369
+occupation_Tech-support             -0.796906
+marital-status_Divorced             -0.720077
+capital-gain                        -0.414613
+relationship_Not-in-family           0.515273
+relationship_Own-child               0.546142
+native-country_Mexico                0.559752
+marital-status_Married-civ-spouse    0.794926
+age                                  1.134118
+
+
+workclass_Federal-gov               -0.858828
+relationship_Husband                -0.847419
+occupation_Tech-support             -0.797285
+marital-status_Divorced             -0.716792
+capital-gain                        -0.593263
+relationship_Not-in-family           0.513370
+relationship_Own-child               0.542576
+native-country_Mexico                0.559893
+marital-status_Married-civ-spouse    0.790068
+age                                  1.137698
+
+
+workclass_Federal-gov               -0.852232
+relationship_Husband                -0.849259
+occupation_Tech-support             -0.797874
+marital-status_Divorced             -0.715520
+capital-gain                        -0.397779
+relationship_Not-in-family           0.515948
+relationship_Own-child               0.544933
+native-country_Mexico                0.559164
+marital-status_Married-civ-spouse    0.792554
+age                                  1.134124
