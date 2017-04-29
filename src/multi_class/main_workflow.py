@@ -41,8 +41,8 @@ import sklearn.preprocessing as preprocessing
 
 CROSS_VALIDATION_K = 10
 
-MODE = 'anonymization'
-# MODE = 'perturbation'
+# MODE = 'anonymization'
+MODE = 'perturbation'
 
 CONFIG_EDUCATION = {
     'TARGET': "../../data/" + MODE + "/adults_target_education_num/",
@@ -92,9 +92,9 @@ CONFIG_MARITAL = {
 
 ALGORITHMS = [
     # 'linear_svc',
-    # 'logistic_regression',
+    'logistic_regression',
     # 'gradient_boosting',
-    'random_forest',
+    # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
