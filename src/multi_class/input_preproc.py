@@ -57,7 +57,7 @@ def readFromDataset(input_file, input_cols, target_col):
       groupEducationLevels(binary_data)
       # groupEducationLevels(encoded_data)
 
-    print binary_data
+    # print binary_data
     # print encoded_data
 
     return binary_data

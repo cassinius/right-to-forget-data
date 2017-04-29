@@ -7,8 +7,11 @@ import sklearn.cross_validation as cross_validation
 import src.multi_class.input_preproc
 import matplotlib.pyplot as plt
 import src.multi_class.calculate_metrics
-from sklearn import ensemble
+import sklearn.preprocessing as preprocessing
+import numpy as np
+from sklearn.model_selection import KFold
 
+CROSS_VALIDATION_K = 10
 
 CONFIG_EDUCATION = {
     'TARGET': "../../data/anonymization/adults_target_education_num/",
@@ -74,22 +77,45 @@ def runLogisticRegression(input_file):
   cls = linear_model.LogisticRegression(
     class_weight="balanced",  # default = None
     max_iter=1000,  # default = 100
-    solver="liblinear",  # default = liblinear (can only handle on-vs-rest)
+    solver="liblinear",  # default = liblinear (can only handle one-vs-rest)
     multi_class="ovr",
     n_jobs=-1
   )
 
+  # Split into predictors and target
+  X = np.array(encoded_data[encoded_data.columns.difference([config['TARGET_COL']])])
+  y = np.array(encoded_data[config['TARGET_COL']])
+  kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
 
   training_columns = encoded_data.columns.difference([config['TARGET_COL']])
 
-  # DIVIDE THE DATASET INTO TRAIN AND TEST SETS
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(
-      encoded_data[training_columns],
-      encoded_data[config['TARGET_COL']], train_size=0.80)
+  X = np.array(encoded_data[encoded_data.columns.difference([config['TARGET_COL']])])
+  y = np.array(encoded_data[config['TARGET_COL']])
+  kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
 
-  predictions = cls.fit(X_train, y_train).predict(X_test)
+  cls_coefs_sum = np.zeros(len(encoded_data.columns)-1)
+  # print len(cls_coefs_sum)
+  idx = 1
 
-  coefs = pd.Series(cls.coef_[0], index=training_columns)
+  for train_index, test_index in kf.split(X):
+    X_train, y_train = X[train_index], y[train_index]
+    X_test, y_test = X[test_index], y[test_index]
+
+    scaler = preprocessing.StandardScaler()
+    X_train = pd.DataFrame(scaler.fit_transform(X_train))  # , columns=X_train.columns)
+    X_test = scaler.transform(X_test)
+
+    # Calculate coefficients...
+    cls.fit(X_train, y_train)
+
+    # Sum up the coefs
+    # print len(cls.coef_[0])
+    cls_coefs_sum += cls.coef_[0]
+    print("Finished iteration: %d" %(idx))
+    idx += 1
+
+
+  coefs = pd.Series(cls_coefs_sum / CROSS_VALIDATION_K, index=training_columns)
   coefs.sort_values(inplace=True)
 
   bottom_5_coefs = coefs[:5]
@@ -104,9 +130,9 @@ def runLogisticRegression(input_file):
   print "Most significant coefficients"
   print coefs_to_display
 
-  precision, recall, f1 = src.multi_class.calculate_metrics.calculateMetrics(predictions, y_test)
-  print "intermediary results (precision / recall / F1 Score):"
-  print("%.6f %.6f %.6f" % (precision, recall, f1))
+  # precision, recall, f1 = src.multi_class.calculate_metrics.calculateMetrics(predictions, y_test)
+  # print "intermediary results (precision / recall / F1 Score):"
+  # print("%.6f %.6f %.6f" % (precision, recall, f1))
 
   # fig = plt.figure()
   fig, ax = plt.subplots()

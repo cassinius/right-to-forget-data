@@ -1,0 +1,46 @@
+relationship_Husband		  -2.311444
+relationship_Wife             -0.906661
+native-country_Mexico         -0.161078
+workclass_Without-pay         -0.146447
+native-country_Cambodia       -0.127974
+relationship_Other-relative    0.407683
+age                            0.692364
+relationship_Own-child         0.790211
+relationship_Unmarried         1.232415
+relationship_Not-in-family     1.373511
+
+
+relationship_Husband          -2.311409
+relationship_Wife             -0.906818
+native-country_Mexico         -0.161317
+workclass_Without-pay         -0.146454
+native-country_Cambodia       -0.128002
+relationship_Other-relative    0.407730
+age                            0.692294
+relationship_Own-child         0.790209
+relationship_Unmarried         1.232395
+relationship_Not-in-family     1.373534
+
+
+relationship_Husband          -2.311448
+relationship_Wife             -0.906813
+native-country_Mexico         -0.161078
+workclass_Without-pay         -0.146423
+native-country_Cambodia       -0.128175
+relationship_Other-relative    0.407604
+age                            0.692280
+relationship_Own-child         0.790168
+relationship_Unmarried         1.232371
+relationship_Not-in-family     1.373657
+
+
+relationship_Husband          -2.311338
+relationship_Wife             -0.906743
+native-country_Mexico         -0.161243
+workclass_Without-pay         -0.146442
+native-country_Cambodia       -0.127798
+relationship_Other-relative    0.407798
+age                            0.692183
+relationship_Own-child         0.790141
+relationship_Unmarried         1.232302
+relationship_Not-in-family     1.373523
