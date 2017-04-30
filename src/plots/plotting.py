@@ -18,7 +18,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['linear_svc']
+ALGO = ALGORITHMS['logistic_regression']
 
 
 # Perturbation Dataset names
