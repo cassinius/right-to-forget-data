@@ -32,7 +32,8 @@ CONFIG_EDUCATION = {
         "income",
         "education-num"
      ],
-    'TARGET_COL': "education-num"
+    'TARGET_COL': "education-num",
+    'TARGET_CLASSES': 4
 }
 
 
@@ -55,11 +56,12 @@ CONFIG_MARITAL = {
         "income",
         "marital-status"
      ],
-    'TARGET_COL': "marital-status"
+    'TARGET_COL': "marital-status",
+    'TARGET_CLASSES': 7
 }
 
-config = CONFIG_EDUCATION
-
+config = CONFIG_MARITAL
+classes = config['TARGET_CLASSES']
 INPUT_FILE = "adults_original_dataset.csv"
 
 INPUT_CSV = config['TARGET'] + INPUT_FILE
@@ -93,8 +95,12 @@ def runLogisticRegression(input_file):
   y = np.array(encoded_data[config['TARGET_COL']])
   kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
 
-  cls_coefs_sum = np.zeros(len(encoded_data.columns)-1)
-  # print len(cls_coefs_sum)
+  # We need to remember all logit coefficients per OVR classification,
+  # each of which has the length of all encoded columns minus the target col
+  cls_coefs_sum = []
+  for i in range(0, classes):
+    cls_coefs_sum.append( np.zeros(len(encoded_data.columns)-1) )
+
   idx = 1
 
   for train_index, test_index in kf.split(X):
@@ -108,41 +114,39 @@ def runLogisticRegression(input_file):
     # Calculate coefficients...
     cls.fit(X_train, y_train)
 
+    # It's the number of classes we input...!!!
+    # print("Length of COEFS: %d" %(len(cls.coef_)))
+
     # Sum up the coefs
     # print len(cls.coef_[0])
-    cls_coefs_sum += cls.coef_[0]
+    for i in range(0, classes):
+        cls_coefs_sum[i] += cls.coef_[i]
+
     print("Finished iteration: %d" %(idx))
     idx += 1
 
 
-  coefs = pd.Series(cls_coefs_sum / CROSS_VALIDATION_K, index=training_columns)
-  coefs.sort_values(inplace=True)
+  coefs = []
+  for i in range(0, classes):
+    coefs.append( pd.Series(cls_coefs_sum[i] / CROSS_VALIDATION_K, index=training_columns) )
+    coefs[i].sort_values(inplace=True)
 
-  bottom_5_coefs = coefs[:5]
-  # print "Least important columns:"
-  # print bottom_5_coefs
+    bottom_5_coefs = coefs[i][:5]
+    top_5_coefs = coefs[i][len(coefs[i])-5:]
 
-  top_5_coefs = coefs[len(coefs)-5:]
-  # print "Most important columns:"
-  # print top_5_coefs
+    coefs_to_display = pd.concat([bottom_5_coefs, top_5_coefs])
 
-  coefs_to_display = pd.concat([bottom_5_coefs, top_5_coefs])
-  print "Most significant coefficients"
-  print coefs_to_display
+    # print "Most significant coefficients"
+    print coefs_to_display
 
-  # precision, recall, f1 = src.multi_class.calculate_metrics.calculateMetrics(predictions, y_test)
-  # print "intermediary results (precision / recall / F1 Score):"
-  # print("%.6f %.6f %.6f" % (precision, recall, f1))
-
-  # fig = plt.figure()
-  fig, ax = plt.subplots()
-  rect = fig.patch
-  # rect.set_facecolor('white')
-  coefs_to_display.plot(kind="bar")
-  fig.tight_layout()
-  # fig.subplots_adjust(bottom=0.5)
-  plt.xticks(rotation=60)
-  plt.show()
+    # # fig = plt.figure()
+    # fig, ax = plt.subplots()
+    # # rect.set_facecolor('white')
+    # coefs_to_display.plot(kind="bar")
+    # fig.tight_layout()
+    # # fig.subplots_adjust(bottom=0.5)
+    # plt.xticks(rotation=60, ha='center')
+    # plt.show()
 
 
 def computeOriginalData():

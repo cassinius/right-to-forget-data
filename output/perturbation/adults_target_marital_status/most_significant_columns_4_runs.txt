@@ -1,49 +1,87 @@
 # The most important columns for multi-classification
 # MARITAL STATUS
 
-relationship_Husband		  -2.311444
-relationship_Wife             -0.906661
-native-country_Mexico         -0.161078
-workclass_Without-pay         -0.146447
-native-country_Cambodia       -0.127974
-relationship_Other-relative    0.407683
-age                            0.692364
-relationship_Own-child         0.790211
-relationship_Unmarried         1.232415
-relationship_Not-in-family     1.373511
+### Classes 1 - 7
+
+relationship_Husband          -2.311314
+relationship_Wife             -0.906771
+native-country_Mexico         -0.160728
+workclass_Without-pay         -0.146269
+native-country_Cambodia       -0.128033
+relationship_Other-relative    0.407718
+age                            0.692286
+relationship_Own-child         0.790145
+relationship_Unmarried         1.232381
+relationship_Not-in-family     1.373474
 
 
-relationship_Husband          -2.311409
-relationship_Wife             -0.906818
-native-country_Mexico         -0.161317
-workclass_Without-pay         -0.146454
-native-country_Cambodia       -0.128002
-relationship_Other-relative    0.407730
-age                            0.692294
-relationship_Own-child         0.790209
-relationship_Unmarried         1.232395
-relationship_Not-in-family     1.373534
+relationship_Not-in-family     -2.288521
+age                            -2.093333
+relationship_Unmarried         -1.676169
+sex_Male                       -1.415147
+workclass_Local-gov            -1.412694
+relationship_Wife               0.715000
+hours-per-week                  0.833501
+native-country_United-States    0.870208
+sex_Female                      1.415147
+relationship_Husband            3.062956
 
 
-relationship_Husband          -2.311448
-relationship_Wife             -0.906813
-native-country_Mexico         -0.161078
-workclass_Without-pay         -0.146423
-native-country_Cambodia       -0.128175
-relationship_Other-relative    0.407604
-age                            0.692280
-relationship_Own-child         0.790168
-relationship_Unmarried         1.232371
-relationship_Not-in-family     1.373657
+relationship_Not-in-family    -2.447886
+relationship_Unmarried        -1.975836
+relationship_Own-child        -1.013816
+workclass_Federal-gov         -0.259739
+relationship_Other-relative   -0.211775
+occupation_Exec-managerial     0.143216
+income_>50K                    0.177381
+age                            0.373569
+relationship_Wife              1.218538
+relationship_Husband           3.690056
 
 
-relationship_Husband          -2.311338
-relationship_Wife             -0.906743
-native-country_Mexico         -0.161243
-workclass_Without-pay         -0.146442
-native-country_Cambodia       -0.127798
-relationship_Other-relative    0.407798
-age                            0.692183
-relationship_Own-child         0.790141
-relationship_Unmarried         1.232302
-relationship_Not-in-family     1.373523
+relationship_Husband          -2.137492
+relationship_Wife             -0.855010
+native-country_England        -0.319086
+native-country_Taiwan         -0.201598
+native-country_Portugal       -0.199558
+age                            0.337967
+relationship_Other-relative    0.435639
+relationship_Own-child         0.840602
+relationship_Unmarried         1.034347
+relationship_Not-in-family     1.240453
+
+
+relationship_Husband          -2.327719
+age                           -1.558181
+relationship_Wife             -0.971731
+hours-per-week                -0.174418
+occupation_Craft-repair       -0.122670
+education-num                  0.302557
+relationship_Other-relative    0.488054
+relationship_Unmarried         0.564197
+relationship_Own-child         1.336289
+relationship_Not-in-family     1.420038
+
+
+relationship_Husband          -2.059485
+relationship_Wife             -0.840362
+native-country_Vietnam        -0.244740
+education-num                 -0.182046
+native-country_Ecuador        -0.181751
+age                            0.214437
+relationship_Other-relative    0.473254
+relationship_Own-child         0.708951
+relationship_Unmarried         1.112984
+relationship_Not-in-family     1.182371
+
+
+relationship_Husband          -2.035854
+relationship_Wife             -1.014301
+sex_Male                      -0.338990
+hours-per-week                -0.240890
+native-country_China          -0.238925
+relationship_Other-relative    0.455996
+relationship_Own-child         0.670967
+relationship_Unmarried         1.150031
+relationship_Not-in-family     1.251142
+age                            1.720858
