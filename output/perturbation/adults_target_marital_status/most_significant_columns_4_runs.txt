@@ -1,7 +1,7 @@
 # The most important columns for multi-classification
 # MARITAL STATUS
 
-### Classes 1 - 7
+## Classes 1 - 7
 
 relationship_Husband          -2.311314
 relationship_Wife             -0.906771

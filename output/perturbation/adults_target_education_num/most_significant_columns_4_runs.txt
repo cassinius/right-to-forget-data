@@ -1,49 +1,51 @@
 # The most important columns for multi-classification
 # EDUCATION NUM (grouped)
 
-workclass_Federal-gov               -0.858594
-relationship_Husband                -0.849525
-occupation_Tech-support             -0.797547
-marital-status_Divorced             -0.719755
-capital-gain                        -0.403822
-relationship_Not-in-family           0.516304
-relationship_Own-child               0.545740
-native-country_Mexico                0.558986
-marital-status_Married-civ-spouse    0.794741
-age                                  1.135053
+## Classes 1 - 4
+
+workclass_Federal-gov               -0.851621
+relationship_Husband                -0.845540
+occupation_Tech-support             -0.796750
+marital-status_Divorced             -0.716002
+capital-gain                        -0.621725
+relationship_Not-in-family           0.514154
+relationship_Own-child               0.542984
+native-country_Mexico                0.558347
+marital-status_Married-civ-spouse    0.789434
+age                                  1.135651
 
 
-workclass_Federal-gov               -0.858051
-relationship_Husband                -0.849369
-occupation_Tech-support             -0.796906
-marital-status_Divorced             -0.720077
-capital-gain                        -0.414613
-relationship_Not-in-family           0.515273
-relationship_Own-child               0.546142
-native-country_Mexico                0.559752
-marital-status_Married-civ-spouse    0.794926
-age                                  1.134118
+occupation_Prof-specialty      -0.713811
+occupation_Exec-managerial     -0.256453
+occupation_Tech-support        -0.177338
+income_>50K                    -0.174970
+relationship_Not-in-family     -0.105297
+occupation_Other-service        0.215482
+occupation_Handlers-cleaners    0.237443
+occupation_Craft-repair         0.288380
+occupation_Transport-moving     0.290571
+occupation_Machine-op-inspct    0.311398
 
 
-workclass_Federal-gov               -0.858828
-relationship_Husband                -0.847419
-occupation_Tech-support             -0.797285
-marital-status_Divorced             -0.716792
-capital-gain                        -0.593263
-relationship_Not-in-family           0.513370
-relationship_Own-child               0.542576
-native-country_Mexico                0.559893
-marital-status_Married-civ-spouse    0.790068
-age                                  1.137698
+occupation_Machine-op-inspct   -0.241406
+age                            -0.236718
+occupation_Transport-moving    -0.195452
+occupation_Handlers-cleaners   -0.184463
+occupation_Other-service       -0.141312
+occupation_Prof-specialty       0.107132
+occupation_Sales                0.133702
+occupation_Adm-clerical         0.137829
+occupation_Tech-support         0.211890
+occupation_Exec-managerial      0.231702
 
 
-workclass_Federal-gov               -0.852232
-relationship_Husband                -0.849259
-occupation_Tech-support             -0.797874
-marital-status_Divorced             -0.715520
-capital-gain                        -0.397779
-relationship_Not-in-family           0.515948
-relationship_Own-child               0.544933
-native-country_Mexico                0.559164
-marital-status_Married-civ-spouse    0.792554
-age                                  1.134124
+occupation_Craft-repair        -0.456299
+native-country_Puerto-Rico     -0.360937
+occupation_Machine-op-inspct   -0.360816
+occupation_Priv-house-serv     -0.354196
+occupation_Handlers-cleaners   -0.292093
+hours-per-week                  0.209946
+income_>50K                     0.237518
+age                             0.424861
+occupation_Exec-managerial      0.455513
+occupation_Prof-specialty       0.935808

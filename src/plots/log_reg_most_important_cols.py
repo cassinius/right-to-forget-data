@@ -60,7 +60,7 @@ CONFIG_MARITAL = {
     'TARGET_CLASSES': 7
 }
 
-config = CONFIG_MARITAL
+config = CONFIG_EDUCATION
 classes = config['TARGET_CLASSES']
 INPUT_FILE = "adults_original_dataset.csv"
 
