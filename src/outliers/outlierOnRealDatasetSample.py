@@ -14,6 +14,9 @@ from sklearn.datasets import load_boston
 X1 = load_boston()['data'][:, [8, 10]]  # two clusters
 X2 = load_boston()['data'][:, [5, 12]]  # "banana"-shaped
 
+print X1
+print X2
+
 # Define "classifiers" to be used
 classifiers = {
     "Empirical Covariance": EllipticEnvelope(support_fraction=1.,
@@ -44,6 +47,8 @@ for i, (clf_name, clf) in enumerate(classifiers.items()):
 
 legend1_values_list = list(legend1.values())
 legend1_keys_list = list(legend1.keys())
+
+
 
 # Plot the results (= shape of the data points cloud)
 plt.figure(1)  # two clusters
