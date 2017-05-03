@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 MODE = 'perturbation'
 
 
-TARGET = 'education_num'
-# TARGET = 'marital_status'
+# TARGET = 'education_num'
+TARGET = 'marital_status'
 
 
 # Input files
@@ -18,16 +18,17 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['logistic_regression']
+ALGO = ALGORITHMS['gradient_boost']
 
 
 # Perturbation Dataset names
 marital_status_perturbation_files = [
+  'age_0',
   'relationship_Husband',
   'relationship_Not-in-family',
   'relationship_Unmarried',
-  'sex_Female',
-  'sex_Male'
+  'relationship_Own-child',
+  'relationship_Wife'
 ]
 
 education_status_perturbation_files = [
@@ -131,7 +132,7 @@ def plotPerturbationResults(results, perturbation_files):
 
   for file in perturbation_files:
     line = [
-      results["adults_original_dataset.csv"]["f1"]
+      results["original_dataset.csv"]["f1"]
     ]
     for fraction in ['0.2', '0.4', '0.6', '0.8', '1']:
       entry = "adults_" + file + "_" + fraction + ".csv"
@@ -188,7 +189,7 @@ if __name__ == "__main__":
   if MODE == 'anonymization':
     plotAnonymizationResults(results)
   elif MODE == 'perturbation':
-    # plotPerturbationResults(results, marital_status_perturbation_files)
-    plotPerturbationResults(results, education_status_perturbation_files)
+    plotPerturbationResults(results, marital_status_perturbation_files)
+    # plotPerturbationResults(results, education_status_perturbation_files)
   else:
     print "This mode is not supported."
