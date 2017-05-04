@@ -32,32 +32,22 @@ def readFromDataset(input_file, input_cols, target_col):
     if target_col == "marital-status":
       restoreMaritalStatus(original_data, binary_data)
 
-    # Encode the categorical features as numbers
-    # def number_encode_features(df):
-    #     result = df.copy()
-    #     encoders = {}
-    #     for column in result.columns:
-    #         if result.dtypes[column] == np.object:
-    #             encoders[column] = preprocessing.LabelEncoder()
-    #             result[column] = encoders[column].fit_transform(result[column])
-    #     return result, encoders
-
-
-    # ENCODE FEATURES AS NUMBERS
-    # encoded_data, encoders = number_encode_features(binary_data)
-
-    # print encoded_data
-    # print encoders
-
 
     if target_col == "education-num":
       groupEducationLevels(binary_data)
       # groupEducationLevels(encoded_data)
 
-    # print binary_data
-    # print encoded_data
+
+    if target_col == "income":
+      restoreIncome(original_data, binary_data)
 
     return binary_data
+
+
+def restoreIncome(original_data, binary_data):
+      del binary_data["income_>50K"]
+      del binary_data["income_<=50K"]
+      binary_data["income"] = original_data["income"]
 
 
 '''
