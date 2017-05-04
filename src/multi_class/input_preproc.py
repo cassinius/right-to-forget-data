@@ -1,8 +1,6 @@
 from sklearn import datasets
 import sklearn.cross_validation as cross_validation
 import pandas as pd
-import numpy as np
-import sklearn.preprocessing as preprocessing
 
 
 def readIris():
@@ -10,6 +8,17 @@ def readIris():
     X, y = iris.data, iris.target
     # Return Train / Test split
     return cross_validation.train_test_split(X, y, train_size=0.80)
+
+
+def returnOriginalDataset(input_file, input_cols, target_col):
+    return pd.read_csv(
+        input_file,
+        names=input_cols,
+        header=0,
+        # index_col=0,
+        sep=r'\s*,\s*',
+        engine='python',
+        na_values="?")
 
 
 def readFromDataset(input_file, input_cols, target_col):
