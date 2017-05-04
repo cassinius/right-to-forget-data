@@ -25,8 +25,7 @@ INPUT_COLS = [
      ]
 TARGET_COL = "income"
 
-#TODO refactor to array [0.1, 0.2, 0.3, 0.4, 0.5] and adapt code below
-CONTAMINATION_LEVEL = 0.2
+CONTAMINATION_LEVELS = np.linspace(0.01, 0.1, 9)
 
 
 rng = np.random.RandomState(42)
@@ -52,37 +51,38 @@ rng = np.random.RandomState(42)
 # print y_pred_outliers
 
 
-clf = IsolationForest(n_estimators=100,
-                      max_samples='auto',
-                      contamination=0.05,
-                      # max_features=1,
-                      bootstrap=False,
-                      n_jobs=-1,
-                      random_state=rng)
-encoded_data = input_preproc.readFromDataset(
-    INPUT_FILE,
-    INPUT_COLS,
-    TARGET_COL
-)
+for contamination in CONTAMINATION_LEVELS:
+    clf = IsolationForest(n_estimators=100,
+                          max_samples='auto',
+                          contamination=contamination,
+                          # max_features=1,
+                          bootstrap=False,
+                          n_jobs=-1,
+                          random_state=rng)
+    encoded_data = input_preproc.readFromDataset(
+        INPUT_FILE,
+        INPUT_COLS,
+        TARGET_COL
+    )
 
-# Split into predictors and target
-X_adults = np.array( encoded_data[encoded_data.columns.difference([TARGET_COL])] )
-y_adults = np.array( encoded_data[TARGET_COL] )
+    # Split into predictors and target
+    X_adults = np.array( encoded_data[encoded_data.columns.difference([TARGET_COL])] )
+    y_adults = np.array( encoded_data[TARGET_COL] )
 
-clf.fit(X_adults)
-y_pred_adults = clf.predict(X_adults)
+    clf.fit(X_adults)
+    y_pred_adults = clf.predict(X_adults)
 
-# print type(y_pred_adults)
-# print len(y_pred_adults)
-# print y_pred_adults
+    # print type(y_pred_adults)
+    # print len(y_pred_adults)
+    # print y_pred_adults
 
-print "\n========================\n"
+    print "\n========================\n"
 
-indices = np.where(y_pred_adults == -1)[0]
-print("%d Outliers found, %s" %(len(indices), "at indices:"))
-print indices
+    indices = np.where(y_pred_adults == -1)[0]
+    print("%d Outliers found, %s" %(len(indices), "at indices:"))
+    print indices
 
-print "\n========================\n"
+    print "\n========================\n"
 
 
 # plot the line, the samples, and the nearest vectors to the plane
