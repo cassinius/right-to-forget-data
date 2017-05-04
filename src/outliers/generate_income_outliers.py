@@ -26,7 +26,7 @@ INPUT_COLS = [
      ]
 TARGET_COL = "income"
 
-CONTAMINATION_LEVELS = np.linspace(0.01, 0.21, 11)
+CONTAMINATION_LEVELS = np.linspace(0.1, 0.95, 18)
 
 rng = np.random.RandomState(42)
 
