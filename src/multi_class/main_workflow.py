@@ -45,6 +45,9 @@ CROSS_VALIDATION_K = 10
 # MODE = 'perturbation'
 MODE = 'outliers'
 
+# OUTLIER_TARGET = 'outliers/'
+OUTLIER_TARGET = 'random_comparison/'
+
 
 CONFIG_EDUCATION = {
     'TARGET': "../../data/" + MODE + "/adults_target_education_num/",
@@ -93,8 +96,8 @@ CONFIG_MARITAL = {
 
 
 CONFIG_INCOME = {
-    'TARGET': "../../data/" + MODE + "/income/",
-    'OUTPUT': "../../output/" + MODE + "/income/",
+    'TARGET': "../../data/" + MODE + "/income/" + OUTLIER_TARGET,
+    'OUTPUT': "../../output/" + MODE + "/income/" + OUTLIER_TARGET,
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -117,7 +120,7 @@ CONFIG_INCOME = {
 
 ALGORITHMS = [
     'linear_svc',
-    # 'logistic_regression',
+    'logistic_regression',
     'gradient_boosting',
     'random_forest',
     # 'nn_keras', ## TOO SLOW...
