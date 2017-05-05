@@ -41,12 +41,13 @@ import sklearn.preprocessing as preprocessing
 
 CROSS_VALIDATION_K = 10
 
-# MODE = 'anonymization'
+MODE = 'anonymization'
 # MODE = 'perturbation'
-MODE = 'outliers'
+# MODE = 'outliers'
 
 # OUTLIER_TARGET = 'outliers/'
-OUTLIER_TARGET = 'random_comparison/'
+# OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'original/'
 
 
 CONFIG_EDUCATION = {
@@ -96,8 +97,8 @@ CONFIG_MARITAL = {
 
 
 CONFIG_INCOME = {
-    'TARGET': "../../data/" + MODE + "/income/" + OUTLIER_TARGET,
-    'OUTPUT': "../../output/" + MODE + "/income/" + OUTLIER_TARGET,
+    'TARGET': "../../data/" + MODE + "/adults_target_income/" + OUTLIER_TARGET,
+    'OUTPUT': "../../output/" + MODE + "/adults_target_income/" + OUTLIER_TARGET,
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -119,10 +120,10 @@ CONFIG_INCOME = {
 
 
 ALGORITHMS = [
-    'linear_svc',
+    # 'linear_svc',
     'logistic_regression',
-    'gradient_boosting',
-    'random_forest',
+    # 'gradient_boosting',
+    # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
