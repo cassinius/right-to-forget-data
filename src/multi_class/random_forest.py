@@ -9,7 +9,8 @@ def runClassifier(X_train, X_test, y_train, y_test):
     cls = ensemble.RandomForestClassifier(n_estimators=100,
                                           criterion="gini",
                                           max_features=None,
-                                          verbose=0)
+                                          verbose=0,
+                                          n_jobs=-1)
 
     predictions = cls.fit(X_train, y_train).predict(X_test)
     precision, recall, f1 = calculate_metrics.calculateMetrics(predictions, y_test)
