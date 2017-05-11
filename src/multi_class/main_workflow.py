@@ -121,9 +121,9 @@ CONFIG_INCOME = {
 
 
 ALGORITHMS = [
-    # 'linear_svc',
+    'linear_svc',
     # 'logistic_regression',
-    'gradient_boosting',
+    # 'gradient_boosting',
     # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
