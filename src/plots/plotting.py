@@ -11,8 +11,8 @@ import plots_blur
 
 
 # MODE = 'anonymization'
-# MODE = 'perturbation'
-MODE = 'outliers'
+MODE = 'perturbation'
+# MODE = 'outliers'
 
 # OUTLIER_MODE = 'outliers'
 OUTLIER_MODE = 'random_comparison'
@@ -21,8 +21,8 @@ OUTLIER_MODE = 'random_comparison'
 OUTLIER_PREFIX = 'adults___'
 
 # TARGET = 'education_num'
-# TARGET = 'marital_status'
-TARGET = 'income'
+TARGET = 'marital_status'
+# TARGET = 'income'
 
 
 # Input files
@@ -33,7 +33,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['random_forest']
+ALGO = ALGORITHMS['logistic_regression']
 
 OUTLIERS_DIRECTORY = '../../output/outliers/adults_target_' + TARGET + '/' + OUTLIER_MODE
 OUTLIERS_ALGORITHMS = ['gradient_boosting', 'logistic_regression', 'random_forest', 'linear_svc']

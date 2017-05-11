@@ -45,6 +45,7 @@ MODE = 'anonymization'
 # MODE = 'perturbation'
 # MODE = 'outliers'
 
+# OUTLIER_TARGET = ''
 # OUTLIER_TARGET = 'outliers/'
 # OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
@@ -52,8 +53,8 @@ OUTLIER_TARGET = 'outliers_removed/'
 
 
 CONFIG_EDUCATION = {
-    'TARGET': "../../data/" + MODE + "/adults_target_education_num/",
-    'OUTPUT': "../../output/" + MODE + "/adults_target_education_num/",
+    'TARGET': "../../data/" + MODE + "/adults_target_education_num/" + OUTLIER_TARGET,
+    'OUTPUT': "../../output/" + MODE + "/adults_target_education_num/" + OUTLIER_TARGET,
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -121,8 +122,8 @@ CONFIG_INCOME = {
 
 
 ALGORITHMS = [
-    'linear_svc',
-    # 'logistic_regression',
+    # 'linear_svc',
+    'logistic_regression',
     # 'gradient_boosting',
     # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
@@ -154,7 +155,6 @@ def main_workflow():
                     config['INPUT_COLS'],
                     config['TARGET_COL']
                 )
-                # print y_test
 
                 print "Running algorithm: " + algo_str + " on: " + input_file
 
@@ -162,6 +162,9 @@ def main_workflow():
                 X = np.array( encoded_data[encoded_data.columns.difference([config['TARGET_COL']])] )
                 y = np.array( encoded_data[config['TARGET_COL']] )
                 kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
+
+                # We want to know the variance of the training data set only
+                print("INPUT DATA VARIANCE: %.2f" % (np.var(X)))
 
                 precisions = []
                 recalls = []
