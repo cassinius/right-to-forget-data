@@ -11,3 +11,16 @@ adults_anonymized_k15_emph_race.csv,0.64075508508134016,0.61293941457445134,0.62
 adults_anonymized_k15_equal.csv,0.7645165069030837,0.75209631996181625,0.75824648013713991
 adults_anonymized_k19_emph_age.csv,0.65540892803489259,0.61739169735009969,0.63574123159660123
 adults_anonymized_k19_emph_race.csv,0.64804590788781091,0.61260911908043014,0.629806210398283
+adults_anonymized_k19_equal.csv,0.760917,0.741440,0.751047
+adults_anonymized_k23_emph_age.csv,0.667640,0.621560,0.643763
+adults_anonymized_k23_emph_race.csv,0.662546,0.617298,0.639091
+adults_anonymized_k23_equal.csv,0.763158,0.742290,0.752567
+adults_anonymized_k27_emph_age.csv,0.682053,0.629755,0.654847
+adults_anonymized_k27_emph_race.csv,0.680303,0.624971,0.651441
+adults_anonymized_k27_equal.csv,0.760772,0.736181,0.748265
+adults_anonymized_k31_emph_age.csv,0.677723,0.620424,0.647769
+adults_anonymized_k31_emph_race.csv,0.686794,0.630418,0.657377
+adults_anonymized_k31_equal.csv,0.758621,0.736087,0.747148
+adults_anonymized_k35_emph_age.csv,0.687460,0.627198,0.655908
+adults_anonymized_k35_emph_race.csv,0.693341,0.628900,0.659497
+adults_anonymized_k35_equal.csv,0.769277,0.740635,0.754672

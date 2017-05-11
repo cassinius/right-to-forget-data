@@ -14,11 +14,11 @@ import plots_blur
 # MODE = 'perturbation'
 MODE = 'outliers'
 
-OUTLIER_MODE = 'outliers'
-# OUTLIER_MODE = 'random_comparison'
+# OUTLIER_MODE = 'outliers'
+OUTLIER_MODE = 'random_comparison'
 
-OUTLIER_PREFIX = 'adults_outliers_removed_'
-# OUTLIER_PREFIX = 'adults___'
+# OUTLIER_PREFIX = 'adults_outliers_removed_'
+OUTLIER_PREFIX = 'adults___'
 
 # TARGET = 'education_num'
 # TARGET = 'marital_status'
@@ -143,8 +143,8 @@ def plotOutlierResults(results):
   fig, ax = plt.subplots()
   fig.patch.set_facecolor('white')
   # ax.set_axis_bgcolor((116/256.0, 139/256.0, 197/256.0))
-  # ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
-  ax.set_axis_bgcolor((50/256.0, 50/256.0, 50/256.0))
+  ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
+  # ax.set_axis_bgcolor((50/256.0, 50/256.0, 50/256.0))
 
   if (OUTLIER_MODE == 'outliers'):
     target_label = 'outliers'
@@ -158,7 +158,7 @@ def plotOutlierResults(results):
                              np.array(map(float, line)),
                              y_min=float(min_score),
                              y_max=float(max_score),
-                             zfunc=plots_blur.zfunc,
+                             # zfunc=plots_blur.zfunc,
                              ax=ax,
                              marker=markers[idx],
                              color=colors[idx],
