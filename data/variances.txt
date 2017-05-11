@@ -1,0 +1,55 @@
+Anonymized, k=3, age, marital_status: 	791326284.08
+Anonymized, k=3, age, education_num:	702106769.05
+
+Perturbation, age=0.2, marital_status:	563860088.80
+Perturbation, age=0.2, education_num:	526180559.62
+
+Anonymized, k=19, equal, marital_status: 0.01
+
+========================================
+		.... VARIANCES FOR ....
+========================================
+
+OUTLIERS REMOVED:
+
+Outliers, income, original: 532104947.54
+Outliers, income, 0.1: 		512529565.14
+Outliers, income, 0.15: 	521212943.28
+Outliers, income, 0.2: 		542227919.36
+Outliers, income, 0.25: 	516117711.57
+Outliers, income, 0.3 		521895276.35
+Outliers, income, 0.35: 	573933779.96
+Outliers, income, 0.4: 		563443069.16
+Outliers, income, 0.45: 	588772588.01
+Outliers, income, 0.5: 		662926899.87
+Outliers, income, 0.55: 	582016648.61	
+Outliers, income, 0.6: 		641282238.12
+Outliers, income, 0.65:		751242886.48
+Outliers, income, 0.7: 		823755850.22
+Outliers, income, 0.75: 	830350917.56	
+Outliers, income, 0.8: 	   1459194871.05
+Outliers, income, 0.85:    1591614076.47	
+Outliers, income, 0.9: 	   1521360635.81
+Outliers, income, 0.95:    1942572801.71
+
+RANDOM DELETION:
+
+Outliers, income, original: 532104947.54
+Outliers, income, 0.1: 		533853798.34
+Outliers, income, 0.15: 	534184715.07
+Outliers, income, 0.2: 		531941439.66
+Outliers, income, 0.25: 	535984945.76
+Outliers, income, 0.3 		540699855.74
+Outliers, income, 0.35: 	546009857.18
+Outliers, income, 0.4: 		532892107.39
+Outliers, income, 0.45: 	536528831.47
+Outliers, income, 0.5: 		524383955.01
+Outliers, income, 0.55: 	542983414.67
+Outliers, income, 0.6: 		533916488.72
+Outliers, income, 0.65:		536698943.20
+Outliers, income, 0.7: 		534676662.91
+Outliers, income, 0.75: 	532431954.59	
+Outliers, income, 0.8: 		551990086.02
+Outliers, income, 0.85: 	554748306.66
+Outliers, income, 0.9: 	   	552093689.56
+Outliers, income, 0.95:    	644440396.34
