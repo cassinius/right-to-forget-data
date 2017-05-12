@@ -10,32 +10,36 @@ import matplotlib.pyplot as plt
 import plots_blur
 
 
-# MODE = 'anonymization'
-MODE = 'perturbation'
+MODE = 'anonymization'
+# MODE = 'perturbation'
 # MODE = 'outliers'
 
-# OUTLIER_MODE = 'outliers'
-OUTLIER_MODE = 'random_comparison'
 
-# OUTLIER_PREFIX = 'adults_outliers_removed_'
-OUTLIER_PREFIX = 'adults___'
+# OUTLIER_TARGET = ''
+# OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'random_comparison/'
+# OUTLIER_TARGET = 'original/'
+OUTLIER_TARGET = 'outliers_removed/'
 
-# TARGET = 'education_num'
-TARGET = 'marital_status'
-# TARGET = 'income'
+OUTLIER_PREFIX = 'adults_outliers_removed_'
+# OUTLIER_PREFIX = 'adults___'
+
+# TARGET = 'education_num/'
+TARGET = 'marital_status/'
+# TARGET = 'income/'
 
 
 # Input files
 ALGORITHMS = {
-  'gradient_boost': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_gradient_boosting.csv',
-  'logistic_regression': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_logistic_regression.csv',
-  'onevsrest_bagging': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_onevsrest_bagging.csv',
-  'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_random_forest.csv',
-  'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + '/results_linear_svc.csv'
+  'gradient_boost': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_gradient_boosting.csv',
+  'logistic_regression': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_logistic_regression.csv',
+  'onevsrest_bagging': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_onevsrest_bagging.csv',
+  'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_random_forest.csv',
+  'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['logistic_regression']
+ALGO = ALGORITHMS['random_forest']
 
-OUTLIERS_DIRECTORY = '../../output/outliers/adults_target_' + TARGET + '/' + OUTLIER_MODE
+OUTLIERS_DIRECTORY = '../../output/outliers/adults_target_' + TARGET + '/' + OUTLIER_TARGET
 OUTLIERS_ALGORITHMS = ['gradient_boosting', 'logistic_regression', 'random_forest', 'linear_svc']
 
 PERTURBATION_FILES = {
@@ -146,7 +150,7 @@ def plotOutlierResults(results):
   ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
   # ax.set_axis_bgcolor((50/256.0, 50/256.0, 50/256.0))
 
-  if (OUTLIER_MODE == 'outliers'):
+  if (OUTLIER_TARGET == 'outliers'):
     target_label = 'outliers'
   else:
     target_label = 'random data points'
@@ -178,11 +182,16 @@ def plotOutlierResults(results):
 
 
 
-def plotAnonymizationResults(results):
-  k_factors = ['03', '07', '11', '15', '19', '23', '27', '31', '35', '100']
-  equal_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
-  age_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
-  race_line_f1 = [results["adults_original_dataset.csv"]["f1"]]
+def plotAnonymizationResults(results, original=None):
+  if OUTLIER_TARGET == 'outliers_removed/':
+    original_dataset = "adults___0.3.csv"
+  elif original is None:
+    original_dataset = "adults_original_dataset.csv"
+
+  k_factors = ['3', '7', '11', '15', '19', '23', '27', '31', '35', '100']
+  equal_line_f1 = [results[original_dataset]["f1"]]
+  age_line_f1 = [results[original_dataset]["f1"]]
+  race_line_f1 = [results[original_dataset]["f1"]]
   for k in k_factors:
     equal_line_f1.append(results["adults_anonymized_k" + k + "_equal.csv"]["f1"])
     age_line_f1.append(results["adults_anonymized_k" + k + "_emph_age.csv"]["f1"])
