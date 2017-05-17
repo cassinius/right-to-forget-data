@@ -124,13 +124,13 @@ CONFIG_INCOME = {
 ALGORITHMS = [
     # 'linear_svc',
     # 'logistic_regression',
-    'gradient_boosting',
-    # 'random_forest',
+    # 'gradient_boosting',
+    'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
 
-config = CONFIG_MARITAL
+config = CONFIG_INCOME
 
 
 def main_workflow():
