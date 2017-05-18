@@ -48,8 +48,8 @@ MODE = 'anonymization'
 # OUTLIER_TARGET = ''
 # OUTLIER_TARGET = 'outliers/'
 # OUTLIER_TARGET = 'random_comparison/'
-# OUTLIER_TARGET = 'original/'
-OUTLIER_TARGET = 'outliers_removed/'
+OUTLIER_TARGET = 'original/'
+# OUTLIER_TARGET = 'outliers_removed/'
 
 
 CONFIG_EDUCATION = {

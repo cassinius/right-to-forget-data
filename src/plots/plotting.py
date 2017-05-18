@@ -37,7 +37,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['random_forest']
+ALGO = ALGORITHMS['gradient_boost']
 
 OUTLIERS_DIRECTORY = '../../output/outliers/adults_target_' + TARGET + '/' + OUTLIER_TARGET
 OUTLIERS_ALGORITHMS = ['gradient_boosting', 'logistic_regression', 'random_forest', 'linear_svc']
