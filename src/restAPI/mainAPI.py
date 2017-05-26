@@ -121,12 +121,14 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
         'precision': final_precision,
         'recall': final_recall,
         'f1': final_f1,
-        'accuracy': final_accuracy,
-        'plot_url': "http://berndmalle.com/imlanon/groupfolder/user_target_results.jpg"
+        'accuracy': final_accuracy
     }
     return algo_results
 
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(
+        host="0.0.0.0",
+        port=5000
+    )
