@@ -132,3 +132,8 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=5000
     )
+
+'''
+    On a python commandline, start with something like:
+    PYTHONPATH="." IML_SERVER="berndmalle.com" python2 src/restAPI/mainAPI.py
+'''
