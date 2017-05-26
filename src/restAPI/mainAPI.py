@@ -6,16 +6,22 @@ import sklearn.preprocessing as preprocessing
 from flask import Flask, request, jsonify
 from InvalidUsage import InvalidUsage
 import importlib
+import datetime
 
 from src.multi_class import main_workflow
 from src.multi_class import random_forest
 from src.multi_class import input_preproc
 from flask_cors import CORS, cross_origin
 from iml_config import INPUT_COLS, CROSS_VALIDATION_K, ALGORITHMS
+from plotIMLResults import plotAndWriteResultsToFS
 
+DATE_FORMAT = '%Y%m%d%H%M%S'
 
 app = Flask(__name__)
 CORS(app)
+
+# SERVER_URL = app.config['SERVER_NAME']
+# print "Server URL: " + SERVER_URL
 
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
@@ -36,30 +42,45 @@ def sendResults():
     else:
         raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
-    # TODO set those to request values
+
     target_col = request.json.get('target')
 
-    # print str( request.json.get('grouptoken') )
-    # print str( request.json.get('csvdata') )
+    overall_results = {
+        "timestamp"     : datetime.datetime.now().strftime(DATE_FORMAT),
+        "target"        : target_col,
+        "grouptoken"    : request.json.get('grouptoken'),
+        "usertoken"     : request.json.get('usertoken'),
+        "results"       : {}
+    }
 
+    for anon_type in ['bias', 'iml']:
+        overall_results['results'][anon_type] = computeResultsForData(request.json.get('csv').get(anon_type), target_col)
+
+    plotAndWriteResultsToFS(overall_results)
+
+    return json.dumps(overall_results)
+
+
+
+def computeResultsForData(csv_string, target_col):
     encoded_data = input_preproc.readFromString(
-        request.json.get('csvdata'),
+        csv_string,
         INPUT_COLS[target_col],
         target_col
     )
 
-    results = {}
+    algo_results = {}
 
     for algo_str in ALGORITHMS:
         print "Running on algorithm: " + algo_str
         algorithm = importlib.import_module("src.multi_class." + algo_str)
-        results[algo_str] = computeResultsFrom( encoded_data, algorithm, target_col )
+        algo_results[algo_str] = computeResultsFromAlgo(encoded_data, algorithm, target_col)
 
-    return json.dumps(results)
+    return algo_results
 
 
 
-def computeResultsFrom( encoded_data, algorithm, target_col ):
+def computeResultsFromAlgo(encoded_data, algorithm, target_col):
     precisions = []
     recalls = []
     f1s = []
@@ -105,11 +126,6 @@ def computeResultsFrom( encoded_data, algorithm, target_col ):
     }
     return algo_results
 
-
-
-
-def plotAndWriteResultsToFS():
-    print "plotting..."
 
 
 if __name__ == "__main__":
