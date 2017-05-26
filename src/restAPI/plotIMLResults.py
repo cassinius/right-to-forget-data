@@ -1,14 +1,14 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 
 IMG_DIR= "/var/www/iMLAnonResultPlots/"
 
 if os.environ.has_key("IML_SERVER"):
-    print "Found IML Server environment entry, running on: " + os.environ["IML_SERVER"]
+    print "Found IML Server environment entry, saving plots to: " + os.environ["IML_SERVER"]
     PLOT_BASE_URL = "http://" + os.environ["IML_SERVER"] + "/iMLAnonResultPlots/"
 else:
-    print "Found no IML Server environment entry, running on: localhost. "
+    print "Found no IML Server environment entry, saving plots to: localhost. "
     PLOT_BASE_URL = "http://localhost/iMLAnonResultPlots/"
 
 
