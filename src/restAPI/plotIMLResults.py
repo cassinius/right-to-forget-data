@@ -1,8 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 IMG_DIR= "/var/www/iMLAnonResultPlots/"
-PLOT_BASE_URL = "http://localhost/iMLAnonResultPlots/"
+
+if os.environ.has_key("IML_SERVER"):
+    print "Found IML Server environment entry, running on: " + os.environ["IML_SERVER"]
+    PLOT_BASE_URL = "http://" + os.environ["IML_SERVER"] + "/iMLAnonResultPlots/"
+else:
+    print "Found no IML Server environment entry, running on: localhost. "
+    PLOT_BASE_URL = "http://localhost/iMLAnonResultPlots/"
+
+
 
 def plotAndWriteResultsToFS(overall_results):
     print "Plotting..."
@@ -60,6 +69,7 @@ def plotAndWriteResultsToFS(overall_results):
 
     fig.savefig(IMG_DIR + filename, bbox_inches='tight')
     # plt.show()
+
 
 
 if __name__ == "__main__":
