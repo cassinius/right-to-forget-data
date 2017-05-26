@@ -1,6 +1,8 @@
 from sklearn import datasets
 import sklearn.cross_validation as cross_validation
 import pandas as pd
+from StringIO import StringIO
+
 
 
 def readIris():
@@ -8,6 +10,7 @@ def readIris():
     X, y = iris.data, iris.target
     # Return Train / Test split
     return cross_validation.train_test_split(X, y, train_size=0.80)
+
 
 
 def returnOriginalDataset(input_file, input_cols, target_col):
@@ -21,6 +24,20 @@ def returnOriginalDataset(input_file, input_cols, target_col):
         na_values="?")
 
 
+
+def readFromString(string, input_cols, target_col):
+    original_data = pd.read_csv(
+        StringIO(string),
+        names=input_cols,
+        header=0,
+        # index_col=0,
+        sep=r'\s*,\s*',
+        engine='python',
+        na_values="?")
+    return processData(original_data, input_cols, target_col)
+
+
+
 def readFromDataset(input_file, input_cols, target_col):
     original_data = pd.read_csv(
         input_file,
@@ -30,8 +47,11 @@ def readFromDataset(input_file, input_cols, target_col):
         sep=r'\s*,\s*',
         engine='python',
         na_values="?")
+    return processData(original_data, input_cols, target_col)
 
 
+
+def processData(original_data, input_cols, target_col):
     binary_data = pd.get_dummies(original_data)
 
 
@@ -53,10 +73,12 @@ def readFromDataset(input_file, input_cols, target_col):
     return binary_data
 
 
+
 def restoreIncome(original_data, binary_data):
       del binary_data["income_>50K"]
       del binary_data["income_<=50K"]
       binary_data["income"] = original_data["income"]
+
 
 
 '''
@@ -78,6 +100,7 @@ def groupEducationLevels(data):
       data.loc[i, "education-num"] = 3
 
 
+
 def restoreMaritalStatus(original_data, binary_data):
   del binary_data["marital-status_Divorced"]
   del binary_data["marital-status_Married-AF-spouse"]
@@ -87,6 +110,7 @@ def restoreMaritalStatus(original_data, binary_data):
   del binary_data["marital-status_Separated"]
   del binary_data["marital-status_Widowed"]
   binary_data["marital-status"] = original_data["marital-status"]
+
 
 
 if __name__ == "__main__":
@@ -109,7 +133,4 @@ if __name__ == "__main__":
              ],
              "education-num"
     )
-
     print data
-
-    # print data["education-num"]

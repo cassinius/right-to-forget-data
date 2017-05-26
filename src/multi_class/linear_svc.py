@@ -9,12 +9,13 @@ def runClassifier(X_train, X_test, y_train, y_test):
 
     predictions = OneVsRestClassifier(LinearSVC(), n_jobs=-1)\
         .fit(X_train, y_train).predict(X_test)
-    precision, recall, f1 = calculate_metrics.calculateMetrics(predictions, y_test)
 
-    print "intermediary results (precision / recall / F1 Score):"
-    print("%.6f %.6f %.6f" % (precision, recall, f1))
 
-    return precision, recall, f1
+    # Metrics...
+    precision, recall, f1, accuracy = calculate_metrics.calculateMetrics(predictions, y_test)
+    print "intermediary results (precision | recall | F1 Score | Accuracy):"
+    print("%.6f %.6f %.6f %.6f" % (precision, recall, f1, accuracy))
+    return precision, recall, f1, accuracy
 
 
 if __name__ == "__main__":
