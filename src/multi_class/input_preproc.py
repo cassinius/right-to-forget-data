@@ -90,7 +90,7 @@ def restoreMaritalStatus(original_data, binary_data):
 
 
 if __name__ == "__main__":
-    data = readFromDataset('../../data/adults_target_education_num/adults_original_dataset.csv',
+    data = readFromDataset('../../data/anonymization/adults_target_education_num/original/adults_original_dataset.csv',
              [
                  "age",
                  "fnlwgt",
@@ -110,6 +110,6 @@ if __name__ == "__main__":
              "education-num"
     )
 
-    # print data
+    print data
 
     # print data["education-num"]

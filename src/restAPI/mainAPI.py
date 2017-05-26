@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
-from flask import Flask
+from flask import Flask, request, jsonify
+from InvalidUsage import InvalidUsage
 
 from src.multi_class import main_workflow
 from src.multi_class import random_forest
@@ -18,13 +19,27 @@ CROSS_VALIDATION_K = 10
 
 app = Flask(__name__)
 
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 @app.route("/")
 def hello():
     return "Hello World!"
 
 
-@app.route("/testread")
-def sendFileRead():
+@app.route("/testread", methods=['POST'])
+def sendResults():
+    if request.method == 'POST':
+        print "Cient Posted..."
+    else:
+        raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
+
+
+    # TODO
     encoded_data = input_preproc.readFromDataset(
         config['TARGET'] + input_file,
         config['INPUT_COLS'],
@@ -69,10 +84,15 @@ def sendFileRead():
     results = {
         'precision': precision,
         'recall': recall,
-        'f1': f1_score
+        'f1': f1_score,
+        'plot_url': "http://berndmalle.com/imlanon/groupfolder/user_target_results.jpg"
     }
 
     return json.dumps(results)
+
+
+def plotAndWriteResultsToFS():
+    print "plotting..."
 
 
 if __name__ == "__main__":

@@ -1,10 +1,5 @@
-# import matplotlib
-# matplotlib.use("TkAgg")
-# import matplotlib.pyplot as plt
-
 import pandas as pd
 import numpy as np
-import statsmodels as sm
 import sklearn as skl
 from sklearn import svm
 from sklearn import ensemble
