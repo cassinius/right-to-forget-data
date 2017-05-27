@@ -42,7 +42,7 @@ def sendResults():
     else:
         raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
-
+    # print request.json.get('csv').get('bias')
     target_col = request.json.get('target')
 
     overall_results = {

@@ -35,9 +35,13 @@ def plotAndWriteResultsToFS(overall_results):
                    iml['logistic_regression']['f1'],
                    iml['random_forest']['f1'])
 
+    min_score = min(min(bias_results), min(iml_results))
     max_score = max(max(bias_results), max(iml_results))
-    height = min(1, float(max_score) * 1.1)
-    print "Setting height to: " + str(height)
+    min_height = max(0, float(min_score) / 2)
+    max_height = min(1, float(max_score) * 1.25)
+
+    print "Setting MIN height to: " + str(min_height)
+    print "Setting MAX height to: " + str(max_height)
 
     fig, ax = plt.subplots()
     bias_rects = ax.bar(ind, bias_results, width, color='#8b0333')
@@ -49,7 +53,7 @@ def plotAndWriteResultsToFS(overall_results):
     ax.set_xticks(ind + width / 2)
     ax.set_xticklabels(('Gradient Boost', 'Linear SVC', 'Log.Regression', 'Random Forest'))
     ax.legend((bias_rects[0], iml_rects[0]), ('Bias', 'iML'))
-    plt.axis([-0.25, 3.6, 0.5, height])
+    plt.axis([-0.25, 3.6, min_height, max_height])
 
     def autolabel(rects):
         """
