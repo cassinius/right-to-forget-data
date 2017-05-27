@@ -3,22 +3,29 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
-from flask import Flask, request, jsonify
 from InvalidUsage import InvalidUsage
 import importlib
 import datetime
 
-from src.multi_class import main_workflow
+from flask import Flask, request, jsonify
+from flask_socketio import SocketIO, send, emit
+
 from src.multi_class import random_forest
 from src.multi_class import input_preproc
 from flask_cors import CORS, cross_origin
+
 from iml_config import INPUT_COLS, CROSS_VALIDATION_K, ALGORITHMS
 from plotIMLResults import plotAndWriteResultsToFS
 
 DATE_FORMAT = '%Y%m%d%H%M%S'
 
 app = Flask(__name__)
-CORS(app)
+app.config['SECRET_KEY'] = 'mysecretsocketpassword'
+cors = CORS(app) # ,resources={r"/*":{"origins":"*"}}
+socketio = SocketIO(app)
+
+# Right now we're setting AMOUNTS_RESULT to a fixed 8 (bias / iml x 4 classifiers
+AMOUNT_RESULTS = 8
 
 # SERVER_URL = app.config['SERVER_NAME']
 # print "Server URL: " + SERVER_URL
@@ -35,14 +42,16 @@ def hello():
     return "Hello World!"
 
 
+# @socketio.on("computeMLResults")
 @app.route("/anonML", methods=['POST'])
-def sendResults():
+def runClassifiersAndSendResults():
     if request.method == 'POST':
         print "Cient POST..."
     else:
         raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
     # print request.json.get('csv').get('bias')
+
     target_col = request.json.get('target')
 
     overall_results = {
@@ -52,6 +61,10 @@ def sendResults():
         "usertoken"     : request.json.get('usertoken'),
         "results"       : {}
     }
+
+    # Inform client via Sockets about starting the compute cycle & how many intermediary results to expect
+    nr_intermediary_results = CROSS_VALIDATION_K * AMOUNT_RESULTS
+    emitViaSocket('computationStarted', {'nr_intermediary_results': nr_intermediary_results})
 
     for anon_type in ['bias', 'iml']:
         overall_results['results'][anon_type] = computeResultsForData(request.json.get('csv').get(anon_type), target_col)
@@ -107,6 +120,16 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
         f1s.append(f1_score)
         accuracies.append(accuracy)
 
+        # Inform client via Sockets that an intermediary result is ready
+        intermediary_results = {
+            # 'algorithm': algorithm,
+            'precision': precision,
+            'recall': recall,
+            'f1': f1_score,
+            'accuracy': accuracy
+        }
+        emitViaSocket('intermediaryComputed', {'result': intermediary_results})
+
     final_precision = sum(precisions) / len(precisions)
     final_recall = sum(recalls) / len(recalls)
     final_f1 = sum(f1s) / len(f1s)
@@ -123,15 +146,19 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
         'f1': final_f1,
         'accuracy': final_accuracy
     }
+
     return algo_results
 
 
 
+def emitViaSocket(event, json):
+    print "Socket send event"
+    socketio.emit(event, json, json=True)
+
+
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5000
-    )
+    # app.run(host="0.0.0.0", port=5000)
+    socketio.run(app, port=5000, host='0.0.0.0')
 
 '''
     On a python commandline, start with something like:

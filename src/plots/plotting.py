@@ -235,7 +235,6 @@ def plotAnonymizationResults(results, original=None):
 
 
 
-
 '''
   We are always assuming:
   1. an original dataset result
