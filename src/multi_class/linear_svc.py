@@ -3,6 +3,7 @@ from sklearn.svm import LinearSVC
 import input_preproc
 import calculate_metrics
 
+NAME = "Linear SVC"
 
 def runClassifier(X_train, X_test, y_train, y_test):
     # print y_train

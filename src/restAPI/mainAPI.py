@@ -22,7 +22,7 @@ DATE_FORMAT = '%Y%m%d%H%M%S'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretsocketpassword'
 cors = CORS(app) # ,resources={r"/*":{"origins":"*"}}
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='threading')
 
 # Right now we're setting AMOUNTS_RESULT to a fixed 8 (bias / iml x 4 classifiers
 AMOUNT_RESULTS = 8
@@ -37,28 +37,34 @@ def handle_invalid_usage(error):
     return response
 
 
+@socketio.on('blahoo')
+def replyBlahoo():
+    emit('yahoo-dl-doodl-doo')
+
+
 @app.route("/")
 def hello():
     return "Hello World!"
 
 
-# @socketio.on("computeMLResults")
-@app.route("/anonML", methods=['POST'])
-def runClassifiersAndSendResults():
-    if request.method == 'POST':
-        print "Cient POST..."
-    else:
-        raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
+@socketio.on("computeMLResults")
+def runClassifiersAndSendResults(request_data):
 
-    # print request.json.get('csv').get('bias')
+    # ONLY FOR TRADITIONAL FLASK (NOT SOCKET IO)
+    # if request.method == 'POST':
+    #     print "Cient POST..."
+    # else:
+    #     raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
-    target_col = request.json.get('target')
+    data = request_data['request']
+
+    target_col = data['target']
 
     overall_results = {
         "timestamp"     : datetime.datetime.now().strftime(DATE_FORMAT),
         "target"        : target_col,
-        "grouptoken"    : request.json.get('grouptoken'),
-        "usertoken"     : request.json.get('usertoken'),
+        "grouptoken"    : data['grouptoken'],
+        "usertoken"     : data['usertoken'],
         "results"       : {}
     }
 
@@ -67,11 +73,12 @@ def runClassifiersAndSendResults():
     emitViaSocket('computationStarted', {'nr_intermediary_results': nr_intermediary_results})
 
     for anon_type in ['bias', 'iml']:
-        overall_results['results'][anon_type] = computeResultsForData(request.json.get('csv').get(anon_type), target_col)
+        overall_results['results'][anon_type] = computeResultsForData(data['csv'][anon_type], target_col)
 
     plotAndWriteResultsToFS(overall_results)
 
-    return json.dumps(overall_results)
+    emitViaSocket('computationCompleted', {'overall_results': overall_results})
+    # return json.dumps(overall_results)
 
 
 
@@ -122,7 +129,7 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
 
         # Inform client via Sockets that an intermediary result is ready
         intermediary_results = {
-            # 'algorithm': algorithm,
+            'algorithm': algorithm.NAME,
             'precision': precision,
             'recall': recall,
             'f1': f1_score,
@@ -153,7 +160,7 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
 
 def emitViaSocket(event, json):
     print "Socket send event"
-    socketio.emit(event, json, json=True)
+    emit(event, json, json=True)
 
 
 if __name__ == "__main__":

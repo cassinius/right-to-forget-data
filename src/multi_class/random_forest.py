@@ -3,6 +3,7 @@ from sklearn import ensemble
 import input_preproc
 import calculate_metrics
 
+NAME = "Random Forest"
 
 def runClassifier(X_train, X_test, y_train, y_test):
     # print y_train

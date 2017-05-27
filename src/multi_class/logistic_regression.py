@@ -2,6 +2,7 @@ import input_preproc
 import calculate_metrics
 import sklearn.linear_model as linear_model
 
+NAME = "Logistic Regression"
 
 def runClassifier(X_train, X_test, y_train, y_test):
 
