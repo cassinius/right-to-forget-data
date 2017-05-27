@@ -169,5 +169,6 @@ if __name__ == "__main__":
 
 '''
     On a python commandline, start with something like:
-    PYTHONPATH="." IML_SERVER="berndmalle.com" python2 src/restAPI/mainAPI.py
+    PYTHONPATH="." IML_SERVER="berndmalle.com" python src/restAPI/mainAPI.py
+    PYTHONPATH="." IML_SERVER="berndmalle.com" pm2 start src/restAPI/mainAPI.py --name 'iML REST API'
 '''
