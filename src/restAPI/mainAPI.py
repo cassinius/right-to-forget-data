@@ -6,6 +6,7 @@ import sklearn.preprocessing as preprocessing
 from InvalidUsage import InvalidUsage
 import importlib
 import datetime
+import threading
 
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO, send, emit
@@ -22,7 +23,14 @@ DATE_FORMAT = '%Y%m%d%H%M%S'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretsocketpassword'
 cors = CORS(app) # ,resources={r"/*":{"origins":"*"}}
-socketio = SocketIO(app, async_mode='threading')
+
+from gevent import monkey
+monkey.patch_all()
+
+# socketio = SocketIO(app, async_mode='threading')
+# socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app, async_mode='gevent')
+# socketio = SocketIO(app)
 
 # Right now we're setting AMOUNTS_RESULT to a fixed 8 (bias / iml x 4 classifiers
 AMOUNT_RESULTS = 8
@@ -30,16 +38,12 @@ AMOUNT_RESULTS = 8
 # SERVER_URL = app.config['SERVER_NAME']
 # print "Server URL: " + SERVER_URL
 
+
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
-
-
-@socketio.on('blahoo')
-def replyBlahoo():
-    emit('yahoo-dl-doodl-doo')
 
 
 @app.route("/")
