@@ -19,7 +19,6 @@ DATE_FORMAT = '%Y%m%d%H%M%S'
 
 app = Flask(__name__)
 CORS(app)
-
 # SERVER_URL = app.config['SERVER_NAME']
 # print "Server URL: " + SERVER_URL
 
