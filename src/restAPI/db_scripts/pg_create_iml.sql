@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS iml_results;
 
 CREATE TABLE IF NOT EXISTS iml_requests_raw (
     id SERIAL PRIMARY KEY,
+    timestamp BIGINT NOT NULL,
     request_raw JSON NOT NULL
 );
 
@@ -21,3 +22,10 @@ CREATE TABLE IF NOT EXISTS iml_results (
     survey JSON,
     overall_result JSON NOT NULL
 );
+
+
+ALTER TABLE iml_requests_raw OWNER TO iml_admin;
+ALTER TABLE iml_results OWNER TO iml_admin;
+
+
+INSERT INTO iml_requests_raw (timestamp, request_raw) VALUES (01341503451, '{ "1": 2, "arr": [1, 2, 3], "bla": "hoo" }');

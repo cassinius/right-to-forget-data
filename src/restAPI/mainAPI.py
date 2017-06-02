@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify
 from InvalidUsage import InvalidUsage
 import importlib
 import datetime
+import dbConnection
 
 from src.multi_class import main_workflow
 from src.multi_class import random_forest
@@ -41,11 +42,14 @@ def sendResults():
     else:
         raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
+    # Store raw request into the database incl. timestamp (so we can trace computational time afterwards)
+    start_time = datetime.datetime.now().strftime(DATE_FORMAT)
+    dbConnection.storeRawRequest(request.json, start_time)
+
     # print request.json.get('csv').get('bias')
     target_col = request.json.get('target')
 
     overall_results = {
-        "timestamp"     : datetime.datetime.now().strftime(DATE_FORMAT),
         "target"        : target_col,
         "grouptoken"    : request.json.get('grouptoken'),
         "usertoken"     : request.json.get('usertoken'),
@@ -55,7 +59,12 @@ def sendResults():
     for anon_type in ['bias', 'iml']:
         overall_results['results'][anon_type] = computeResultsForData(request.json.get('csv').get(anon_type), target_col)
 
+    # After computation add another timestamp to the result object
+    overall_results["timestamp"] = datetime.datetime.now().strftime(DATE_FORMAT)
     plotAndWriteResultsToFS(overall_results)
+
+    # Now store all the information in the result table
+    dbConnection.storeResult(request, overall_results)
 
     return json.dumps(overall_results)
 
