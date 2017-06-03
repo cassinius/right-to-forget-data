@@ -26,7 +26,7 @@ except:
 # print conn
 # cur.execute("SELECT * FROM " + DB_TABLE_RAW)
 # rows = cur.fetchall()
-# 
+#
 # print "\nShow me the raw requests:\n"
 # for row in rows:
 #     print "   ", row
@@ -60,10 +60,36 @@ def storeRawRequest(request_json, timestamp):
         query = """INSERT INTO %s (timestamp, request_raw) VALUES (%s, '%s')""" % (DB_TABLE_RAW, timestamp, json.dumps(db_json))
         cur.execute(query)
         conn.commit()
+        print "Raw request stored successfully."
     except:
         print "DB transaction failed... RAW request was not saved!"
 
 
 
-def storeResult(request, overall_result):
-    print "Storing result set..."
+def storeResult(request, overall_results):
+    # print "Storing result set..."
+
+    try:
+        query = """INSERT INTO %s (timestamp, grouptoken, usertoken, target, weights_bias, weights_iml, results_bias, results_iml, plot_url, user_info, survey) VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
+            DB_TABLE_RESULTS,
+            overall_results['timestamp'],
+            overall_results['grouptoken'],
+            overall_results['usertoken'],
+            overall_results['target'],
+            json.dumps(request.json.get('weights').get('bias')),
+            json.dumps(request.json.get('weights').get('iml')),
+            json.dumps(overall_results['results']['bias']),
+            json.dumps(overall_results['results']['iml']),
+            overall_results['plotURL'],
+            json.dumps(request.json.get('user')),
+            json.dumps(request.json.get('survey'))
+        )
+        cur.execute(query)
+        conn.commit()
+        print "Results stored successfully."
+    except Exception as e:
+        if hasattr(e, 'message'):
+            print(e.message)
+        else:
+            print(e)
+        print "DB transaction failed... Results were not saved!"

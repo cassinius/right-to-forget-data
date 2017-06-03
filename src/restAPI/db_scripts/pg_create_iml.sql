@@ -15,12 +15,14 @@ CREATE TABLE IF NOT EXISTS iml_results (
     timestamp BIGINT NOT NULL,
     grouptoken VARCHAR(255) NOT NULL,
     usertoken VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
     weights_bias VARCHAR(1024) NOT NULL,
     weights_iml VARCHAR(1024) NOT NULL,
-    target VARCHAR(255) NOT NULL,
+    results_bias JSON NOT NULL,
+    results_iml JSON NOT NULL,
+    plot_url VARCHAR(255) NOT NULL,
     user_info JSON,
-    survey JSON,
-    overall_result JSON NOT NULL
+    survey JSON
 );
 
 
@@ -28,4 +30,5 @@ ALTER TABLE iml_requests_raw OWNER TO iml_admin;
 ALTER TABLE iml_results OWNER TO iml_admin;
 
 
-INSERT INTO iml_requests_raw (timestamp, request_raw) VALUES (01341503451, '{ "1": 2, "arr": [1, 2, 3], "bla": "hoo" }');
+-- Sample
+--INSERT INTO iml_requests_raw (timestamp, request_raw) VALUES (01341503451, '{ "1": 2, "arr": [1, 2, 3], "bla": "hoo" }');
