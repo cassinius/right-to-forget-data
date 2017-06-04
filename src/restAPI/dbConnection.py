@@ -15,59 +15,37 @@ DB_TABLE_RESULTS = 'iml_results'
 conn = None
 cur = None
 
-try:
-    conn = psycopg2.connect("dbname=" + DB_NAME + " user=" + DB_USER + " host=" + DB_HOST + " password=" + DB_PASS)
-    cur = conn.cursor()
-except:
-    print "I am unable to connect to the database"
 
-
-# Just a test
-# print conn
-# cur.execute("SELECT * FROM " + DB_TABLE_RAW)
-# rows = cur.fetchall()
-#
-# print "\nShow me the raw requests:\n"
-# for row in rows:
-#     print "   ", row
-#
-# timestamp = datetime.datetime.now().strftime(DATE_FORMAT)
-# db_json = {
-#     "bla"   : "hoo",
-#     "1"     : 2,
-#     "arr"   : [1, 2, 3]
-# }
-#
-# try:
-#     query = """INSERT INTO %s (timestamp, request_raw) VALUES (%s, '%s')""" % (DB_TABLE_RAW, timestamp, json.dumps(db_json))
-#     print query
-#     cur.execute(query)
-#     conn.commit()
-# except:
-#     print 'blaaa'
+def connectDB():
+    global conn
+    global cur
+    try:
+        conn = psycopg2.connect("dbname=" + DB_NAME + " user=" + DB_USER + " host=" + DB_HOST + " password=" + DB_PASS)
+        cur = conn.cursor()
+    except:
+        print "I am unable to connect to the database"
 
 
 
 def storeRawRequest(request_json, timestamp):
+    connectDB()
+
     db_json = copy.deepcopy(request_json)
     del db_json["csv"]
-
-    # print "Storing raw request:"
-    # print timestamp
-    # print db_json
 
     try:
         query = """INSERT INTO %s (timestamp, request_raw) VALUES (%s, '%s')""" % (DB_TABLE_RAW, timestamp, json.dumps(db_json))
         cur.execute(query)
         conn.commit()
         print "Raw request stored successfully."
+        conn.close()
     except:
         print "DB transaction failed... RAW request was not saved!"
 
 
 
 def storeResult(request, overall_results):
-    # print "Storing result set..."
+    connectDB()
 
     try:
         query = """INSERT INTO %s (timestamp, grouptoken, usertoken, target, weights_bias, weights_iml, results_bias, results_iml, plot_url, user_info, survey) VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
@@ -87,6 +65,7 @@ def storeResult(request, overall_results):
         cur.execute(query)
         conn.commit()
         print "Results stored successfully."
+        conn.close()
     except Exception as e:
         if hasattr(e, 'message'):
             print(e.message)
