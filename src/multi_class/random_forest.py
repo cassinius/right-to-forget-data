@@ -23,7 +23,7 @@ def runClassifier(X_train, X_test, y_train, y_test):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = input_preproc.readIris()
-    precision, recall, f1 = runClassifier(X_train, X_test, y_train, y_test)
+    precision, recall, f1, accuracy = runClassifier(X_train, X_test, y_train, y_test)
     print "\n================================"
-    print "Precision / Recall / F1 Score: "
-    print("%.6f %.6f %.6f" % (precision, recall, f1))
+    print "Precision | Recall | F1 Score | Accuracy: "
+    print("%.6f %.6f %.6f %.6f" % (precision, recall, f1, accuracy))

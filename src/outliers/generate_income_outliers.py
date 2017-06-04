@@ -5,9 +5,9 @@ from src.multi_class import input_preproc
 import pandas as pd
 
 
-OUTPUT_DIR = "../../data/outliers/income/"
+OUTPUT_DIR = "../../data/outliers/adults_target_income/outliers/"
 OUTPUT_NAME_BULK = "adults_outliers_removed"
-INPUT_FILE = "../../data/anonymization/adults_target_income/adults_original_dataset.csv"
+INPUT_FILE = "../../data/anonymization/adults_target_income/original/adults_original_dataset.csv"
 INPUT_COLS = [
         "age",
         "fnlwgt",

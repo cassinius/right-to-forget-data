@@ -8,7 +8,7 @@ import sklearn as skl
 from sklearn import svm
 import sklearn.preprocessing as preprocessing
 import sklearn.linear_model as linear_model
-import sklearn.cross_validation as cross_validation
+import sklearn.model_selection as ms
 import sklearn.metrics as metrics
 import sklearn.tree as tree
 import seaborn as sns
@@ -18,8 +18,8 @@ import math
 import os, csv, glob
 
 
-INPUT_CSV = '../../data/adults_target_education_num/'
-OUTPUT_CSV = '../../output/adults_target_income/'
+INPUT_CSV = '../../data/anonymization/adults_target_income/original/'
+OUTPUT_CSV = '../../output/anonymization/adults_target_income/original/'
 
 input_cols = [
                 "age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week", "workclass",
@@ -38,7 +38,6 @@ def runLogisticRegression(input_file):
       na_values="?")
 
 
-  # print original_data.tail()
 
   # PLOT THE ORIGINAL VALUE DISTRIBUTION
   fig = plt.figure(figsize=(20,30))
@@ -102,7 +101,7 @@ def runLogisticRegression(input_file):
 
 
   # DIVIDE THE DATASET INTO TRAIN AND TEST SETS
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+  X_train, X_test, y_train, y_test = ms.train_test_split(
       encoded_data[encoded_data.columns.difference(["income"])],
       encoded_data["income"], train_size=0.80)
 
@@ -115,6 +114,8 @@ def runLogisticRegression(input_file):
   cls = linear_model.LogisticRegression()
   cls.fit(X_train, y_train)
   y_pred = cls.predict(X_test)
+
+  print( encoders )
 
 
   cm = metrics.confusion_matrix(y_test, y_pred)
@@ -150,7 +151,7 @@ def runLogisticRegression(input_file):
 
 
   # Use binary for Logistic regression
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+  X_train, X_test, y_train, y_test = ms.train_test_split(
       binary_data[binary_data.columns.difference(["income"])],
       binary_data["income"], train_size=0.80)
 

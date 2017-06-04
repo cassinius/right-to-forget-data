@@ -72,3 +72,7 @@ def storeResult(request, overall_results):
         else:
             print(e)
         print "DB transaction failed... Results were not saved!"
+
+
+if __name__ == "__main__":
+    connectDB()

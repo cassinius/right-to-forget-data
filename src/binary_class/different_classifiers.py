@@ -4,7 +4,7 @@ import sklearn as skl
 from sklearn import svm
 from sklearn import ensemble
 import sklearn.preprocessing as preprocessing
-import sklearn.cross_validation as cross_validation
+import sklearn.model_selection as ms
 import sklearn.metrics as metrics
 import sklearn.tree as tree
 import math
@@ -45,7 +45,7 @@ def runClassifier(input_file):
 
 
   # Split training and test sets
-  X_train, X_test, y_train, y_test = cross_validation.train_test_split(binary_data[binary_data.columns.difference(["income"])],
+  X_train, X_test, y_train, y_test = ms.train_test_split(binary_data[binary_data.columns.difference(["income"])],
                                                                        binary_data["income"], train_size=0.80)
   scaler = preprocessing.StandardScaler()
   X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
