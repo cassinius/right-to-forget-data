@@ -6,10 +6,10 @@ import sklearn.preprocessing as preprocessing
 from InvalidUsage import InvalidUsage
 import importlib
 import datetime
-import threading
 
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO, send, emit
+import dbConnection
 
 from src.multi_class import random_forest
 from src.multi_class import input_preproc
@@ -24,16 +24,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretsocketpassword'
 cors = CORS(app) # ,resources={r"/*":{"origins":"*"}}
 
-from gevent import monkey
-monkey.patch_all()
-
 # socketio = SocketIO(app, async_mode='threading')
-# socketio = SocketIO(app, async_mode='eventlet')
-socketio = SocketIO(app, async_mode='gevent')
+socketio = SocketIO(app, async_mode='eventlet')
 # socketio = SocketIO(app)
 
 # Right now we're setting AMOUNTS_RESULT to a fixed 8 (bias / iml x 4 classifiers
 AMOUNT_RESULTS = 8
+
+CORS(app)
 
 # SERVER_URL = app.config['SERVER_NAME']
 # print "Server URL: " + SERVER_URL
@@ -61,11 +59,16 @@ def runClassifiersAndSendResults(request_data):
     #     raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
     data = request_data['request']
-
     target_col = data['target']
 
+    # Store raw request into the database incl. timestamp (so we can trace computational time afterwards)
+    start_time = datetime.datetime.now().strftime(DATE_FORMAT)
+    dbConnection.storeRawRequest(request.json, start_time)
+
+    # print request.json.get('csv').get('bias')
+    target_col = request.json.get('target')
+
     overall_results = {
-        "timestamp"     : datetime.datetime.now().strftime(DATE_FORMAT),
         "target"        : target_col,
         "grouptoken"    : data['grouptoken'],
         "usertoken"     : data['usertoken'],
@@ -79,10 +82,17 @@ def runClassifiersAndSendResults(request_data):
     for anon_type in ['bias', 'iml']:
         overall_results['results'][anon_type] = computeResultsForData(data['csv'][anon_type], target_col)
 
+    # After computation add another timestamp to the result object
+    overall_results["timestamp"] = datetime.datetime.now().strftime(DATE_FORMAT)
     plotAndWriteResultsToFS(overall_results)
 
     emitViaSocket('computationCompleted', {'overall_results': overall_results})
     # return json.dumps(overall_results)
+
+    # Now store all the information in the result table
+    dbConnection.storeResult(request, overall_results)
+
+    return json.dumps(overall_results)
 
 
 
@@ -173,6 +183,11 @@ if __name__ == "__main__":
 
 '''
     On a python commandline, start with something like:
+<<<<<<< HEAD
     PYTHONPATH="." IML_SERVER="berndmalle.com" python src/restAPI/mainAPI.py
     PYTHONPATH="." IML_SERVER="berndmalle.com" pm2 start src/restAPI/mainAPI.py --name 'iML REST API'
+=======
+    PYTHONPATH="." IML_SERVER="berndmalle.com" python2 src/restAPI/mainAPI.py
+    PYTHONPATH="." IML_SERVER="berndmalle.com" pm2 start src/restAPI/mainAPI.py --name iMLRestAPI
+>>>>>>> 912095b2aa6e1249e6526e2ae5a30288599e9df2
 '''

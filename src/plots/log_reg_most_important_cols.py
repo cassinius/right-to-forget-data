@@ -3,19 +3,19 @@
 
 import pandas as pd
 import sklearn.linear_model as linear_model
-import sklearn.cross_validation as cross_validation
 import src.multi_class.input_preproc
 import matplotlib.pyplot as plt
 import src.multi_class.calculate_metrics
 import sklearn.preprocessing as preprocessing
 import numpy as np
 from sklearn.model_selection import KFold
+import sklearn.model_selection as ms
 
 CROSS_VALIDATION_K = 10
 
 CONFIG_EDUCATION = {
-    'TARGET': "../../data/anonymization/adults_target_education_num/",
-    'OUTPUT': "../../output/anonymization/adults_target_education_num/",
+    'TARGET': "../../data/anonymization/adults_target_education_num/original/",
+    'OUTPUT': "../../output/anonymization/adults_target_education_num/original/",
     'INPUT_COLS': [
         "age",
         "fnlwgt",
@@ -38,8 +38,8 @@ CONFIG_EDUCATION = {
 
 
 CONFIG_MARITAL = {
-    'TARGET': "../../data/anonymization/adults_target_marital_status/",
-    'OUTPUT': "../../output/anonymization/adults_target_marital_status/",
+    'TARGET': "../../data/anonymization/adults_target_marital_status/original/",
+    'OUTPUT': "../../output/anonymization/adults_target_marital_status/original/",
     'INPUT_COLS': [
         "age",
         "fnlwgt",
