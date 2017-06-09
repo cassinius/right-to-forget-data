@@ -92,12 +92,12 @@ def runClassifier(input_file):
 
 
 def computeOriginalData():
-  print runClassifier( INPUT_CSV_INCOME + 'adults_original_dataset.csv' )
+  print( runClassifier( INPUT_CSV_INCOME + 'adults_original_dataset.csv' ) )
 
 
 def computeAllResults():
   filelist = [f for f in sorted(os.listdir(INPUT_CSV_INCOME)) if f.endswith(".csv")]
-  with open(OUTPUT_CSV + "results_random_forest.csv", 'wb') as fout:
+  with open(OUTPUT_CSV + "results_random_forest.csv", 'w') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score", "accuracy"])
 
@@ -115,12 +115,8 @@ def computeAllResults():
         intermediary_results[input_file]["recall"].append(scores[1])
         intermediary_results[input_file]["f1"].append(scores[2])
         intermediary_results[input_file]["accuracy"].append(scores[3])
-        # writer.writerow( [input_file,
-        #                   i,
-        #                   intermediary_results[input_file]["precision"],
-        #                   intermediary_results[input_file]["recall"],
-        #                   intermediary_results[input_file]["f1"],
-        #                   intermediary_results[input_file]["accuracy"]] )
+
+        print( [ input_file, i, scores[0], scores[1], scores[2], scores[3] ] )
 
     for input_file in filelist:
       final_results[input_file] = {}
@@ -133,7 +129,7 @@ def computeAllResults():
                         final_results[input_file]["recall"],
                         final_results[input_file]["f1"],
                         final_results[input_file]["accuracy"]])
-    print final_results
+    print( final_results )
 
 
 if __name__ == "__main__":

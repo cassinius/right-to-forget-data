@@ -22,8 +22,9 @@ def connectDB():
     try:
         conn = psycopg2.connect("dbname=" + DB_NAME + " user=" + DB_USER + " host=" + DB_HOST + " password=" + DB_PASS)
         cur = conn.cursor()
+        print( "Successfully connected to DB." )
     except:
-        print "I am unable to connect to the database"
+        print( "I am unable to connect to the database" )
 
 
 
@@ -37,10 +38,10 @@ def storeRawRequest(request_json, timestamp):
         query = """INSERT INTO %s (timestamp, request_raw) VALUES (%s, '%s')""" % (DB_TABLE_RAW, timestamp, json.dumps(db_json))
         cur.execute(query)
         conn.commit()
-        print "Raw request stored successfully."
+        print( "Raw request stored successfully." )
         conn.close()
     except:
-        print "DB transaction failed... RAW request was not saved!"
+        print( "DB transaction failed... RAW request was not saved!" )
 
 
 
@@ -64,14 +65,14 @@ def storeResult(request, overall_results):
         )
         cur.execute(query)
         conn.commit()
-        print "Results stored successfully."
+        print( "Results stored successfully." )
         conn.close()
     except Exception as e:
         if hasattr(e, 'message'):
-            print(e.message)
+            print( e.message )
         else:
-            print(e)
-        print "DB transaction failed... Results were not saved!"
+            print( e )
+        print( "DB transaction failed... Results were not saved!" )
 
 
 if __name__ == "__main__":

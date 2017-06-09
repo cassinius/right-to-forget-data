@@ -200,11 +200,11 @@ filelist = [ f for f in sorted(os.listdir(INPUT_CSV)) if f.endswith(".csv") ]
 
 def computeOriginalData():
   # print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
-  print runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv")
+  print( runLogisticRegression(INPUT_CSV + "adults_original_dataset.csv") )
 
 
 def computeAllResults():
-  with open(OUTPUT_CSV + "results.csv", 'wb') as fout:
+  with open(OUTPUT_CSV + "results.csv", 'w') as fout:
     writer = csv.writer(fout, lineterminator='\n')
     writer.writerow(["dataset", "precision", "recall", "F1 score"])
 
@@ -213,7 +213,7 @@ def computeAllResults():
       scores = runLogisticRegression(INPUT_CSV + input_file)
       scores.insert(0, input_file)
       writer.writerow(scores)
-      print scores
+      print( scores )
 
 
 if __name__ == "__main__":

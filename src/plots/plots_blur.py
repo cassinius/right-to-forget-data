@@ -45,7 +45,7 @@ def zfunc(x, y, xmin, xmax, ymin, ymax, fill_color='k', alpha=1.0):
     xy -= int(xmin), int(ymin)
 
     # Draw a blurred line using PIL
-    draw.line(map(tuple, xy.tolist()), fill=255, width=15)
+    draw.line( list( map(tuple, xy.tolist()) ), fill=255, width=15)
     img = img.filter(ImageFilter.GaussianBlur(radius=100))
     # Convert the PIL image to an array
     zalpha = np.asarray(img).astype(float)

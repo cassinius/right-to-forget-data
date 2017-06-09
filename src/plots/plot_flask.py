@@ -11,7 +11,7 @@
 # Go to http://localhost:5000/plot.png and see a plot of random data.
 
 import random
-import StringIO
+from io import BytesIO
 
 from flask import Flask, make_response
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -21,7 +21,7 @@ from matplotlib.figure import Figure
 app = Flask(__name__)
 
 
-@app.route('/plot.png')
+@app.route('/plot')
 def plot():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
@@ -31,7 +31,7 @@ def plot():
 
     axis.plot(xs, ys)
     canvas = FigureCanvas(fig)
-    output = StringIO.StringIO()
+    output = BytesIO()
     canvas.print_png(output)
     # response = {}
     # response["result"] = {"precision": 0.8, "recall": 0.7, "f1": 0.75}

@@ -137,16 +137,16 @@ def runLogisticRegression(input_file):
     coefs_to_display = pd.concat([bottom_5_coefs, top_5_coefs])
 
     # print "Most significant coefficients"
-    print coefs_to_display
+    print( coefs_to_display )
 
-    # # fig = plt.figure()
-    # fig, ax = plt.subplots()
-    # # rect.set_facecolor('white')
-    # coefs_to_display.plot(kind="bar")
-    # fig.tight_layout()
-    # # fig.subplots_adjust(bottom=0.5)
-    # plt.xticks(rotation=60, ha='center')
-    # plt.show()
+    # fig = plt.figure()
+    fig, ax = plt.subplots()
+    # rect.set_facecolor('white')
+    coefs_to_display.plot(kind="bar")
+    fig.tight_layout()
+    # fig.subplots_adjust(bottom=0.5)
+    plt.xticks(rotation=60, ha='center')
+    plt.show()
 
 
 def computeOriginalData():

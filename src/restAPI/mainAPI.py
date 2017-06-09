@@ -4,17 +4,17 @@ import pandas as pd
 from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
 from flask import Flask, request, jsonify
-from InvalidUsage import InvalidUsage
+from src.restAPI.InvalidUsage import InvalidUsage
 import importlib
 import datetime
-import dbConnection
+from src.restAPI import dbConnection
 
 from src.multi_class import main_workflow
 from src.multi_class import random_forest
 from src.multi_class import input_preproc
 from flask_cors import CORS, cross_origin
-from iml_config import INPUT_COLS, CROSS_VALIDATION_K, ALGORITHMS
-from plotIMLResults import plotAndWriteResultsToFS
+from src.restAPI.iml_config import INPUT_COLS, CROSS_VALIDATION_K, ALGORITHMS
+from src.restAPI.plotIMLResults import plotAndWriteResultsToFS
 
 DATE_FORMAT = '%Y%m%d%H%M%S'
 
@@ -38,7 +38,7 @@ def hello():
 @app.route("/anonML", methods=['POST'])
 def sendResults():
     if request.method == 'POST':
-        print "Cient POST..."
+        print( "Cient POST..." )
     else:
         raise InvalidUsage('This route can only be accessed via POST requests', status_code=500)
 
@@ -80,7 +80,7 @@ def computeResultsForData(csv_string, target_col):
     algo_results = {}
 
     for algo_str in ALGORITHMS:
-        print "Running on algorithm: " + algo_str
+        print( "Running on algorithm: " + algo_str )
         algorithm = importlib.import_module("src.multi_class." + algo_str)
         algo_results[algo_str] = computeResultsFromAlgo(encoded_data, algorithm, target_col)
 
@@ -120,10 +120,10 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
     final_f1 = sum(f1s) / len(f1s)
     final_accuracy = sum(accuracies) / len(accuracies)
 
-    print "\n================================"
-    print "Precision | Recall | F1 Score | Accuracy"
-    print("%.6f %.6f %.6f %.6f" % (final_precision, final_recall, final_f1, final_accuracy))
-    print "================================\n"
+    print( "\n================================" )
+    print( "Precision | Recall | F1 Score | Accuracy" )
+    print( "%.6f %.6f %.6f %.6f" % (final_precision, final_recall, final_f1, final_accuracy) )
+    print( "================================\n" )
 
     algo_results = {
         'precision': final_precision,
