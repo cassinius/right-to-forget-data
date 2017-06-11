@@ -1,4 +1,4 @@
-import json
+import json, os
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -17,6 +17,7 @@ from src.restAPI.iml_config import INPUT_COLS, CROSS_VALIDATION_K, ALGORITHMS
 from src.restAPI.plotIMLResults import plotAndWriteResultsToFS
 
 DATE_FORMAT = '%Y%m%d%H%M%S'
+DEFAULT_PORT = 5000
 
 app = Flask(__name__)
 CORS(app)
@@ -141,13 +142,16 @@ def computeResultsFromAlgo(encoded_data, algorithm, target_col):
 
 
 if __name__ == "__main__":
+    port = DEFAULT_PORT
+    if ( "PORT" in os.environ ):
+        port = os.environ["PORT"]
     app.run(
         host="0.0.0.0",
-        port=5000
+        port=port
     )
 
 '''
     On a python commandline, start with something like:
-    PYTHONPATH="." IML_SERVER="berndmalle.com" python2 src/restAPI/mainAPI.py
+    PYTHONPATH="." IML_SERVER="berndmalle.com" PORT="5050" python src/restAPI/mainAPI.py
     PYTHONPATH="." IML_SERVER="berndmalle.com" pm2 start src/restAPI/mainAPI.py --name iMLRestAPI
 '''
