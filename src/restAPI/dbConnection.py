@@ -27,18 +27,30 @@ def connectDB():
         print( "I am unable to connect to the database" )
 
 
+
 def getResultsFromDB():
     connectDB()
 
     try:
-        query = """SELECT id, grouptoken, timestamp, target, usertoken FROM %s""" % (DB_TABLE_RESULTS)
+        query = """SELECT id, grouptoken, usertoken, timestamp, target, results_bias, results_iml FROM %s""" % (DB_TABLE_RESULTS)
         cur.execute(query)
-        results = cur.fetchall()
-        print( results )
+        db_results = cur.fetchall()
+        results = {}
+        # print( db_results )
         conn.commit()
         print("Successfully retrieved results.")
         # cur.close()
         conn.close()
+        for val in db_results:
+            res = {
+                'grouptoken': val[1],
+                'usertoken': val[2],
+                'timestamp': val[3],
+                'target': val[4],
+                'results_bias': val[5],
+                'results_iml': val[6]
+            }
+            results[val[0]] = res
         return json.dumps( {"results": results} )
     except:
         print("DB transaction failed... Could not retrieve results!")
@@ -90,6 +102,7 @@ def storeResult(request, overall_results):
         else:
             print( e )
         print( "DB transaction failed... Results were not saved!" )
+
 
 
 if __name__ == "__main__":
