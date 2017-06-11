@@ -32,7 +32,12 @@ def handle_invalid_usage(error):
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    return "Welcome to the iML Anonymization Machine Learning API!"
+
+
+@app.route("/getDBResults")
+def retrieveDBResults():
+    return dbConnection.getResultsFromDB()
 
 
 @app.route("/anonML", methods=['POST'])

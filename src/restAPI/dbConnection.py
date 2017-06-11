@@ -27,6 +27,23 @@ def connectDB():
         print( "I am unable to connect to the database" )
 
 
+def getResultsFromDB():
+    connectDB()
+
+    try:
+        query = """SELECT id, grouptoken, timestamp, target, usertoken FROM %s""" % (DB_TABLE_RESULTS)
+        cur.execute(query)
+        results = cur.fetchall()
+        print( results )
+        conn.commit()
+        print("Successfully retrieved results.")
+        # cur.close()
+        conn.close()
+        return json.dumps( {"results": results} )
+    except:
+        print("DB transaction failed... Could not retrieve results!")
+
+
 
 def storeRawRequest(request_json, timestamp):
     connectDB()
