@@ -38,16 +38,16 @@ from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
 
 
-CROSS_VALIDATION_K = 10
+CROSS_VALIDATION_K = 5
 
-MODE = 'anonymization'
+# MODE = 'anonymization'
 # MODE = 'perturbation'
-# MODE = 'outliers'
+MODE = 'outliers'
 
 # OUTLIER_TARGET = ''
 # OUTLIER_TARGET = 'outliers/'
-# OUTLIER_TARGET = 'random_comparison/'
-OUTLIER_TARGET = 'original/'
+OUTLIER_TARGET = 'random_comparison/'
+# OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
 
@@ -121,10 +121,10 @@ CONFIG_INCOME = {
 
 
 ALGORITHMS = [
-    # 'linear_svc',
+    'linear_svc',
     'logistic_regression',
-    # 'gradient_boosting',
-    # 'random_forest',
+    'gradient_boosting',
+    'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
@@ -143,9 +143,13 @@ def main_workflow():
 
         algorithm = importlib.import_module(algo_str)
 
-        with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'w') as fout:
-            writer = csv.writer(fout, lineterminator='\n')
-            writer.writerow(["dataset", "precision", "recall", "f1"])
+        with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'w') as algo_out, \
+             open(config['OUTPUT'] + 'data_stats' + ".csv", 'w') as stats_out:
+            algo_writer = csv.writer(algo_out, lineterminator='\n')
+            algo_writer.writerow(["dataset", "precision", "recall", "f1", "std", "var"])
+
+            stats_writer = csv.writer(stats_out, lineterminator='\n')
+            stats_writer.writerow(["dataset", "size", "std", "var"])
 
             for input_file in filelist:
 
@@ -163,7 +167,10 @@ def main_workflow():
                 kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
 
                 # We want to know the variance of the training data set only
-                print("INPUT DATA VARIANCE: %.2f" % (np.var(X)))
+                print("Input data SIZE: %.2f" % (len(X)))
+                print("Input data STD.DEV.: %.2f" % (np.std(X)))
+                print("Input data VARIANCE: %.2f" % (np.var(X)))
+                stats_writer.writerow([input_file, len(X), np.std(X), np.var(X)])
 
                 precisions = []
                 recalls = []
@@ -171,8 +178,6 @@ def main_workflow():
                 accuracies = []
 
                 for train_index, test_index in kf.split(X):
-                    # print "train_index: " + str(train_index)
-                    # print "test_index: " + str(test_index)
                     X_train, y_train = X[train_index], y[train_index]
                     X_test, y_test = X[test_index], y[test_index]
 
@@ -192,7 +197,7 @@ def main_workflow():
                 print("%.6f %.6f %.6f %.6f" % (final_precision, final_recall, final_f1, final_acc))
                 print( "================================\n" )
 
-                writer.writerow([input_file, final_precision, final_recall, final_f1])
+                algo_writer.writerow([input_file, final_precision, final_recall, final_f1])
 
 
 

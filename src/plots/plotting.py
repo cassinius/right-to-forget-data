@@ -16,13 +16,13 @@ MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
-# OUTLIER_TARGET = 'outliers/'
-OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
-# OUTLIER_PREFIX = 'adults_outliers_removed_'
-OUTLIER_PREFIX = 'adults___'
+OUTLIER_PREFIX = 'adults_outliers_removed_'
+# OUTLIER_PREFIX = 'adults_random_deletion_'
 
 # TARGET = 'education_num/'
 # TARGET = 'marital_status/'
@@ -67,9 +67,9 @@ colors = ['g', 'saddlebrown', 'r', 'blue', 'm', 'k', 'g']
 
 
 def readOutlierResultsIntoHash():
-  filelist = [f for f in sorted(os.listdir(OUTLIERS_DIRECTORY)) if f.endswith(".csv")]
+  results_file_list = [f for f in sorted(os.listdir(OUTLIERS_DIRECTORY)) if f.startswith("results") and f.endswith(".csv")]
   results = {}
-  for input_file in filelist:
+  for input_file in results_file_list:
 
     # print input_file
     results[input_file] = {}
