@@ -11,13 +11,13 @@ MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
-# OUTLIER_TARGET = 'outliers/'
-OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
-# OUTLIER_PREFIX = 'adults_outliers_removed_'
-OUTLIER_PREFIX = 'adults_random_deletion_'
+OUTLIER_PREFIX = 'adults_outliers_removed_'
+# OUTLIER_PREFIX = 'adults_random_deletion_'
 
 # TARGET = 'education_num/'
 # TARGET = 'marital_status/'
@@ -142,22 +142,30 @@ def plotOutlierResults(results):
 
   ### Collect Std. Deviation from data_stats
   ### HACK - refactor out into own function !!!
+  sizes = []
   std_devs = []
   with open(OUTLIERS_DIRECTORY + "/data_stats.csv", 'r') as f:
     next(f)
     stat_lines = [line.split(',') for line in f]
     for idx, line in enumerate(stat_lines):
-      std_devs.append(line[2])
+      sizes.append(float(line[1]))
+      std_devs.append(float(line[2]))
       # print( "line{0} = {1}".format(idx, line) )
 
-  print( std_devs )
+  print( "Std.Dev.: " + str(std_devs) )
   min_std = min(std_devs)
   max_std = max(std_devs)
-  print( "Min Std: " + min_std )
-  print( "Max Std: " + max_std )
+  print( "Min Std: %s" %(min_std) )
+  print( "Max Std: %s" %(max_std) )
+
+  print( "Sizes: " + str(sizes) )
+  min_size = min(sizes)
+  max_size = max(sizes)
+  print( "Min Size: %s" %(min_size) )
+  print( "Max Size: %s" %(max_size) )
 
   ### START PLOTTING ###
-  fig, (ax_top, ax_bottom) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]})
+  fig, (ax_top, ax_bottom_std) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]})
   fig.patch.set_facecolor('white')
   # ax.set_axis_bgcolor((116/256.0, 139/256.0, 197/256.0))
   # ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
@@ -198,17 +206,29 @@ def plotOutlierResults(results):
                 y_min=float(min_std),
                 y_max=float(max_std),
                 # zfunc=plots_blur.zfunc,
-                ax=ax_bottom,
-                marker=markers[idx],
-                color='cyan',
+                ax=ax_bottom_std,
+                # marker=markers[idx],
+                color='green',
                 label='standard deviation')
   # ax_bottom.plot(std_devs)
 
-  ax_bottom.axis([0, max(x), 20000, 45000])
-  ax_bottom.locator_params(nbins=18, axis='x')
-  ax_bottom.set_xticklabels(x_labels)
-  ax_bottom.set_xlabel('% of ' + target_label + ' removed')
-  ax_bottom.set_ylabel('Std.Dev.')
+  ax_bottom_std.axis([0, max(x), 20000, 45000])
+  ax_bottom_std.locator_params(nbins=18, axis='x')
+  ax_bottom_std.set_xticklabels(x_labels)
+  ax_bottom_std.set_xlabel('% of ' + target_label + ' removed')
+  ax_bottom_std.set_ylabel('Std.Dev.', color="g")
+
+  ax_bottom_size = ax_bottom_std.twinx()
+  gradient_fill(np.array(x),
+                np.array(list(map(float, sizes))),
+                y_min=float(min_size),
+                y_max=float(max_size),
+                # zfunc=plots_blur.zfunc,
+                ax=ax_bottom_size,
+                # marker=markers[idx],
+                color='y',
+                label='dataset size')
+  ax_bottom_size.set_ylabel('dataset size', color='y')
 
   # plt.tight_layout()
   plt.show()
