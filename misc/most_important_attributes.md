@@ -1,15 +1,13 @@
-# What do logistic regression coefficients mean **exactly** ??
-
 ### Anonymization - multi-class-classification - Education Num
 
-**most negative indicators:**
+**most insignificant indicators:**
 
 -) native-country_United-States
 -) occupation_Adm-clerical
 -) marital-status_Divorced
 -) income_>50K
 
-**most positive indicators:**
+**most significant indicators:**
 
 -) native-country_Mexico
 -) occupation_Priv-house-serv
@@ -18,13 +16,13 @@
 
 ### Anonymization - multi-class-classification - Marital Status
 
-**most negative indicators:**
-
--) relationship_Husband
--) sex_Male
-
-**most positive indicators:**
+**most insignificant indicators:**
 
 -) sex_Female
 -) relationship_Unmarried
 -) relationship_Not-in-family
+
+**most significant indicators:**
+
+-) relationship_Husband
+-) sex_Male

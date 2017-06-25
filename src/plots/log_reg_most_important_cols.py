@@ -60,7 +60,7 @@ CONFIG_MARITAL = {
     'TARGET_CLASSES': 7
 }
 
-config = CONFIG_EDUCATION
+config = CONFIG_MARITAL
 classes = config['TARGET_CLASSES']
 INPUT_FILE = "adults_original_dataset.csv"
 
@@ -139,14 +139,14 @@ def runLogisticRegression(input_file):
     # print "Most significant coefficients"
     print coefs_to_display
 
-    # # fig = plt.figure()
-    # fig, ax = plt.subplots()
-    # # rect.set_facecolor('white')
-    # coefs_to_display.plot(kind="bar")
-    # fig.tight_layout()
-    # # fig.subplots_adjust(bottom=0.5)
-    # plt.xticks(rotation=60, ha='center')
-    # plt.show()
+    # fig = plt.figure()
+    fig, ax = plt.subplots()
+    # rect.set_facecolor('white')
+    coefs_to_display.plot(kind="bar")
+    fig.tight_layout()
+    # fig.subplots_adjust(bottom=0.5)
+    plt.xticks(rotation=60, ha='right')
+    plt.show()
 
 
 def computeOriginalData():
