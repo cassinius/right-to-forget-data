@@ -7,26 +7,26 @@ import matplotlib.pyplot as plt
 # from PIL import ImageDraw
 # from PIL import ImageFilter
 # np.random.seed(1979)
-import plots_blur
+from src.plots.plots_blur import gradient_fill
 
 
-MODE = 'anonymization'
+# MODE = 'anonymization'
 # MODE = 'perturbation'
-# MODE = 'outliers'
+MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
 # OUTLIER_TARGET = 'outliers/'
-# OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
-OUTLIER_TARGET = 'outliers_removed/'
+# OUTLIER_TARGET = 'outliers_removed/'
 
-OUTLIER_PREFIX = 'adults_outliers_removed_'
-# OUTLIER_PREFIX = 'adults___'
+# OUTLIER_PREFIX = 'adults_outliers_removed_'
+OUTLIER_PREFIX = 'adults___'
 
 # TARGET = 'education_num/'
-TARGET = 'marital_status/'
-# TARGET = 'income/'
+# TARGET = 'marital_status/'
+TARGET = 'income/'
 
 
 # Input files
@@ -63,11 +63,10 @@ PERTURBATION_FILES = {
 
 markers = ['o', '^', 'D', 'x', 'v', 'p', 'H']
 linestyles = ['-', '--', '-.', '-.-', '.-.', ':']
-colors = ['r', 'y', 'b', 'c', 'm', 'k', 'g']
+colors = ['g', 'saddlebrown', 'r', 'blue', 'm', 'k', 'g']
 
 
 def readOutlierResultsIntoHash():
-  print OUTLIERS_DIRECTORY
   filelist = [f for f in sorted(os.listdir(OUTLIERS_DIRECTORY)) if f.endswith(".csv")]
   results = {}
   for input_file in filelist:
@@ -135,19 +134,19 @@ def plotOutlierResults(results):
   min_score = min(min(linear_svc_line_f1), min(logistic_regression_line_f1), min(random_forest_line_f1), min(gradient_boosting_line_f1))
   max_score = max(max(linear_svc_line_f1), max(logistic_regression_line_f1), max(random_forest_line_f1), max(gradient_boosting_line_f1))
 
-  print "Min score: " + min_score
-  print "Max score: " + max_score
+  print( "Min score: " + min_score )
+  print( "Max score: " + max_score )
 
   x = range(0, len(out_factors) + 1)
   x_labels = ['none']
   for o in out_factors:
     x_labels.append(str(o))
-  print "Labels: " + str( x_labels )
+  print( "Labels: " + str( x_labels ) )
 
   fig, ax = plt.subplots()
   fig.patch.set_facecolor('white')
   # ax.set_axis_bgcolor((116/256.0, 139/256.0, 197/256.0))
-  ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
+  # ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
   # ax.set_axis_bgcolor((50/256.0, 50/256.0, 50/256.0))
 
   if (OUTLIER_TARGET == 'outliers'):
@@ -158,15 +157,15 @@ def plotOutlierResults(results):
 
   for idx, key in enumerate(lines):
     line = lines[key]
-    plots_blur.gradient_fill(np.array(x),
-                             np.array(map(float, line)),
-                             y_min=float(min_score),
-                             y_max=float(max_score),
-                             # zfunc=plots_blur.zfunc,
-                             ax=ax,
-                             marker=markers[idx],
-                             color=colors[idx],
-                             label=key)
+    gradient_fill( np.array(x),
+                   np.array(list(map(float, line))),
+                   y_min=float(min_score),
+                   y_max=float(max_score),
+                   # zfunc=plots_blur.zfunc,
+                   ax=ax,
+                   marker=markers[idx],
+                   color=colors[idx],
+                   label=key )
     # plt.plot(line, marker=markers[idx], color=colors[idx], label=key)
 
   # Create a legend (Matplotlib madness...!!!)
@@ -197,20 +196,20 @@ def plotAnonymizationResults(results, original=None):
     age_line_f1.append(results["adults_anonymized_k" + k + "_emph_age.csv"]["f1"])
     race_line_f1.append(results["adults_anonymized_k" + k + "_emph_race.csv"]["f1"])
 
-  print "Equal: " + str(equal_line_f1)
-  print "Emph age: " + str(age_line_f1)
-  print "Emph race: " + str(race_line_f1)
+  print( "Equal: " + str(equal_line_f1) )
+  print( "Emph age: " + str(age_line_f1) )
+  print( "Emph race: " + str(race_line_f1) )
 
   min_score = min(min(equal_line_f1), min(age_line_f1), min(race_line_f1))
   max_score = max(max(equal_line_f1), max(age_line_f1), max(race_line_f1))
 
-  print "Min score: " + min_score
-  print "Max score: " + max_score
+  print( "Min score: " + min_score )
+  print( "Max score: " + max_score )
 
   x = range(0, len(k_factors) + 1)
   labels = ['none'] + k_factors
 
-  print "Labels: " + str( labels )
+  print( "Labels: " + str( labels ) )
 
   fig, ax = plt.subplots()
   rect = fig.patch
@@ -223,16 +222,15 @@ def plotAnonymizationResults(results, original=None):
   race_line, = plt.plot(race_line_f1, marker='D', linestyle='-', color='g', label="race preferred")
   plt.legend(handles=[equal_line, age_line, race_line])
 
-  print equal_line
-  print age_line
-  print race_line
+  print( equal_line )
+  print( age_line )
+  print( race_line )
 
   plt.axis([0, 5, float(min_score), float(max_score)])
   plt.xticks(x, labels)
   plt.xlabel('anonymization k-factor')
   plt.ylabel('F1 score')
   plt.show()
-
 
 
 
@@ -266,8 +264,8 @@ def plotPerturbationResults(results, perturbation_files):
     lines[file] = line
 
   # print lines
-  print "Max F1 Score: " + str(max_score)
-  print "Min F1 Score: " + str(min_score)
+  print( "Max F1 Score: " + str(max_score) )
+  print( "Min F1 Score: " + str(min_score) )
 
   x = [0, 1, 2, 3, 4, 5]
   x_labels = ["0", "20%", "40%", "60%", "80%", "100%"]
@@ -280,7 +278,7 @@ def plotPerturbationResults(results, perturbation_files):
 
   for idx, key in enumerate(lines):
     line = lines[key]
-    plots_blur.gradient_fill(np.array(x),
+    gradient_fill(np.array(x),
                              np.array(map(float, line)),
                              y_min=float(min_score),
                              y_max=float(max_score),
@@ -323,4 +321,4 @@ if __name__ == "__main__":
     results = readResultsIntoHash(ALGO)
     plotPerturbationResults(results, PERTURBATION_FILES[TARGET])
   else:
-    print "This mode is not supported."
+    print( "Mode %s This mode is not supported." % (MODE) )

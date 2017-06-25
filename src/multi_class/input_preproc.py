@@ -1,7 +1,7 @@
 from sklearn import datasets
 import sklearn.model_selection as ms
 import pandas as pd
-from StringIO import StringIO
+from io import StringIO
 
 
 
@@ -133,4 +133,4 @@ if __name__ == "__main__":
              ],
              "education-num"
     )
-    print data
+    print( data )

@@ -33,8 +33,7 @@ import os, csv, glob
 import pandas as pd
 import numpy as np
 import importlib
-import input_preproc
-import sklearn.cross_validation as cross_validation
+from src.multi_class import input_preproc
 from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
 
@@ -123,9 +122,9 @@ CONFIG_INCOME = {
 
 ALGORITHMS = [
     # 'linear_svc',
-    # 'logistic_regression',
+    'logistic_regression',
     # 'gradient_boosting',
-    'random_forest',
+    # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
@@ -134,8 +133,8 @@ config = CONFIG_INCOME
 
 
 def main_workflow():
-    print "Starting main workflow..."
-    print "Running on target: " + config['TARGET']
+    print( "Starting main workflow..." )
+    print( "Running on target: " + config['TARGET'] )
 
     # CREATING FILELIST
     filelist = [f for f in sorted(os.listdir(config['TARGET'])) if f.endswith(".csv")]
@@ -144,7 +143,7 @@ def main_workflow():
 
         algorithm = importlib.import_module(algo_str)
 
-        with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'wb') as fout:
+        with open(config['OUTPUT'] + 'results_' + algo_str + ".csv", 'w') as fout:
             writer = csv.writer(fout, lineterminator='\n')
             writer.writerow(["dataset", "precision", "recall", "f1"])
 
@@ -156,7 +155,7 @@ def main_workflow():
                     config['TARGET_COL']
                 )
 
-                print "Running algorithm: " + algo_str + " on: " + input_file
+                print( "Running algorithm: " + algo_str + " on: " + input_file )
 
                 # Split into predictors and target
                 X = np.array( encoded_data[encoded_data.columns.difference([config['TARGET_COL']])] )
@@ -169,6 +168,7 @@ def main_workflow():
                 precisions = []
                 recalls = []
                 f1s = []
+                accuracies = []
 
                 for train_index, test_index in kf.split(X):
                     # print "train_index: " + str(train_index)
@@ -180,16 +180,17 @@ def main_workflow():
                     X_train = pd.DataFrame(scaler.fit_transform(X_train))  # , columns=X_train.columns)
                     X_test = scaler.transform(X_test)
 
-                    precision, recall, f1_score = algorithm.runClassifier(X_train, X_test, y_train, y_test)
+                    precision, recall, f1_score, accuracy = algorithm.runClassifier(X_train, X_test, y_train, y_test)
                     precisions.append(precision)
                     recalls.append(recall)
                     f1s.append(f1_score)
+                    accuracies.append(accuracy)
 
-                final_precision, final_recall, final_f1 = sum(precisions)/len(precisions), sum(recalls)/len(recalls), sum(f1s)/len(f1s)
-                print "\n================================"
-                print "Precision / Recall / F1 Score: "
-                print("%.6f %.6f %.6f" % (final_precision, final_recall, final_f1))
-                print "================================\n"
+                final_precision, final_recall, final_f1, final_acc = sum(precisions)/len(precisions), sum(recalls)/len(recalls), sum(f1s)/len(f1s), sum(accuracies)/len(accuracies)
+                print("\n================================")
+                print("Precision | Recall | F1 Score | Accuracy: ")
+                print("%.6f %.6f %.6f %.6f" % (final_precision, final_recall, final_f1, final_acc))
+                print( "================================\n" )
 
                 writer.writerow([input_file, final_precision, final_recall, final_f1])
 

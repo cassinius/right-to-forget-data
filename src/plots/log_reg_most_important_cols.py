@@ -137,8 +137,7 @@ def runLogisticRegression(input_file):
     coefs_to_display = pd.concat([bottom_5_coefs, top_5_coefs])
 
     # print "Most significant coefficients"
-    print coefs_to_display
-
+    print( coefs_to_display )
     # fig = plt.figure()
     fig, ax = plt.subplots()
     # rect.set_facecolor('white')

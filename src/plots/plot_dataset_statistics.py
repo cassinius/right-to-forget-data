@@ -48,18 +48,18 @@ target = encoded_data[config['TARGET_COL']]
 # print target
 # print type(target)
 
-values = target.value_counts(  normalize=False,
-                               sort=True,
-                               ascending=False,
-                               bins=None,
-                               dropna=True)
+values = target.value_counts( normalize=False,
+                              sort=True,
+                              ascending=False,
+                              bins=None,
+                              dropna=True )
 
 # values = encoded_data.count()
 
-print "Absolute values:"
-print values
+print( "Absolute values:" )
+print( values )
 # print sum(values)
 
-print "Fractions:"
+print( "Fractions:" )
 for key, value in values.iteritems():
-    print("%s : %.2f" %(key, float(value)/sum(values)))
+    print( "%s : %.2f" %(key, float(value)/sum(values)) )

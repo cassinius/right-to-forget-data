@@ -6,17 +6,17 @@ import os
 
 IMG_DIR= "/var/www/iMLAnonResultPlots/"
 
-if os.environ.has_key("IML_SERVER"):
-    print "Found IML Server environment entry, saving plots to: " + os.environ["IML_SERVER"]
+if "IML_SERVER" in os.environ:
+    print( "Found IML Server environment entry, saving plots to: " + os.environ["IML_SERVER"] )
     PLOT_BASE_URL = "http://" + os.environ["IML_SERVER"] + "/iMLAnonResultPlots/"
 else:
-    print "Found no IML Server environment entry, saving plots to: localhost. "
+    print( "Found no IML Server environment entry, saving plots to: localhost. " )
     PLOT_BASE_URL = "http://localhost/iMLAnonResultPlots/"
 
 
 
 def plotAndWriteResultsToFS(overall_results):
-    print "Plotting..."
+    print( "Plotting..." )
 
     iml = overall_results['results']['iml']
     bias = overall_results['results']['bias']
@@ -40,8 +40,8 @@ def plotAndWriteResultsToFS(overall_results):
     min_height = max(0, float(min_score) / 2)
     max_height = min(1, float(max_score) * 1.25)
 
-    print "Setting MIN height to: " + str(min_height)
-    print "Setting MAX height to: " + str(max_height)
+    print( "Setting MIN height to: " + str(min_height) )
+    print( "Setting MAX height to: " + str(max_height) )
 
     fig, ax = plt.subplots()
     bias_rects = ax.bar(ind, bias_results, width, color='#8b0333')
