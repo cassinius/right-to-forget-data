@@ -6,7 +6,7 @@ import pandas as pd
 
 
 OUTPUT_DIR = "../../data/outliers/adults_target_income/outliers/"
-OUTPUT_NAME_BULK = "adults_outliers_removed"
+OUTPUT_NAME_BULK = "adults_outliers_removed_"
 INPUT_FILE = "../../data/anonymization/adults_target_income/original/adults_original_dataset.csv"
 INPUT_COLS = [
         "age",
@@ -77,7 +77,7 @@ def calculateOutliersIndicesAtLevel(encoded_data, level):
 
 # Just for testing, outsource ASAP
 def outputCleanedFile(cleaned_data, contamination_level):
-    file_name = OUTPUT_DIR + OUTPUT_NAME_BULK + "_" + str(contamination_level) + ".csv"
+    file_name = OUTPUT_DIR + OUTPUT_NAME_BULK + str(contamination_level) + ".csv"
     cleaned_data.to_csv(file_name,
                         header=INPUT_COLS,
                         index=False,

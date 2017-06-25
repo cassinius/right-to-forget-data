@@ -1,13 +1,8 @@
 import os, csv
 import numpy as np
 import matplotlib.pyplot as plt
-# import matplotlib.colors as mcolors
-# import matplotlib.patches as patches
-# from PIL import Image
-# from PIL import ImageDraw
-# from PIL import ImageFilter
-# np.random.seed(1979)
 from src.plots.plots_blur import gradient_fill
+from matplotlib import gridspec
 
 
 # MODE = 'anonymization'
@@ -16,13 +11,13 @@ MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
-OUTLIER_TARGET = 'outliers/'
-# OUTLIER_TARGET = 'random_comparison/'
+# OUTLIER_TARGET = 'outliers/'
+OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
-OUTLIER_PREFIX = 'adults_outliers_removed_'
-# OUTLIER_PREFIX = 'adults_random_deletion_'
+# OUTLIER_PREFIX = 'adults_outliers_removed_'
+OUTLIER_PREFIX = 'adults_random_deletion_'
 
 # TARGET = 'education_num/'
 # TARGET = 'marital_status/'
@@ -63,7 +58,7 @@ PERTURBATION_FILES = {
 
 markers = ['o', '^', 'D', 'x', 'v', 'p', 'H']
 linestyles = ['-', '--', '-.', '-.-', '.-.', ':']
-colors = ['g', 'saddlebrown', 'r', 'blue', 'm', 'k', 'g']
+colors = ['g', 'saddlebrown', 'r', 'b', 'm', 'k', 'g']
 
 
 def readOutlierResultsIntoHash():
@@ -115,6 +110,7 @@ def plotOutlierResults(results):
   lines = {}
   out_factors = np.linspace(0.1, 0.95, 18)
 
+  ### Collect Classification Results ###
   linear_svc_line_f1 = [results["results_linear_svc.csv"]["adults_original_dataset.csv"]["f1"]]
   logistic_regression_line_f1 = [results["results_logistic_regression.csv"]["adults_original_dataset.csv"]["f1"]]
   random_forest_line_f1 = [results["results_random_forest.csv"]["adults_original_dataset.csv"]["f1"]]
@@ -133,27 +129,46 @@ def plotOutlierResults(results):
 
   min_score = min(min(linear_svc_line_f1), min(logistic_regression_line_f1), min(random_forest_line_f1), min(gradient_boosting_line_f1))
   max_score = max(max(linear_svc_line_f1), max(logistic_regression_line_f1), max(random_forest_line_f1), max(gradient_boosting_line_f1))
-
   print( "Min score: " + min_score )
   print( "Max score: " + max_score )
 
   x = range(0, len(out_factors) + 1)
-  x_labels = ['none']
+  x_labels = [0]
   for o in out_factors:
-    x_labels.append(str(o))
+    x_labels.append(o)
+  print( "x: " + str(x))
   print( "Labels: " + str( x_labels ) )
 
-  fig, ax = plt.subplots()
+
+  ### Collect Std. Deviation from data_stats
+  ### HACK - refactor out into own function !!!
+  std_devs = []
+  with open(OUTLIERS_DIRECTORY + "/data_stats.csv", 'r') as f:
+    next(f)
+    stat_lines = [line.split(',') for line in f]
+    for idx, line in enumerate(stat_lines):
+      std_devs.append(line[2])
+      # print( "line{0} = {1}".format(idx, line) )
+
+  print( std_devs )
+  min_std = min(std_devs)
+  max_std = max(std_devs)
+  print( "Min Std: " + min_std )
+  print( "Max Std: " + max_std )
+
+  ### START PLOTTING ###
+  fig, (ax_top, ax_bottom) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]})
   fig.patch.set_facecolor('white')
   # ax.set_axis_bgcolor((116/256.0, 139/256.0, 197/256.0))
   # ax.set_axis_bgcolor((255/256.0, 199/256.0, 0/256.0))
   # ax.set_axis_bgcolor((50/256.0, 50/256.0, 50/256.0))
 
-  if (OUTLIER_TARGET == 'outliers'):
+  if (OUTLIER_TARGET == 'outliers/'):
     target_label = 'outliers'
   else:
     target_label = 'random data points'
-  plt.title("F1 score dependent on " + target_label + " removed")
+
+  plt.suptitle("F1 score dependent on " + target_label + " removed")
 
   for idx, key in enumerate(lines):
     line = lines[key]
@@ -162,20 +177,40 @@ def plotOutlierResults(results):
                    y_min=float(min_score),
                    y_max=float(max_score),
                    # zfunc=plots_blur.zfunc,
-                   ax=ax,
+                   ax=ax_top,
                    marker=markers[idx],
                    color=colors[idx],
                    label=key )
-    # plt.plot(line, marker=markers[idx], color=colors[idx], label=key)
+    # ax_top.plot(line, marker=markers[idx], color=colors[idx], label=key)
 
   # Create a legend (Matplotlib madness...!!!)
-  handles, labels = ax.get_legend_handles_labels()
-  ax.legend(handles, labels)
+  handles, labels = ax_top.get_legend_handles_labels()
+  ax_top.legend(handles, labels)
 
-  plt.axis([0, 5, float(min_score), float(max_score)])
-  plt.xticks(x, x_labels)
-  plt.xlabel('degree of ' + target_label + ' removed')
-  plt.ylabel('F1 score')
+  ax_top.axis([0, max(x), float(min_score), float(max_score)])
+  ax_top.locator_params(nbins=18, axis='x')
+  ax_top.set_xticklabels(x_labels)
+  ax_top.set_xlabel('% of ' + target_label + ' removed')
+  ax_top.set_ylabel('F1 score')
+
+  gradient_fill(np.array(x),
+                np.array(list(map(float, std_devs))),
+                y_min=float(min_std),
+                y_max=float(max_std),
+                # zfunc=plots_blur.zfunc,
+                ax=ax_bottom,
+                marker=markers[idx],
+                color='cyan',
+                label='standard deviation')
+  # ax_bottom.plot(std_devs)
+
+  ax_bottom.axis([0, max(x), 20000, 45000])
+  ax_bottom.locator_params(nbins=18, axis='x')
+  ax_bottom.set_xticklabels(x_labels)
+  ax_bottom.set_xlabel('% of ' + target_label + ' removed')
+  ax_bottom.set_ylabel('Std.Dev.')
+
+  # plt.tight_layout()
   plt.show()
 
 
