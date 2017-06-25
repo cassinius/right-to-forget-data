@@ -59,13 +59,12 @@ def calculateOutliersIndicesAtLevel(encoded_data, level):
 
     # Split into predictors and target
     X_adults = np.array( encoded_data[encoded_data.columns.difference([TARGET_COL])] )
-    y_adults = np.array( encoded_data[TARGET_COL] )
 
     clf.fit(X_adults)
     y_pred_adults = clf.predict(X_adults)
     indices = np.where(y_pred_adults == -1)[0]
 
-    print("%d Outliers found at contamination level %.2f" %(len(indices), level))
+    # print("%d Outliers found at contamination level %.2f" %(len(indices), level))
 
     # print "\n========================\n"
     # print("%d Outliers found, %s" %(len(indices), "at indices:"))
@@ -87,9 +86,15 @@ def outputCleanedFile(cleaned_data, contamination_level):
 if __name__ == "__main__":
     original_data = getOriginalData()
     encoded_data = getEncodedData()
+    print("Std. Deviation ORIGINAL: %s" % (np.std(np.array(encoded_data[encoded_data.columns.difference([TARGET_COL])]))))
 
     for contamination_level in CONTAMINATION_LEVELS:
         outlier_indices = calculateOutliersIndicesAtLevel(encoded_data, contamination_level)
         cleaned_data = original_data.drop(original_data.index[outlier_indices])
-        print("Length of remaining data: %d" %(len(cleaned_data)))
+
+        cleaned_encoded = encoded_data.drop(encoded_data.index[outlier_indices])
+        double_clean = cleaned_encoded[cleaned_encoded.columns.difference([TARGET_COL])]
+        print("Std. Deviation PURIFIED: %s" % (np.std(np.array(double_clean))))
+
+        # print("Length of remaining data: %d \n" % (len(cleaned_data)))
         outputCleanedFile(cleaned_data, contamination_level)

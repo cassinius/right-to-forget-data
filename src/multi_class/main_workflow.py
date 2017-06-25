@@ -45,8 +45,8 @@ CROSS_VALIDATION_K = 5
 MODE = 'outliers'
 
 # OUTLIER_TARGET = ''
-# OUTLIER_TARGET = 'outliers/'
-OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 

@@ -144,6 +144,7 @@ def plotOutlierResults(results):
   ### HACK - refactor out into own function !!!
   sizes = []
   std_devs = []
+
   with open(OUTLIERS_DIRECTORY + "/data_stats.csv", 'r') as f:
     next(f)
     stat_lines = [line.split(',') for line in f]
@@ -151,6 +152,10 @@ def plotOutlierResults(results):
       sizes.append(float(line[1]))
       std_devs.append(float(line[2]))
       # print( "line{0} = {1}".format(idx, line) )
+
+
+  ### HACK
+  std_devs = [23067.4001036, 22639.1158206, 22571.5070026, 22620.6618975, 22589.9337135, 22059.7985866, 22424.0912575, 21930.8899104, 21970.3662728, 21994.9221648, 21593.5026667, 21800.1532851, 21585.9000612, 21449.0850529, 21210.0238979, 20915.885174, 20901.7194893, 19527.862345, 19057.6693942]
 
   print( "Std.Dev.: " + str(std_devs) )
   min_std = min(std_devs)
