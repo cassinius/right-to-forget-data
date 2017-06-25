@@ -217,7 +217,7 @@ def plotOutlierResults(results):
                 label='standard deviation')
   # ax_bottom.plot(std_devs)
 
-  ax_bottom_std.axis([0, max(x), 20000, 45000])
+  ax_bottom_std.axis([0, max(x), 19000, 24000])
   ax_bottom_std.locator_params(nbins=18, axis='x')
   ax_bottom_std.set_xticklabels(x_labels)
   ax_bottom_std.set_xlabel('% of ' + target_label + ' removed')
