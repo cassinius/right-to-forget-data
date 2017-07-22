@@ -40,6 +40,9 @@ def hello():
 def retrieveDBResults():
     return dbConnection.getResultsFromDB()
 
+@app.route("/getWeights")
+def retrieveDBWeights():
+    return dbConnection.getWeightsFromDB()
 
 @app.route("/anonML", methods=['POST'])
 def sendResults():

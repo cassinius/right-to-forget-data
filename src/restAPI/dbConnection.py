@@ -27,6 +27,34 @@ def connectDB():
         print( "I am unable to connect to the database" )
 
 
+def getWeightsFromDB():
+    connectDB()
+
+    try:
+        query = """SELECT id, grouptoken, usertoken, timestamp, target, weights_bias, weights_iml FROM %s""" % (DB_TABLE_RESULTS)
+        cur.execute(query)
+        db_results = cur.fetchall()
+        results = {}
+        # print( db_results )
+        conn.commit()
+        print("Successfully retrieved results.")
+        # cur.close()
+        conn.close()
+        for val in db_results:
+            res = {
+                'grouptoken': val[1],
+                'usertoken': val[2],
+                'timestamp': val[3],
+                'target': val[4],
+                'weights_bias': val[5],
+                'weights_iml': val[6]
+            }
+            results[val[0]] = res
+        return json.dumps( {"results": results} )
+    except:
+        print("DB transaction failed... Could not retrieve weights!")
+
+
 
 def getResultsFromDB():
     connectDB()
