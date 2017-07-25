@@ -1,1 +1,13 @@
-k-factor,f1_score
+target,k-factor,f1_score
+education-num,10,0.573258120003
+education-num,100,0.562418484642
+education-num,20,0.567494947033
+education-num,200,0.543835164105
+education-num,5,0.578355817833
+education-num,50,0.548813432098
+marital-status,10,0.769173093266
+marital-status,100,0.710718737645
+marital-status,20,0.757408825809
+marital-status,200,0.589507095237
+marital-status,5,0.793766531193
+marital-status,50,0.747232500168
