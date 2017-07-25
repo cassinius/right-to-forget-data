@@ -69,17 +69,17 @@ def main_workflow():
     for algo_str in ALGORITHMS:
         algorithm = importlib.import_module('src.multi_class.' + algo_str)
 
-        with open(OUTPUT_DIR + 'results_' + algo_str + "_equal.csv", 'w') as equal_out, \
-                open(OUTPUT_DIR + 'results_' + algo_str + "_bias.csv", 'w') as bias_out, \
-                open(OUTPUT_DIR + 'results_' + algo_str + "_iml.csv", 'w') as iml_out:
+        with open(OUTPUT_DIR + 'results_' + algo_str + "_income.csv", 'w') as income_out, \
+                open(OUTPUT_DIR + 'results_' + algo_str + "_marital.csv", 'w') as marital_out, \
+                open(OUTPUT_DIR + 'results_' + algo_str + "_education.csv", 'w') as education_out:
 
-            equal_writer = csv.writer(equal_out, lineterminator='\n')
-            bias_writer = csv.writer(bias_out, lineterminator='\n')
-            iml_writer = csv.writer(iml_out, lineterminator='\n')
+            income_writer = csv.writer(income_out, lineterminator='\n')
+            marital_writer = csv.writer(marital_out, lineterminator='\n')
+            education_writer = csv.writer(education_out, lineterminator='\n')
 
-            equal_writer.writerow(["target", "k-factor", "f1_score"])
-            bias_writer.writerow(["target", "k-factor", "f1_score"])
-            iml_writer.writerow(["target", "k-factor", "f1_score"])
+            income_writer.writerow(["weight_category", "k-factor", "f1_score"])
+            marital_writer.writerow(["weight_category", "k-factor", "f1_score"])
+            education_writer.writerow(["weight_category", "k-factor", "f1_score"])
 
             for input_file in filelist:
                 # We only need the original result once, which we will hardcode somewhere..
@@ -91,6 +91,8 @@ def main_workflow():
                 k_factor = file_components[len(file_components)-1].split('.')[0]
                 weight_category = file_components[len(file_components)-2]
                 target = file_components[len(file_components)-3]
+
+                print(algo_str)
                 print(weight_category)
                 print(target)
                 print(k_factor)
@@ -124,12 +126,12 @@ def main_workflow():
                 print("F1 Score: %.6f" % (final_f1))
                 print("================================\n")
 
-                if weight_category == 'equal':
-                    equal_writer.writerow([target, k_factor, final_f1])
-                elif weight_category == 'bias':
-                    bias_writer.writerow([target, k_factor, final_f1])
-                elif weight_category == 'iml':
-                    iml_writer.writerow([target, k_factor, final_f1])
+                if target == 'income':
+                    income_writer.writerow([weight_category, k_factor, final_f1])
+                elif target == 'marital-status':
+                    marital_writer.writerow([weight_category, k_factor, final_f1])
+                elif target == 'education-num':
+                    education_writer.writerow([weight_category, k_factor, final_f1])
                 else:
                     raise Exception("Unknown weight category. Are you overweight???")
 
