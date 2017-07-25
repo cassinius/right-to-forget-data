@@ -37,12 +37,11 @@ from src.multi_class import input_preproc
 from sklearn.model_selection import KFold
 import sklearn.preprocessing as preprocessing
 
+CROSS_VALIDATION_K = 10
 
-CROSS_VALIDATION_K = 5
-
-# MODE = 'anonymization'
+MODE = 'anonymization'
 # MODE = 'perturbation'
-MODE = 'outliers'
+# MODE = 'outliers'
 
 # OUTLIER_TARGET = ''
 OUTLIER_TARGET = 'outliers/'
