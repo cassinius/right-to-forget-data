@@ -2,7 +2,6 @@ import os, csv
 import numpy as np
 import matplotlib.pyplot as plt
 from src.plots.plots_blur import gradient_fill
-from matplotlib import gridspec
 
 
 # MODE = 'anonymization'
@@ -11,13 +10,13 @@ MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
-OUTLIER_TARGET = 'outliers/'
-# OUTLIER_TARGET = 'random_comparison/'
+# OUTLIER_TARGET = 'outliers/'
+OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
-OUTLIER_PREFIX = 'adults_outliers_removed_'
-# OUTLIER_PREFIX = 'adults_random_deletion_'
+# OUTLIER_PREFIX = 'adults_outliers_removed_'
+OUTLIER_PREFIX = 'adults_random_deletion_'
 
 # TARGET = 'education_num/'
 # TARGET = 'marital_status/'
