@@ -27,9 +27,8 @@ ORIGINAL_SCORE = {
   }
 }
 
-
-
 RESULTS_DIR = "../../iml_output/"
+FIGURES_DIR = RESULTS_DIR + "figures/"
 
 ALGORITHMS = ["linear_svc", "logistic_regression", "random_forest", "gradient_boosting"]
 
@@ -89,7 +88,7 @@ for algo_str in ALGORITHMS:
     print("Max score: %s" %(max_score))
 
     x = range(0, len(k_factors) + 1)
-    labels = ['none'] + k_factors
+    x_labels = ['none'] + k_factors
 
     fig, ax = plt.subplots()
     rect = fig.patch
@@ -101,8 +100,14 @@ for algo_str in ALGORITHMS:
     bias_line, = plt.plot(bias, marker='^', linestyle='-', color='b', label="human bias")
     iml_line, = plt.plot(iml, marker='D', linestyle='-', color='g', label="human iML")
 
+    # Create a legend (Matplotlib madness...!!!)
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles, labels)
+
     plt.axis([0, 6, float(min_score), float(max_score)])
-    plt.xticks(x, labels)
+    plt.xticks(x, x_labels)
     plt.xlabel('anonymization k-factor')
     plt.ylabel('F1 score')
-    plt.show()
+    # plt.show()
+
+    plt.savefig(FIGURES_DIR + target + "_" + algo_str + ".png")
