@@ -35,6 +35,7 @@ import numpy as np
 import importlib
 from src.multi_class import input_preproc
 from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 import sklearn.preprocessing as preprocessing
 
 CROSS_VALIDATION_K = 10
@@ -44,9 +45,9 @@ MODE = 'anonymization'
 # MODE = 'outliers'
 
 # OUTLIER_TARGET = ''
-OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'outliers/'
 # OUTLIER_TARGET = 'random_comparison/'
-# OUTLIER_TARGET = 'original/'
+OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
 
@@ -120,10 +121,10 @@ CONFIG_INCOME = {
 
 
 ALGORITHMS = [
-    'linear_svc',
+    # 'linear_svc',
     'logistic_regression',
-    'gradient_boosting',
-    'random_forest',
+    # 'gradient_boosting',
+    # 'random_forest',
     # 'nn_keras', ## TOO SLOW...
     # 'bagging_svc' ## WAY TOO SLOW...
 ]
@@ -164,6 +165,7 @@ def main_workflow():
                 X = np.array( encoded_data[encoded_data.columns.difference([config['TARGET_COL']])] )
                 y = np.array( encoded_data[config['TARGET_COL']] )
                 kf = KFold(n_splits=CROSS_VALIDATION_K, shuffle=True)
+                # kf = StratifiedKFold(n_splits=CROSS_VALIDATION_K)
 
                 # We want to know the variance of the training data set only
                 print("Input data SIZE: %.2f" % (len(X)))
@@ -176,7 +178,7 @@ def main_workflow():
                 f1s = []
                 accuracies = []
 
-                for train_index, test_index in kf.split(X):
+                for train_index, test_index in kf.split(X, y):
                     X_train, y_train = X[train_index], y[train_index]
                     X_test, y_test = X[test_index], y[test_index]
 

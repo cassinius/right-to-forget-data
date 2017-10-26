@@ -4,19 +4,19 @@ import matplotlib.pyplot as plt
 from src.plots.plots_blur import gradient_fill
 
 
-# MODE = 'anonymization'
+MODE = 'anonymization'
 # MODE = 'perturbation'
-MODE = 'outliers'
+# MODE = 'outliers'
 
 
 # OUTLIER_TARGET = ''
-# OUTLIER_TARGET = 'outliers/'
-OUTLIER_TARGET = 'random_comparison/'
+OUTLIER_TARGET = 'outliers/'
+# OUTLIER_TARGET = 'random_comparison/'
 # OUTLIER_TARGET = 'original/'
 # OUTLIER_TARGET = 'outliers_removed/'
 
-# OUTLIER_PREFIX = 'adults_outliers_removed_'
-OUTLIER_PREFIX = 'adults_random_deletion_'
+OUTLIER_PREFIX = 'adults_outliers_removed_'
+# OUTLIER_PREFIX = 'adults_random_deletion_'
 
 # TARGET = 'education_num/'
 # TARGET = 'marital_status/'
@@ -31,7 +31,7 @@ ALGORITHMS = {
   'random_forest': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_random_forest.csv',
   'linear_svc': '../../output/' + MODE + '/adults_target_' + TARGET + OUTLIER_TARGET + '/results_linear_svc.csv'
 }
-ALGO = ALGORITHMS['gradient_boost']
+ALGO = ALGORITHMS['logistic_regression']
 
 OUTLIERS_DIRECTORY = '../../output/outliers/adults_target_' + TARGET + '/' + OUTLIER_TARGET
 OUTLIERS_ALGORITHMS = ['gradient_boosting', 'logistic_regression', 'random_forest', 'linear_svc']

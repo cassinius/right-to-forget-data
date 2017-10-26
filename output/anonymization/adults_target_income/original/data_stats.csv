@@ -1,0 +1,17 @@
+dataset,size,std,var
+adults_anonymized_k03_emph_age.csv,30162,28530.3689907,813981954.745
+adults_anonymized_k03_emph_race.csv,30162,27615.0837874,762592852.587
+adults_anonymized_k03_equal.csv,30162,27562.0634629,759667342.332
+adults_anonymized_k07_emph_age.csv,30162,39609.5124046,1568913472.93
+adults_anonymized_k07_emph_race.csv,30162,36941.6039799,1364682104.61
+adults_anonymized_k07_equal.csv,30162,35437.6650316,1255828102.89
+adults_anonymized_k11_emph_age.csv,30162,42352.7520268,1793755604.24
+adults_anonymized_k11_emph_race.csv,30162,40154.5914431,1612391213.96
+adults_anonymized_k11_equal.csv,30162,40073.9578142,1605922094.89
+adults_anonymized_k15_emph_age.csv,30162,44738.898351,2001569025.66
+adults_anonymized_k15_emph_race.csv,30162,41992.031727,1763330728.56
+adults_anonymized_k15_equal.csv,30162,42721.7882566,1825151191.84
+adults_anonymized_k19_emph_age.csv,30162,45479.748042,2068407481.96
+adults_anonymized_k19_emph_race.csv,30162,44006.9491582,1936611574.21
+adults_anonymized_k19_equal.csv,30162,43986.731003,1934832504.33
+adults_original_dataset.csv,30162,23067.4001036,532104947.541
